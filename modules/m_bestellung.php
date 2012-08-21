@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Bestellungen                                                              */
-/* fuer die IWDB: Icewars geoscan and sitter database                        */
+/* für die IWDB: Icewars geoscan and sitter database                         */
 /*---------------------------------------------------------------------------*/
 /* Author: [GILDE]Thella (mailto:icewars@thella.de)                          */
 /* Version: 0.1                                                              */
@@ -34,12 +34,12 @@
 /*                                                                           */
 /* Originally written by [GILDE]xerex.                                       */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -47,7 +47,7 @@ define('DEBUG_LEVEL', 0);
 
 include_once("includes/debug.php");
 
-// -> Abfrage ob dieses Modul ueber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -56,10 +56,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig fuer die Benennung der zugehÃÂ¶rigen 
+// -> Name des Moduls, ist notwendig fuer die Benennung der zugehörigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fuer 
-//    eine Installation ueber das Menue
+// -> Das m_ als Beginn des Dateinamens des Moduls ist Bedingung für 
+//    eine Installation über das Menü
 //
 $modulname  = "m_bestellung";
 
@@ -67,7 +67,7 @@ $modulname  = "m_bestellung";
 //
 // -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Bestellung";
+$modultitle = "Bestellung #ress";
 
 //****************************************************************************
 //
@@ -82,16 +82,18 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Bestellsystem zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
+$moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
+
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
+ 	global $db, $db_prefix, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "bestellung` (" .
 		"`id` int(11) NOT NULL auto_increment," .
@@ -125,8 +127,9 @@ function workInstallDatabase() {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
+
+	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
 */
-	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -141,7 +144,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen fuer weitere Menue-EintrÃÂ¤ge, z.B.
+	  // Weitere Wiederholungen fuer weitere Menue-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" ); 
 	  //
@@ -161,21 +164,23 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+
 function workUninstallDatabase() {
-	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
+    /*
+     global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
 
-	$sqlscript = array(
-	  "DROP TABLE " . $db_tb_bestellung,
-	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
-	);
+     $sqlscript = array(
+       "DROP TABLE " . $db_tb_bestellung,
+       "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
+     );
 
-/*
+
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
 */
 }
 
@@ -188,7 +193,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natuerlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -203,7 +208,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgefuehrt werden. 
+  // ausgeführt werden. 
   return;
 }
 
@@ -290,14 +295,14 @@ debug_var("sql", $sql);
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorit&auml;t " . $row['prio'] . ")" : "");
+	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
 	$config['projects_prio'][$row['name']] = $row['prio'];
 }
 
 // Timestamp
 $heute = getdate();
 
-// Daten loeschen
+// Daten löschen
 if (isset($params['delete']) && $params['delete'] != '') {
 	$sql = "DELETE FROM " . $db_tb_bestellung . " WHERE id=" . $params['delete'];
 	debug_var('sql', $sql);
@@ -384,13 +389,13 @@ if (!empty($button_edit)) {
 	$results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";	
 }
 
-// Edit-Daten hinzufuegen
+// Edit-Daten hinzufügen
 if (!empty($button_add)) {
 	$sql = "SELECT * FROM " . $db_tb_bestellung . " WHERE coords_gal=" . $fields['coords_gal'] . " AND coords_planet=" . $fields['coords_planet'] . " AND coords_sys=" . $fields['coords_sys'];
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	if ($row = $db->db_fetch_array($result)) {
-		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefuegt werden.</div><br>";			
+		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugef&uuml;gt werden.</div><br>";			
 	} else {
 		$fields['time_created'] = time();
 		$sql = "INSERT INTO " . $db_tb_bestellung . " (";
@@ -407,7 +412,7 @@ if (!empty($button_add)) {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		if ($row = $db->db_fetch_array($result))
 			$params['edit'] = $row['id'];
-		$results[] = "<div class='system_notification'>Datensatz hinzugefuegt.</div><br>";
+		$results[] = "<div class='system_notification'>Datensatz hinzugef&uuml;gt.</div><br>";
 	}
 }
 
@@ -510,7 +515,7 @@ while ($row = $db->db_fetch_array($result)) {
 		}
 	}
 }
-// Offene Mengen zuruecksetzen
+// Offene Mengen zurücksetzen
 debug_var("sql", $sql = "UPDATE $db_tb_bestellung SET offen_eisen=eisen,offen_stahl=stahl,offen_chemie=chemie,offen_vv4a=vv4a,offen_eis=eis,offen_wasser=wasser,offen_energie=energie,offen_credits=credits");
 $db->db_query($sql);
 // Offene Mengen berechnen
@@ -521,7 +526,7 @@ foreach ($data as $id_bestellung => $bestellung) {
 			$verwendet = false;
 			foreach ($config['ress'] as $key => $caption) {
 				if (!empty($data[$id_bestellung]['offen'][$key]) && !empty($lieferungen[$coords][$id_lieferung][$key . '_frei'])) {
-					// Offene Bestellmenge groesser als freie Liefermenge
+					// Offene Bestellmenge größer als freie Liefermenge
 					if ($data[$id_bestellung]['offen'][$key] > $lieferungen[$coords][$id_lieferung][$key . '_frei']) {
 						// Offene Bestellmenge um freie Liefermenge verringern
 						$data[$id_bestellung]['offen'][$key] -= $lieferungen[$coords][$id_lieferung][$key . '_frei'];
@@ -563,7 +568,7 @@ foreach ($data as $id_bestellung => $bestellung) {
 		"offen_credits=" . $data[$id_bestellung]['offen']['credits'] .
 		" WHERE id=" . $id_bestellung);
 	$db->db_query($sql);
-	// Markiere vollstaendig erledigte Bestellungen
+	// Markiere vollständig erledigte Bestellungen
 	$kontrollsumme=0;
 	foreach ($config['ress'] as $ress => $caption) {
 		$kontrollsumme+=$data[$id_bestellung]['offen'][$ress];	
@@ -615,7 +620,7 @@ $views = array(
 			),
 			'coords' => array(
 				'title' => 'Koordinaten',
-				'desc' => 'Falls kein Planet ausgew&auml;hlt wird.',
+				'desc' => 'Falls kein Planet ausgewählt wird.',
 				'type' => array(
 					'coords_gal' => array(
 						'type' => 'text',
@@ -733,7 +738,7 @@ $views = array(
 	),
 );
 
-// Aktuelle Ansicht auswaehlen
+// Aktuelle Ansicht auswählen
 $view = $views[$params['view']];
 $expand = $view['expand'];
 
@@ -809,7 +814,7 @@ foreach ($data as $row) {
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich l&ouml;schen?')\" alt=\"l&ouml;schen\">"
 			);
 	}
 	// Markierbuttons ausgeben
@@ -851,14 +856,6 @@ foreach ($data as $row) {
 	}
 }
 end_table();
-start_table(100, 0, 4, 1, "");
-next_row("", "align=\"right\"");
-echo makelink(array('mark_all' => true), "Alle ausw&auml;hlen");
-echo " / ";
-echo makelink(array('mark_all' => false), "Auswahl entfernen");
-next_row("", "align=\"right\"");
-echo "<input type=\"submit\" value=\"Flotte versenden\" name=\"flotte_versenden\" class=\"submit\">";
-end_table();
 end_form();
 
 // Maske ausgeben
@@ -868,11 +865,11 @@ start_table();
 next_row("titlebg", 'nowrap valign=top colspan=2');
 echo "<b>" . $view['title'];
 if (isset($params['edit']) && is_numeric($params['edit'])) {
-	echo " bearbeiten/hinzufuegen";
+	echo " bearbeiten/hinzuf&uuml;gen";
 	echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
 	// echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else
-	echo " hinzufuegen";
+	echo " hinzuf&uuml;gen";
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
 	next_row('windowbg2', 'nowrap valign=top');
@@ -941,7 +938,7 @@ function makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, $name, $title) {
 
 //****************************************************************************
 //
-// Vergleichsfunktion fuer das sortieren
+// Vergleichsfunktion für das Sortieren
 function sort_data_cmp($a, $b) {
 	global $params;
 
@@ -1039,10 +1036,10 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	$mergeparams = array_merge($params, $newparams);
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 ?>

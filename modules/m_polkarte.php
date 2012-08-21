@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_polkarte.php                                                             */
+/* m_polkarte.php                                                            */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -25,19 +25,19 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Dieses Modul dient für eine politische Karte, in der Allianzstatuse       */
-/*angezeigt werden       */
+/* Dieses Modul dient fÃ¼r eine politische Karte, in der Allianzstatuse       */
+/*angezeigt werden                                                           */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprÃ¼nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafÃ¼r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul Ã¼ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,23 +46,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig fÃ¼r die Benennung der zugehÃ¶rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fÃ¼r
+//    eine Installation Ã¼ber das MenÃ¼
 //
 $modulname  = "m_polkarte";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> MenÃ¼titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "politische Karte";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausführen darf. Mögliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul Ã¼ber die Navigation
+//    ausfÃ¼hren darf. MÃ¶gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der MenÃ¼-Ã¼bersicht angezeigt wird.
 //
 $moduldesc =
   "Anzeige einer Universumskarte mit allen Allianzstati";
@@ -89,7 +89,7 @@ function workInstallDatabase() {
 //  $result = $db->db_query($sql)
 //	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -101,10 +101,10 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen fÃ¼r weitere MenÃ¼-EintrÃ¤ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -146,19 +146,19 @@ function workInstallConfigString() {
 // removing this module.
 //
 function workUninstallDatabase() {
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgefÃ¼hrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natÃ¼rlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -173,7 +173,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
+  // ausgefÃ¼hrt werden.
   return;
 }
 
@@ -249,7 +249,7 @@ if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 
 echo "<div class='doc_title'>Karte</div>\n";
 echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=m_polkarte&amp;sid=" . $sid .
+echo "<form method=\"POST\" action=\"index.php?action=m_polkarte&sid=" . $sid .
      "\" enctype=\"multipart/form-data\" name=\"form1\">\n";
 echo " <p align=\"center\">\n";
 
@@ -262,16 +262,16 @@ if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 
 if ($galaxy > 1 )
 {
-  echo "<a href=\"index.php?action=m_polkarte&amp;galaxy=" . ($galaxy - 1) .
-        "&amp;sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
+  echo "<a href=\"index.php?action=m_polkarte&galaxy=" . ($galaxy - 1) .
+        "&sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
 }
 echo "Galaxie: <input type=\"text\" name=\"galaxy\" value=\"" . $galaxy .
      "\" style=\"width: 30\">&nbsp;<input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\">\n";
 
 if ($galaxy < $config_map_galaxy_count )
 {
-  echo "<a href=\"index.php?action=m_polkarte&amp;galaxy=" . ($galaxy + 1) .
-       "&amp;sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
+  echo "<a href=\"index.php?action=m_polkarte&galaxy=" . ($galaxy + 1) .
+       "&sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
 }
 
 echo "</p></form>\n";
@@ -406,9 +406,9 @@ for ( $i = 1; $i <= $maxsys; $i++ ) {
 	if ( empty($sys[$i]) ) {
     echo $i;
   } else {
-    $showgalaxylink = "<a href=\"index.php?action=showgalaxy&amp;sys_end=" . $i .
-         "&amp;sys_start=" . $i . "&amp;gal_end=" . $galaxy .
-         "&amp;gal_start=" . $galaxy . "&amp;sid=" . $sid . "\" ";
+    $showgalaxylink = "<a href=\"index.php?action=showgalaxy&sys_end=" . $i .
+         "&sys_start=" . $i . "&gal_end=" . $galaxy .
+         "&gal_start=" . $galaxy . "&sid=" . $sid . "\" ";
 
     if( ALLY_MEMBERS_ON_MAP === TRUE ) {
 	 		echo $formatStart;
@@ -446,7 +446,7 @@ echo "  <td style=\"width: 100;\">Schwarzes Loch</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1allein'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Eigene + Wing</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2allein'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verbündete</td>\n";
+echo "  <td style=\"width: 100;\">VerbÃ¼ndete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['3allein'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Verfeindete</td>\n";
 echo " </tr>\n";
@@ -454,11 +454,11 @@ echo " <tr>\n";
 echo " </tr>\n";
 echo " <tr>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Eigene + Verbündete</td>\n";
+echo "  <td style=\"width: 100;\">Eigene + VerbÃ¼ndete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und3'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Eigenen + Verfeindete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2und3'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verbündete + Verfeindete</td>\n";
+echo "  <td style=\"width: 100;\">VerbÃ¼ndete + Verfeindete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2und3'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Von allem ein bissi was</td>\n";
 echo " </tr>\n";

@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens dafur eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -57,13 +57,13 @@ $config_url      = "http://iwdb.de";
 $config_allytitle = "IWDB Datenbank";
 
 // Tag der Allianz - wird fuer die Anzeige der Mitglieder auf der Karte benoetigt
-$config_allytag = "IWDB";
+$config_allytag = "Kilrathy DB";
 
 // Aktuelle Spielversion (wird auch fuer den Techtree benoetigt).
-$config_gameversion = "11.74";
+$config_gameversion = "XII";
 
 // Default Galaxy
-$config_map_default_galaxy = 10;
+$config_map_default_galaxy = 3;
 
 // maximale Anzahl der Galaxien
 $config_map_galaxy_count = 20;
@@ -86,7 +86,7 @@ $sitter_wie_lange_vorher_zeigen = 30;
 $config_xsize = 950;
 $config_ysize = 500;
 
-// Seite, die Standardmaessig (z.B. nach Login) geladen wird
+// Seite, die Standardmässig (z.B. nach Login) geladen wird
 $config_default_action = "showhighscore";
 
 $config_banner = "bilder/logo.gif";

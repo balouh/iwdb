@@ -26,53 +26,55 @@
 
 /*****************************************************************************/
 /* Sprengungen                                                               */
-/* f? Iw DB: Icewars geoscan and sitter database                        */
+/* für Iw DB: Icewars geoscan and sitter database                            */
 /*---------------------------------------------------------------------------*/
 /* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr?hen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der urspr?hen DB ist ein Gemeinschaftsprojekt von       */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf?gerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ?ie index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f? Benennung der zugeh?en 
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f?/    eine Installation ?as Men?
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
+//
 $modulname  = "m_sprengung";
 
 //****************************************************************************
 //
-// -> Men? des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "zeige Sprengungen";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ?ie Navigation 
-//    ausf?darf. M?che Werte: 
-//    - ""      <- nix = jeder, 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
+//    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
 $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = "zeigt an wann Planeten vorraussichtlich gesprengt werden";
 
@@ -90,7 +92,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";*/
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";*/
 }
 
 //****************************************************************************
@@ -101,9 +103,9 @@ function workInstallDatabase() {
 //
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen f?tere Men?r?, z.B.
 	  //
@@ -132,7 +134,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";*/
+    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";*/
 }
 
 //****************************************************************************
@@ -214,12 +216,12 @@ else
 // Titelzeile
 echo "<div class='doc_title'>Sprengungen</div>\n";
 echo "<br>\n";
-echo "Hier k&ouml;nnt ihr sehen, wann die p&ouml;sen Vorgonen die n&auml;chsten Planeten sprengen, um Platz f&uuml;r eine Hyperraum-Umgehungsstra&szlig;e zu schaffen.";
+echo "Hier könnt ihr sehen, wann die pösen Vorgonen die nächsten Planeten sprengen, um Platz für eine Hyperraum-Umgehungsstraße zu schaffen.";
 echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=" . $modulname . "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\"><p align=\"center\">\n";
+echo "<form method=\"POST\" action=\"index.php?action=" . $modulname . "&sid=" . $sid . "\" enctype=\"multipart/form-data\"><p align=\"center\">\n";
 echo "  Galaxie von: <input type=\"text\" name=\"gal_start\" value=\"" . $gal_start . "\" style=\"width: 30\"> bis: <input type=\"text\" name=\"gal_end\" value=\"" . $gal_end . "\" style=\"width: 30\"><br><br>";
 echo "  System von: <input type=\"text\" name=\"sys_start\" value=\"" . $sys_start . "\" style=\"width: 30\"> bis: <input type=\"text\" name=\"sys_end\" value=\"" . $sys_end . "\" style=\"width: 30\"><br><br>";
-echo "  Alle Geoscans l&ouml;schen, deren Sprengung mehr als <input type=\"test\" name=\"spreng_zeit\" value=\"" . $spreng_zeit . "\" style=\"width: 30\"> Stunden in der Vergangenheit liegt<br><br>";
+echo "  Alle Geoscans löschen, deren Sprengung mehr als <input type=\"test\" name=\"spreng_zeit\" value=\"" . $spreng_zeit . "\" style=\"width: 30\"> Stunden in der Vergangenheit liegt<br><br>";
 echo "  <input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\"><br>";
 echo "</form>\n<br><br>";
 
@@ -290,7 +292,7 @@ while ($row = $db->db_fetch_array($result)) {
 	$color = 'white';
 	echo "  <tr>\n";
 	echo "    <td class=\"windowbg1\" align=\"center\" style=\"background-color: " . $color . "\" colspan=\"1\">\n";
-	echo "      <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">\n";
+	echo "      <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">\n";
 	echo "      " . $row['coords'] . "\n";
 	echo "      </a>\n";
 	echo "    </td>\n";

@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_galastats.php                                                             */
+/* m_allystats.php                                                           */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Dieses Modul dient der Anzeige von Galastatistiken und Gedöns             */
+/* Dieses Modul dient der Anzeige der Allianzen und Gedöns                   */
 /* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
@@ -46,7 +46,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
 //    eine Installation über das Menü
@@ -70,10 +70,10 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menue-Übersicht angezeigt wird.
 //
 $moduldesc =
-  "Das Allianzstatistiken-modul berechnet eine diverse Daten zu einer Allianz";
+  "Das Allianzstatistiken-Modul berechnet diverse Daten zu einer Allianz";
 
 //****************************************************************************
 //
@@ -82,7 +82,7 @@ $moduldesc =
 //
 function workInstallDatabase() {
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -97,10 +97,10 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -122,7 +122,7 @@ function workInstallConfigString() {
 // removing this module.
 //
 function workUninstallDatabase() {
- echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+ echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -163,10 +163,10 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
 function getColor($tuedel) {
 
-  if ( $tuedel['Kolonie']==0 && $tuedel['Sammelbasis']==0 && $tuedel['Kampfbasis']==0 )
+  if ( $tuedel['Kolonie']==0 && $tuedel['Sammelbasis']==0 && $tuedel['Kampfbasis']==0 && $tuedel['Artefaktbasis']==0)
   {
     return "#00FF00";
-  } else if ( $tuedel['Kolonie']==0 && ($tuedel['Sammelbasis']!=0 || $tuedel['Kampfbasis']!=0) )
+  } else if ( $tuedel['Kolonie']==0 && ($tuedel['Sammelbasis']!=0 || $tuedel['Kampfbasis']!=0 || $tuedel['Artefaktbasis']!=0) )
   {
     return "#00FFCC";
   }
@@ -180,7 +180,7 @@ function getColor($tuedel) {
 
     global $sid;
 
-    //settings ueberpruefen und entsprechend setzen
+    //settings überprüfen und entsprechend setzen
     $allianz = getVar('allianz') ? getVar('allianz') : "";
     $maxplannis=300;
     $range = 25;
@@ -190,7 +190,7 @@ function getColor($tuedel) {
 
     doc_title("Allianz-Statistiken");
 
-    //Eingabeform fuer die Suche:
+    //Eingabeform für die Suche:
     echo "<br>\n";
     echo "<div class='doc_centered'>\n";
     echo "<form name=\"frm\">\n";
@@ -199,18 +199,18 @@ function getColor($tuedel) {
     echo "<p>";
     echo "Allianztag: <input type=\"text\" name=\"allianz\" value=\"$allianz\" size=\"20\">&nbsp;\n";
     echo "</p>\n<p>";
-    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnittsf&uuml;r Fleeter halten\n";
+    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnitts für Fleeter halten\n";
     echo "</p>\n<p>";
     echo "<input type=\"submit\" value=\"suchen\">";
     echo "</p>\n<br>";
     echo "</form>";
     echo "</div>";
 
-    //wenn allianz angegeben, ausgabe
+    //wenn Allianz angegeben, Ausgabe
     if ($allianz!="")
     {
 
-     //Punkteschnitt der Allianz berechnen/pruefen obs die allianz gibt
+     //Punkteschnitt der Allianz berechnen/prüfen ob es die Allianz gibt
      $sql = "SELECT count(DISTINCT user) as usercount, sum(punkte) as pktsum FROM ".$db_tb_scans . " WHERE allianz like '$allianz'";
      $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -225,11 +225,10 @@ function getColor($tuedel) {
      if (isset($punkteschnitt))
      {
 
-      //ausrechnen, ab welchem punkteschnitt pro planni wir einen spieler für nen fleeter halten
+      //ausrechnen, ab welchem Punkteschnitt pro Plani wir einen Spieler für nen Fleeter halten
       $fleeterschnitt = $punkteschnitt*$fleeterschnitt;
 
-      //user mit ueberdurchschnittlichem pkte aus der db holen, die könnten ja fleeter sein
-      //$sql = "SELECT user, sum(punkte) AS pktsum FROM ".$db_tb_scans . " WHERE allianz like '$allianz' GROUP BY user";
+      //user mit überdurchschnittlichen Punkten aus der DB holen, die könnten ja Fleeter sein
       $sql = "SELECT user, sum(punkte) AS pktsum FROM ".$db_tb_scans . " WHERE allianz like '$allianz' GROUP BY user";
 	  $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -244,7 +243,7 @@ function getColor($tuedel) {
       }
 
       $allianzgals=array();
-      //auslesen, in welchen Galas die ally vertreten ist
+      //auslesen, in welchen Galas die Allianz vertreten ist
       $sql = "SELECT DISTINCT coords_gal FROM ".$db_tb_scans . " WHERE allianz like '$allianz' ORDER BY coords_gal";
       $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -257,7 +256,7 @@ function getColor($tuedel) {
         $galmax=$row['coords_gal'];
       }
 
-      //variablen initialisieren
+      //Variablen initialisieren
       $steinis=0;
       $sgsteinis=0;
       $eisis=0;
@@ -265,9 +264,10 @@ function getColor($tuedel) {
       $astros=0;
       $kb=0;
       $rb=0;
+	  $ab=0;
       $pkte=0;
 
-      $plannicount=Array(); //hier wird krams für die karte reingeschrieben
+      $plannicount=Array(); //hier wird Krams für die Karte reingeschrieben
       for ($i=$galmin;$i<=$galmax; $i++) {
         for ($j = 1; $j<=ceil($maxplannis/$range); $j++) {
 	  $plannicount[$i][$j]['Kolonie']=0;
@@ -277,7 +277,7 @@ function getColor($tuedel) {
 	}
       }
 
-      //alle plannis der ally aus der db holen und verarbeiten:
+      //alle Planis der Allianz aus der DB holen und verarbeiten:
       $sql = "SELECT coords, coords_gal, coords_sys, coords_planet, user, allianz, planetenname, punkte, typ, objekt FROM ".$db_tb_scans . " WHERE allianz like '$allianz' ORDER BY user, coords_gal, coords_sys, coords_planet ASC";
       $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -293,6 +293,7 @@ function getColor($tuedel) {
 	if ($row['objekt']=="Kolonie" && $row['typ']=="Asteroid") $astros++;
 	if ($row['objekt']=="Sammelbasis") $rb++;
 	if ($row['objekt']=="Kampfbasis") $kb++;
+	if ($row['objekt']=="Artefaktbasis") $ab++;
 
 	$plannistring="";
 	switch ($row['typ']) {
@@ -304,7 +305,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Eisplanet']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Eisplanet']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -313,7 +314,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Asteroid']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Asteroid']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -322,7 +323,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Gasgigant']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Gasgigant']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -330,7 +331,7 @@ function getColor($tuedel) {
 	        $plannistring.="<span class='doc_black'>N";
 	}
 
-	$plannistring.= " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+	$plannistring.= " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 	if ($row['objekt'] == "Kolonie") {
 	       	$plannistring.= "</span>";
 		$points[$row['user']][] = number_format($row['punkte'], 0, ",", ".");
@@ -418,6 +419,14 @@ function getColor($tuedel) {
       echo "Kampfbasen";
       next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
       echo "$kb";
+	  next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      echo "Artefaktbasen";
+      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      echo "$ab";
+	  next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      echo "";
+      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      echo "";
       end_row();
       end_table();
       echo "<br>";
@@ -441,18 +450,18 @@ function getColor($tuedel) {
         foreach ($plannicount[$gala] as $inrange => $count) {
           $color = getColor($plannicount[$gala][$inrange]);
           next_cell("windowbg1", "align=\"center\" style=\"background-color:" . $color . "\"");
-          echo $plannicount[$gala][$inrange]['Kolonie'] . "/" . $plannicount[$gala][$inrange]['Sammelbasis'] . "/" . $plannicount[$gala][$inrange]['Kampfbasis'];
+          echo $plannicount[$gala][$inrange]['Kolonie'] . "/" . $plannicount[$gala][$inrange]['Sammelbasis'] . "/" . $plannicount[$gala][$inrange]['Kampfbasis'] . "/" . $plannicount[$gala][$inrange]['Artefaktbasis'];
         }
       }
       end_row();
       end_table();
-      echo "<b>Kolonien/Sammelbasen/Kampfbasen</b><br>";
+      echo "<b>Kolonien/Sammelbasen/Kampfbasen/Artefaktbasen</b><br>";
 
-      //Planniliste
+      //Planiliste
       echo "<br>";
       start_table();
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"4\"");
-      echo "<b>Spieler mit hohem Punkteschnitt</b> (m&ouml;gliche Fleeter)";
+      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
+      echo "<b>Spieler mit hohem Punkteschnitt</b> (mögliche Fleeter)";
       next_row("windowbg2", "style=\"width:22%\" align=\"center\"");
       echo "Username";
       next_cell("windowbg2", "style=\"width:36%\" align=\"center\"");
@@ -461,51 +470,68 @@ function getColor($tuedel) {
       echo "Ressbasen";
       next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
       echo "Kampfbasen";
-      if (isset($fleeter))
-      {
-        foreach ($fleeter as $username => $plannis) {
-          next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
-          echo "<b>$username</b><br>" . $fleeters[$username] . " pkte";
-          next_cell("windowbg1", "style=\"width:36%\" align=\"left\"");
-          if (isset($fleeter[$username]['Kolonie'])) {
-            start_table(100);
-	    foreach ($fleeter[$username]['Kolonie'] as $key => $planni)  {
-	      start_row("windowbg1", "style=\"width:55%\" align=\"left\"");
-              echo "$planni";
-	      next_cell("windowbg1", "style=\"width:45%\" align=\"right\"");
-	      echo $points[$username][$key] . " pkte";
-	      end_row();
-            }
-	    end_table();
-	  } else {echo "-";}/*
-	  next_cell("windowbg1", "style=\"width:15%\" align=\"right\"");
-          if (isset($points[$username])) {
-            foreach ($points[$username] as $point)  {
-              echo "$point pkte<br>";
-            }
-	  } else {echo "-";}*/
-          next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
-          if (isset($fleeter[$username]['Sammelbasis'])) {
-            start_table(100);
-            foreach ($fleeter[$username]['Sammelbasis'] as $planni)  {
-	      start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
-              echo "$planni<br>";
-	      end_row();
-	    }
-	    end_table();
-	  } else {echo "-";}
-          next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
-	  if (isset($fleeter[$username]['Kampfbasis'])) {
-            start_table(100);
-            foreach ($fleeter[$username]['Kampfbasis'] as $planni)  {
-	      start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
-              echo "$planni<br>";
-	      end_row();
-	    }
-	    end_table();
-          } else {echo "-";}
-        }
-	end_row();
+	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      echo "Artefaktbasen";
+      if (isset($fleeter)) {
+		foreach ($fleeter as $username => $plannis) {
+			next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
+			echo "<b>$username</b><br>" . $fleeters[$username] . " pkte";
+				next_cell("windowbg1", "style=\"width:36%\" align=\"left\"");
+					if (isset($fleeter[$username]['Kolonie'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Kolonie'] as $key => $planni) {
+								start_row("windowbg1", "style=\"width:55%\" align=\"left\"");
+									echo "$planni";
+									next_cell("windowbg1", "style=\"width:45%\" align=\"right\"");
+										echo $points[$username][$key] . " pkte";
+								end_row();
+								}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+					if (isset($fleeter[$username]['Sammelbasis'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Sammelbasis'] as $planni)  {
+								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+									echo "$planni<br>";
+								end_row();
+							}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+					if (isset($fleeter[$username]['Kampfbasis'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Kampfbasis'] as $planni)  {
+								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+									echo "$planni<br>";
+								end_row();
+							}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+					if (isset($fleeter[$username]['Artefaktbasis'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Artefaktbasis'] as $planni)  {
+								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+									echo "$planni<br>";
+								end_row();
+							}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+		}
+		end_row();
       }
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
       echo "<b>weitere Spieler</b>";
@@ -517,6 +543,8 @@ function getColor($tuedel) {
       echo "Ressbasen";
       next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
       echo "Kampfbasen";
+	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      echo "Artefaktbasen";
       foreach ($buddler as $username => $plannis) {
         next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
         echo "<b>$username</b><br>" . $buddlers[$username] . " pkte";
@@ -551,6 +579,18 @@ function getColor($tuedel) {
             end_row();
 	  }
           end_table();
+	
+	} else {echo "-";}
+        next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+	if (isset($buddler[$username]['Artefaktbasis'])) {
+          start_table(100);
+          foreach ($buddler[$username]['Artefaktbasis'] as $planni)  {
+            start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+            echo "$planni";
+            end_row();
+	  }
+          end_table();
+	
 	} else {echo "-";}
       }
       end_row();
@@ -559,11 +599,11 @@ function getColor($tuedel) {
       echo "<br>";
 
 
-      //spezialplanniuebersicht
+      //Spezialplanniübersicht
       if (isset($spezpla)) {
       start_table();
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"10\"");
-      echo "<b>Spezialplaneten&uuml;bersicht</b>";
+      echo "<b>Spezialplanetenübersicht</b>";
       next_row("windowbg2", "style=\"width:13%\" align=\"center\"");
       echo "Galaxie";
       next_cell("windowbg2", "style=\"width:29%\" align=\"center\"");
@@ -607,7 +647,7 @@ function getColor($tuedel) {
      {
        echo "Allianz dummerweise net gefunden<br>\n";
      }
-      echo "<a href=\"index.php?action=m_allystats&amp;sid=" . $sid . "\">zur&uuml;ck zur Allianzliste</a>";
+      echo "<a href=\"index.php?action=m_allystats&sid=" . $sid . "\">zurück zur Allianzliste</a>";
 
     } else {
       start_table();

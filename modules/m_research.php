@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f¸r die Iw DB: Icewars geoscan and sitter database                        */
+/* f√ºr die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr¸nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der urspr√ºnglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf¸r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens daf√ºr eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ¸ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul √ºber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,24 +46,24 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f¸r die Benennung der zugehˆrigen
+// -> Name des Moduls, ist notwendig f√ºr die Benennung der zugeh√∂rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f¸r
-//    eine Installation ¸ber das Men¸
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f√ºr
+//    eine Installation √ºber das Men√º
 //
 global $modulname;
 $modulname = "m_research";
 
 //****************************************************************************
 //
-// -> Men¸titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Men√ºtitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "dyn. Techtree";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ¸ber die Navigation
-//    ausf¸hren darf. Mˆgliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul √ºber die Navigation
+//    ausf√ºhren darf. M√∂gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -71,20 +71,22 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Men√º-√ºbersicht angezeigt wird.
 //
 $moduldesc =
   "Das Forschungsmodul erlaubt die Darstellung und das Navigieren innerhalb " .
   "des bereits bekannten Forschungsbaumes. Die notwendigen Forschungen und " .
-  "Geb&auml;ude werden ebenfalls dargestellt.";
+  "Geb√§ude werden ebenfalls dargestellt.";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
+/*
+    global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
          $db_tb_sitterauftrag, $config_gameversion;
 
   $sqlscript = array(
@@ -92,7 +94,7 @@ function workInstallDatabase() {
     "  bOld int(10) unsigned NOT NULL default '0'," .
     "  bNew int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY (bOld,bNew)" .
-    ") COMMENT='Gebaeude bOld ermoeglicht Gebaeude bNew'",
+    ") COMMENT='Gebaeude bOld erm√∂glicht Gebaeude bNew'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('building2building')",
@@ -101,7 +103,7 @@ function workInstallDatabase() {
     "  bId int(10) unsigned NOT NULL default '0'," .
     "  rId int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (bId,rId)" .
-    ") COMMENT='Gebaeude bId ermoeglicht Forschung rId'",
+    ") COMMENT='Gebaeude bId erm√∂glicht Forschung rId'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('building2research')",
@@ -133,7 +135,7 @@ function workInstallDatabase() {
     "  bId int(10) unsigned NOT NULL default '0'," .
     "  lvl int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (rId,bId,lvl)" .
-    ") COMMENT='Forschung rId ermoeglicht Gebaeude(stufe) bId'",
+    ") COMMENT='Forschung rId erm√∂glicht Gebaeude(stufe) bId'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('research2building')",
@@ -142,7 +144,7 @@ function workInstallDatabase() {
     "  rid int(10) unsigned NOT NULL default '0'," .
     "  pid int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (rid,pid)" .
-    ") COMMENT='Forschung rId ermoeglicht Prototyp pId'",
+    ") COMMENT='Forschung rId erm√∂glicht Prototyp pId'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('research2prototype')",
@@ -151,7 +153,7 @@ function workInstallDatabase() {
     "  rOld int(10) unsigned NOT NULL default '0'," .
     "  rNew int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (rOld,rNew)" .
-    ") COMMENT='Forschung rOld ermoeglicht Forschung rNew'",
+    ") COMMENT='Forschung rOld erm√∂glicht Forschung rNew'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('research2research')",
@@ -183,7 +185,7 @@ function workInstallDatabase() {
     "(5,'Industrie')," .
     "(6,'Informatik')," .
     "(7,'Kolonisation')," .
-    "(8,'Milit&auml;r')," .
+    "(8,'Milit√§r')," .
     "(9,'Physik')," .
     "(10,'Prototypen')," .
     "(11,'Raumfahrt')," .
@@ -192,7 +194,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_prefix . "research(id, name, description, gebiet) VALUES " .
     "(1, 'Basiswissen', 'Ist halt Basiswissen, ohne das lassen sich einige " .
-    "Geb‰ude einfach nicht bauen.', 1)",
+    "Geb√§ude einfach nicht bauen.', 1)",
 
     "INSERT INTO " . $db_prefix . "research2building(rId,bId,lvl) VALUES " .
     "(1, " . find_the_building_id("Hilfskiste Eis auspacken") . ", 0)," .
@@ -209,7 +211,7 @@ function workInstallDatabase() {
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
     "('research', 'Forschungsinfo: ', 'Forschungsbericht')," .
     "('researchoverview', 'Erforschte Forschungen', 'Forschungsliste')",
-    
+
     "ALTER TABLE " . $db_tb_sitterauftrag . " ADD resid INT DEFAULT '0' NOT NULL"
   );
 
@@ -219,7 +221,8 @@ function workInstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbank√§nderungen = <b>OK</b></div>";
+*/
 }
 
 
@@ -236,10 +239,10 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen f¸r weitere Men¸-Eintr‰ge, z.B.
+	  // Weitere Wiederholungen f√ºr weitere Men√º-Eintr√§ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -262,7 +265,9 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
+/*
   global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_sitterauftrag,
          $db_tb_building2building, $db_tb_building2research,
          $db_tb_research2research, $db_tb_research2building,
@@ -307,7 +312,8 @@ function workUninstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
 
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: Datenbank√§nderungen = <b>OK</b></div>";
+*/
 }
 
 // ****************************************************************************
@@ -316,7 +322,7 @@ function workUninstallDatabase() {
 function find_the_building_id($name) {
 	global $db, $db_tb_gebaeude;
 
-  // Aenderungen f¸r Gebaeude, die bereits unter anderem Namen in der DB sind.
+  // Aenderungen f√ºr Gebaeude, die bereits unter anderem Namen in der DB sind.
 	if(strpos($name, "Glace") > 0) {
 	  $name = "Eiscrusher der Sirius Corp, Typ Glace la mine";
 	}
@@ -358,12 +364,12 @@ function find_the_building_id($name) {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef¸hrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgef√ºhrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat¸rlich deinen Server angeben und default
+// Anstatt "Mein.Server" nat√ºrlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -378,12 +384,12 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgef¸hrt werden.
+  // ausgef√ºhrt werden.
   return;
 }
 
 if (!@include("./config/".$modulname.".cfg.php")) {
-	die( "Error:<br /><b>Cannot load ".$modulname." - configuration!</b>");
+	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
 }
 
 // ****************************************************************************
@@ -414,19 +420,19 @@ $unknownonly = ( empty($unknownonly) ? "0" : $unknownonly);
 
 $neededfpforresearch = 0;
 
-echo "<div class='doc_title'>Forschungs&uuml;bersicht</div>\n";
+echo "<div class='doc_title'>Forschungs√ºbersicht</div>\n";
 echo "<form name=\"Formular\" method=\"POST\" action=\"index.php?action=" . $modulname .
-     "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return false\">\n";
-echo "<select onchange=\"document.Formular.submit();\" name=\"researchid\" style=\"width: 400;\">\n";
+     "&sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return false\">\n";
+echo "<select onchange=\"document.Formular.submit();\" name=\"researchid\" style=\"width: 400px;\">\n";
 echo fill_selection($resid);
 echo "</optgroup>\n";
-echo "</select><br /><br />\n";
+echo "</select><br><br>\n";
 echo "<table><tr><td>";
 echo " <input type=\"checkbox\" name=\"alphaorder\"";
 if($alphaorder == "on")
   echo "checked ";
 echo "/>\n";
-echo "Forschungsliste alphabetisch anzeigen<br /><br />\n";
+echo "Forschungsliste alphabetisch anzeigen<br><br>\n";
 echo " <input type=\"checkbox\" name=\"unknownonly\"";
 if($unknownonly == "on")
   echo "checked ";
@@ -443,7 +449,7 @@ $sql = "SELECT t2.name AS bname, t1.rID AS resid FROM " .
  	       " AS t1 INNER JOIN " . $db_tb_gebaeude .
  	       " AS t2 ON t1.bId=t2.id WHERE t1.lvl = 0";
 $result = $db->db_query($sql);
-echo "<select name=\"searchbuildings\" style=\"width: 400;display:none;\">\n";
+echo "<select name=\"searchbuildings\" style=\"width: 400px;display:none;\">\n";
 while ($row = $db->db_fetch_array($result)){
 	echo "<option value=\"".$row['resid']."\">".$row['bname']."</option>";
 }
@@ -469,7 +475,7 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
    var zwischen;   //speichert Inhalt der Zelle
    var result;    //speichert, ob ein Treffer gefunden wurde
    result=0;
-   ergebnisse=0;
+   var ergebnisse=0;
    
    text = text.toLowerCase();
    
@@ -496,12 +502,13 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
    	 document.forms.Formular.elements.searchselect.options[i-1] = null;
    }	
    
-   isresearch = true;
-   isbuilding = true;
+   var isresearch = true;
+   var isbuilding = true;
    
-   rescount = 0;
-   bcount = 0;
-   
+   var rescount = 0;
+   var bcount = 0;
+   var NeuerEintrag, name;
+
    if ( isresearch ) {
    for (var i=0; i < document.forms.Formular.elements.researchid.length; i++) {
      zwischen = document.forms.Formular.elements.researchid.options[i].text;
@@ -520,7 +527,7 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
     }
    }
   }
-  rescount = ergebnisse;
+  var rescount = ergebnisse;
    if (  isbuilding && isresearch && rescount > 0 ) {
       NeuerEintrag = new Option("- - - - - - - - - -  - - - - - - - - - -  - - - - - - - - - -  - - - - - - - - - -  - - - - - - - - - -", "", true, true);
       document.forms.Formular.elements.searchselect.options[document.forms.Formular.elements.searchselect.length] = NeuerEintrag;
@@ -543,7 +550,7 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
     }
    }
   }
-  bcount = ergebnisse - rescount;
+  var bcount = ergebnisse - rescount;
   
   if ( ergebnisse == 1) {
   	document.forms.Formular.elements.searchselect.selectedIndex = 0;
@@ -610,7 +617,7 @@ $td1 = "\n  <tr>\n    <td class=\"windowbg2\" style=\"width: 20%;\"" .
 $td2 = "</div></td>\n" .
        "    <td class=\"windowbg1\" valign=\"top\">\n";
 
-echo "<br />\n";
+echo "<br>\n";
 echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 60%;\">\n";
 echo "  <tr>\n";
 echo "    <td class=\"windowbg2\" colspan=\"2\"><div class='doc_blue'>\n";
@@ -639,7 +646,7 @@ echo $td1 . "Kosten:" . $td2;
 if( $research_data['FP'] > 0 ) {
   echo $research_data['FP'] . " Forschungspunkte\n";
    if( !empty($research_data['addcost'])) {
-     echo "<br />" . $research_data['addcost'];
+     echo "<br>" . $research_data['addcost'];
   }
 } else {
   echo "---";
@@ -656,48 +663,48 @@ if( $research_data['highscore'] > 0 ) {
 }
 echo "</td>\n";
 echo "  </tr>\n";
-echo $td1 . "Ben&ouml;tigte<br />Forschungen:" . $td2;
+echo $td1 . "Ben√∂tigte<br>Forschungen:" . $td2;
 echo create_depends_on($resid);
 echo "</td>\n";
 echo "  </tr>\n";
 
 $depBuildings = create_depends_on_building($resid);
 if(!empty($depBuildings)) {
-  echo $td1 . "Ben&ouml;tigte<br />Geb&auml;ude:" . $td2 . $depBuildings;
+  echo $td1 . "Ben√∂tigte<br>Geb√§ude:" . $td2 . $depBuildings;
   echo "</td>\n";
   echo "  </tr>\n";
 }
 
 $allows = create_allows($resid);
 if(!empty($allows)) {
-  echo $td1 . "Erm&ouml;glicht<br />Forschungen:" . $td2 . $allows;
+  echo $td1 . "Erm√∂glicht<br>Forschungen:" . $td2 . $allows;
   echo "</td>\n";
   echo "  </tr>\n";
 }
 
 $newBuildings = create_allows_building($resid, FALSE);
 if(!empty($newBuildings)) {
-  echo $td1 . "Erm&ouml;glicht<br />Geb&auml;ude:" . $td2 . $newBuildings;
+  echo $td1 . "Erm√∂glicht<br>Geb√§ude:" . $td2 . $newBuildings;
   echo "</td>\n";
   echo "  </tr>\n";
 }
 
 $newLevels = create_allows_building($resid, TRUE);
 if(!empty($newLevels)) {
-  echo $td1 . "Erm&ouml;glicht<br />Geb&auml;udestufen:" . $td2 . $newLevels;
+  echo $td1 . "Erm√∂glicht<br>Geb√§udestufen:" . $td2 . $newLevels;
   echo "</td>\n";
   echo "  </tr>\n";
 }
 
 if(!empty($research_data['defense'])) {
-  echo $td1 . "Erm&ouml;glicht<br />Verteidigung:" . $td2 .
+  echo $td1 . "Erm√∂glicht<br>Verteidigung:" . $td2 .
        $research_data['defense'];
   echo "</td>\n";
   echo "  </tr>\n";
 }
 
  if(!empty($research_data['genetics'])) {
-  echo $td1 . "Erm&ouml;glicht<br />Genetikoptionen:" . $td2 .
+  echo $td1 . "Erm√∂glicht<br>Genetikoptionen:" . $td2 .
  	     $research_data['genetics'];
   echo "</td>\n";
   echo "  </tr>\n";
@@ -711,16 +718,16 @@ if( strpos( find_resfield($research_data['gebiet']), "Prototypen") !== FALSE) {
 }
 
 echo "</table>\n";
-echo "<br />\n";
+echo "<br>\n";
 echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 60%;\">\n";
 echo " <tr>\n";
 echo "   <td class=\"windowbg2\" colspan=\"2\"><div class='doc_blue'>";
 if(!$unknownonly)
   echo "Und wie komme ich jetzt dahin?";
 else 
-  echo "Und was ben&ouml;tige ich noch?";
+  echo "Und was ben√∂tige ich noch?";
 echo "</div></td>\n </tr>\n";
-echo $td1 . "ben&ouml;tigte<br/>Forschungen:" . $td2;
+echo $td1 . "ben√∂tigte<br/>Forschungen:" . $td2;
 $deplist = dependencies($resid);
 
 if(!empty($deplist))
@@ -732,54 +739,11 @@ echo "</td>\n";
 echo " </tr>\n";
 
 if(!empty($buildings)) {
-  echo $td1 . "ben&ouml;tigte<br/>Geb&auml;ude:" . $td2 .
+  echo $td1 . "ben√∂tigte<br/>Geb√§ude:" . $td2 .
        dependend_buildings($resid);
   echo "</td>\n";
   echo " </tr>\n";
 }
-
-/*
-
-	//FP auselsen des Users
-	$sql = "SELECT fp_ph FROM " . $db_tb_user . " WHERE id = '" . $user_id . "';";
-	$result = $db->db_query($sql)
-	or error(GENERAL_ERROR,
-           'Could not query config information.', '',
-           __FILE__, __LINE__, $sql);
-
-  $userfp = $db->db_fetch_array($result);
-  $userfp = $userfp['fp_ph'];
-  
-  if ($userfp > 0 AND $neededfpforresearch != 0) {
-
-  echo $td1 . "Zeit<br>bis<br>erfroscht:" . $td2;
-
-if ($neededfpforresearch < 0) {
-
-	echo "<div class='doc_red'>Zeit nicht berechnbar, da zur Berechnung nicht alle Forschungen geparsed wurden, die benˆtigt werden!</div>";
-	$neededfpforresearch = $neededfpforresearch * -1;
-		
-} else {
-	  
-  $neededhours = $neededfpforresearch / $userfp;
-  
-  $neededtime = $neededhours * 60 * 60;
-  $finisheddate = date("d.m.y H:i",(time() + $neededtime));
-  
-  echo "<div class='doc_black'> Bei gleichbleibender FP Zahl zu Forschen: <br/> " . round($neededhours,0) . " Stunden</div>";
-  echo "<div class='doc_black'> Forschung w‰re erfroscht am: <br/> " . $finisheddate . "</div>";
-  echo "<div class='doc_black'> FP Zahl zu forschen:  ".$neededfpforresearch." FP";
-}  
-
-
-
-
-  echo "</td>\n";
-  echo " </tr>\n";  
-
-  }
-  
-  */
 
 echo "</table>\n";
 return;
@@ -885,13 +849,13 @@ function create_depends_on($resid) {
   $lind = FALSE;
   while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
 	  if($lind !== FALSE) {
-		  $retVal .= "<br />\n";
+		  $retVal .= "<br>\n";
 		}
 		$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
 	  $retVal .= "<a href=\"index.php?action=" . $modulname  .
-               "&amp;researchid=" . $research_data['rid'] .
-               "&amp;sid=". $sid .
-               "&amp;alphaorder=" . $alphaorder . "\">" .
+               "&researchid=" . $research_data['rid'] .
+               "&sid=". $sid .
+               "&alphaorder=" . $alphaorder . "\">" .
                $research_data['rname'] . "</a>";
 		if($research_data['gameversion'] != $config_gameversion) {
 		  $retVal .= $v04;
@@ -924,12 +888,12 @@ function create_allows($resid) {
   $lind   = FALSE;
   while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
 	  if($lind !== FALSE) {
-		  $retVal .= "<br />\n";
+		  $retVal .= "<br>\n";
 		}
 		$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
 		$retVal .= "<a href=\"index.php?action=" . $modulname .
-		"&amp;researchid=" . $research_data['rid'] .
-		"&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\">";
+		"&researchid=" . $research_data['rid'] .
+		"&sid=". $sid . "&alphaorder=" . $alphaorder . "\">";
 		if($research_data['rgebiet'] == 0) {
 		  $retVal .= "<span class='doc_red'>";
 		}
@@ -950,7 +914,7 @@ function create_allows($resid) {
 //****************************************************************************
 //
 function create_depends_on_building($resid) {
-  global $sid, $db, $db_tb_building2research, $db_tb_gebaeude;
+  global $db, $db_tb_building2research, $db_tb_gebaeude;
 
 	$retVal = "---";
 	$sql = "SELECT t2.name AS bname, t2.bild AS bbild FROM " . $db_tb_building2research .
@@ -985,7 +949,7 @@ function create_depends_on_building($resid) {
 //****************************************************************************
 //
 function create_allows_building($resid, $isLevel) {
-  global $sid, $db, $db_tb_research2building, $db_tb_gebaeude;
+  global $db, $db_tb_research2building, $db_tb_gebaeude;
 
 	$sql = "SELECT t2.name AS bname, t2.bild AS bbild, t1.lvl AS blevel FROM " .
          $db_tb_research2building .
@@ -1029,7 +993,7 @@ function create_allows_building($resid, $isLevel) {
 //****************************************************************************
 //
 function create_allows_prototype($resid) {
-  global $sid, $db, $db_tb_research2prototype, $db_tb_schiffstyp;
+  global $db, $db_tb_research2prototype, $db_tb_schiffstyp;
 
 	$sql = "SELECT t2.schiff AS pname, t2.bild AS pbild  FROM " . $db_tb_research2prototype .
 	       " AS t1 INNER JOIN " . $db_tb_schiffstyp .
@@ -1065,8 +1029,8 @@ function create_allows_prototype($resid) {
 //
 function dependencies($resid) {
   global $sid, $db, $db_tb_building2research, $db_tb_research2research, $alphaorder,
-	     $db_tb_research, $buildings, $researches, $v04, $unknownonly, $neededfpforresearch, 
-		   $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
+	    $db_tb_research, $buildings, $researches, $v04, $unknownonly,
+        $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
 
 	$sql = "SELECT * FROM " . $db_tb_research . " WHERE ID=" . $resid;
   $result = $db->db_query($sql)
@@ -1125,32 +1089,24 @@ function dependencies($resid) {
 	  $colorme_off = "</span>";
 		$isresearched = FALSE;
 		
-		/*$sqlFP = "SELECT FP FROM " . $db_tb_research . " WHERE ID = ".$resid.";";
-    $resultFP = $db->db_query($sqlFP)
-  	or error(GENERAL_ERROR,
-             'Could not query config information.', '',
-             __FILE__, __LINE__, $sqlFP);	
-    $rowFP = $db->db_fetch_array($resultFP);
-    $neededfpforresearch = $neededfpforresearch + $rowFP['FP'];  */    	
 	}
 
 	if($gebiet > 0) {
 	  if(($unknownonly && $isresearched == FALSE) || !$unknownonly) {
     	$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
       $retVal .= "<a href=\"index.php?action=" . $modulname .
-                 "&amp;researchid=" . $resid .
-    	     "&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\">" . 
-  				 $colorme_on . $researches[$resid] . $colorme_off . "</a><br />";
+                 "&researchid=" . $resid .
+    	     "&sid=". $sid . "&alphaorder=" . $alphaorder . "\">" .
+  				 $colorme_on . $researches[$resid] . $colorme_off . "</a><br>";
 	  }
 	} else {
   	$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
     $retVal .= "<a href=\"index.php?action=" . $modulname .
-               "&amp;researchid=" . $resid .
-  	     "&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\"><span class='doc_red'>" .
-				 $researches[$resid] . "</span></a><br />";
+               "&researchid=" . $resid .
+  	     "&sid=". $sid . "&alphaorder=" . $alphaorder . "\"><span class='doc_red'>" .
+				 $researches[$resid] . "</span></a><br>";
 				 
-	/*	//das FP negativ machen, damit man weiﬂ hier fehlt irgednwo eine Forschung daf¸r.		 
-		if ( $neededfpforresearch > 0) $neededfpforresearch = -1 * $neededfpforresearch;*/
+	
 	}
 
 	return $retVal;

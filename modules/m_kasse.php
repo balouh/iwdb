@@ -37,9 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ?ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ?ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
     echo "Hacking attempt...!!"; 
     exit; 
 }
@@ -73,14 +73,16 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Das Allianzkassenmodul dient zur Speicherung und &uuml;bersichtlichen Anzeige von Daten aus der Allianzkasse";
+  "Das Allianzkassenmodul dient zur Speicherung und übersichtlichen Anzeige von Daten aus der Allianzkasse";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
+
 function workInstallDatabase() {
+/*
   global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
 
   $sqlscript = array(
@@ -114,13 +116,15 @@ function workInstallDatabase() {
     "INSERT INTO " . $db_tb_parser . "(`modulename`, `recognizer`,`message`)" .
     " VALUES('kasse', 'Standardbeitrag', 'Allianzkasse')"
   );
+
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR,
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************
@@ -160,6 +164,7 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+/*
 function workUninstallDatabase() {
   global $db, $db_tb_iwdbtabellen, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing, $db_tb_parser;
 
@@ -179,9 +184,9 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
-
+*/
 //****************************************************************************
 //
 // Installationsroutine
@@ -264,10 +269,24 @@ if (!@include("./config/".$modulname.".cfg.php")) {
       
       
   //url fuers sortieren wieder zusammensetzen
-  $url = "index.php?action=m_kasse&amp;sid=$sid&amp;type=$type&amp;today=$today&amp;tomonth=$tomonth&amp;toyear=$toyear&amp;fromday=$fromday&amp;frommonth=$frommonth&amp;fromyear=$fromyear&amp;allianz=$allianz";
+  $url = "index.php?action=m_kasse&sid=$sid&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
 
      doc_title("Allianzkasse");
      
+	 $sql = "SELECT MAX(time_of_insert) AS TOI FROM " . $db_tb_kasse_content;
+		$result = $db->db_query($sql)	
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+		$lastreport = "";
+
+	if($row = $db->db_fetch_array($result)) {
+		
+		
+		$time1=strtotime($row['TOI']);
+		$lastreport = strftime("%d.%m.%y %H:%M", $time1);
+		echo "zuletzt aktualisiert am : " . $lastreport;
+	}
+	 
   //inputform basteln
      echo "<div class='doc_centered'>\n";
      echo "<form name=\"frm\">\n";
@@ -356,13 +375,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"2\"");
      echo "  <b>Wer hat Credits bekommen?</b>\n";
      next_row("windowbg2", "style=\"width:60%\" align=\"center\"");
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
-     echo "Empf&auml;nger";
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=payedto&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "Empfänger";
+     echo "<a href=\"$url&order=payedto&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "align=\"center\"");
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Summe der ausgezahlten Credits";
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     
     $sql = "SELECT payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedto " . $order;
     $result = $db->db_query($sql)
@@ -395,13 +414,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"2\"");
      echo "  <b>Wer hat Credits ausgezahlt?</b>\n";
      next_row("windowbg2", "style=\"width:60%\" align=\"center\"");
-     echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=payedfrom&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Auszahlender";
-     echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=payedfrom&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "align=\"center\"");
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Summe der ausgezahlten Credits";
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     
       $sql = "SELECT payedfrom, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedfrom " . $order;
     $result = $db->db_query($sql)
@@ -437,17 +456,17 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
      echo "  <b>Wer hat Credits bekommen?</b>\n";
      next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
-     echo "<a href=\"$url&amp;rder=payedfrom&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&rder=payedfrom&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Auszahlender";
-     echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=payedfrom&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "style=\"width:40%\" align=\"center\"");
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
-     echo "Empf&auml;nger";
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";;
+     echo "<a href=\"$url&order=payedto&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "Empfänger";
+     echo "<a href=\"$url&order=payedto&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";;
      next_cell("windowbg2", "align=\"center\"");
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Summe der ausgezahlten Credits";
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     
     
     $sql = "SELECT payedfrom, payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='$allianz' $whereclause GROUP BY payedfrom, payedto $order";
@@ -473,10 +492,10 @@ if (!@include("./config/".$modulname.".cfg.php")) {
   
     $whereclause = "AND ";
     if (isset($fromdate)) {
-      $whereclause.="time_of_insert >= '" . $fromdate . "' AND ";
+      $whereclause.="time_of_insert >= '" . $fromdate . " 00:00:00' AND ";
     }
     if (isset($todate)) {
-      $whereclause.="time_of_insert <= '" . $todate . "' AND ";
+      $whereclause.="time_of_insert <= '" . $todate . " 23:59:59' AND ";
     }
     $whereclause.="1";
     
@@ -484,13 +503,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
     echo "  <b>Kasseninhalt</b>\n";
     next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
-    echo "<a href=\"$url&amp;order=time_of_insert&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=time_of_insert&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Datum";
-    echo "<a href=\"$url&amp;order=time_of_insert&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=time_of_insert&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     next_cell("windowbg2", "align=\"center\"");
-    echo "<a href=\"$url&amp;order=amount&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=amount&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Inhalt der Allianzkasse";
-    echo "<a href=\"$url&amp;order=amount&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=amount&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
 
     $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert ASC";
     $result = $db->db_query($sql)
@@ -499,10 +518,12 @@ if (!@include("./config/".$modulname.".cfg.php")) {
                  __FILE__, __LINE__, $sql);
 
      while( $row = $db->db_fetch_array($result)) {
-     $thisdate = explode('-', $row['time_of_insert']);
-         next_row("windowbg1", "style=\"width:50%\" align=\"left\"");
-         echo $thisdate[2] . "." . $thisdate[1] . "." . $thisdate[0];
-         next_cell("windowbg1", "align=\"right\"");
+		$time=strtotime($row['time_of_insert']);
+		$time1 = strftime("%d.%m.%y %H:%M", $time);
+        next_row("windowbg1", "style=\"width:50%\" align=\"left\"");
+        
+		 echo $time1;
+		 next_cell("windowbg1", "align=\"right\"");
          echo number_format($row['amount'], 2, ',', '.');
      }
      end_row();
@@ -524,13 +545,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
     next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
-    echo "<a href=\"$url&amp;order=user&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=user&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Einzahler";
-    echo "<a href=\"$url&amp;order=user&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=user&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     next_cell("windowbg2", "align=\"center\"");
-    echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Summe der eingezahlten Credits";
-    echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
   
     $sql = "SELECT user, sum(amount) as sumof FROM " . $db_tb_kasse_incoming . " WHERE allianz='$allianz' $whereclause GROUP BY user $order";
     $result = $db->db_query($sql)

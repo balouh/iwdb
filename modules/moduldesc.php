@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* moduldesc.php                                                           */
+/* moduldesc.php                                                             */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -26,96 +26,148 @@
 
 /*****************************************************************************/
 /* moduldesc.php                                                             */
-/* Hier werden die Beschreibungen f�r die Module gespeichert                 */
+/* Hier werden die Beschreibungen für die Module gespeichert                 */
 /*****************************************************************************/
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
 	exit;
 }
 
-$modulary["m_code"]["name"] = "m_code";
-$modulary["m_code"]["titel"] = "Codebuch";
-$modulary["m_code"]["desc"] = "Erm&ouml;glicht schnelle und unkomplizierte Hilfe im IRC durch hochladen von Code und dann durch eine URL extern aufrufen.";
-
-$modulary["m_colors"]["name"] = "m_colors";
-$modulary["m_colors"]["titel"] = "Farbtabelle";
-$modulary["m_colors"]["desc"] = "Das Colors-Modul bietet eine Anzeige s&auml;mtlicher in Icewars f&uuml;r die farbige Markierung von Links wie den Planetennamen relevanten Hexadezimal-Farbcodes aus der man diese einfach rauskopieren kann.";
-
 $modulary["m_default"]["name"] = "m_default";
 $modulary["m_default"]["titel"] = "Defaultmodul";
-$modulary["m_default"]["desc"] =  "Das Default-Modul dient als Vorlage f&uuml;r die anderen Module und hat keine Funktion";
-
-$modulary["m_effektiv"]["name"] = "m_effektiv";
-$modulary["m_effektiv"]["titel"] = "Effektivit&auml;tsmodul";
-$modulary["m_effektiv"]["desc"] =  "Modul zum anzeigen der Schiffsklasseneffektivit&auml;ten, beruhend auf der Schiffklasseneffektivit&auml;t ingame";
-
-$modulary["m_frachtkapa"]["name"] = "m_frachtkapa";
-$modulary["m_frachtkapa"]["titel"] = "Frachtkapazit&auml;ten";
-$modulary["m_frachtkapa"]["desc"] = "Das Frachtkapazit&auml;ten-Modul dient zur Berechnung der notwendigen Transporteranzahl f&uuml;r eine gegebene Menge Ressourcen";
-
-$modulary["m_log"]["name"] = "m_log";
-$modulary["m_log"]["titel"] = "Logbuch";
-$modulary["m_log"]["desc"] = "Die Logs sind als eine Hilfe f&uuml;r DB-Administratoren gedacht um sich gegenseitig mitzuteilen, welcher Admin was zuletzt gemacht hat.<br><i>Sie lassen sich nicht l&ouml;schen sind aber editierbar und es l&auml;sst sich nach W&ouml;rtern suchen.</i><br><b>Bitte Modulstatus auf \"admin\" setzen wenn die User DB-Logs nicht lesen d&uuml;fen.</b>";
-
-$modulary["m_news"]["name"] = "m_news";
-$modulary["m_news"]["titel"] = "News und Nachrichten";
-$modulary["m_news"]["desc"] = "Dieses Modul erlaubt es Nachrichten an User der Datenbank zu schicken und News einzustellen";
-
-$modulary["m_notice"]["name"] = "m_notice";
-$modulary["m_notice"]["titel"] = "Notizblock";
-$modulary["m_notice"]["desc"] = "Das Notizblock-Modul f&uuml;gt f&uuml;r jeden Benutzer einen eigenen Notizblock hinzu, den nur er selbst zu sehen bekommt.";
-
-$modulary["m_polkarte"]["name"] = "m_polkarte";
-$modulary["m_polkarte"]["titel"] = "politische Karte";
-$modulary["m_polkarte"]["desc"] = "Anzeige einer Universumskarte mit allen Allianzstati";
-
-$modulary["m_research"]["name"] = "m_research";
-$modulary["m_research"]["titel"] = "dyn. Techtree";
-$modulary["m_research"]["desc"] = "Das Forschungsmodul erlaubt die Darstellung und das Navigieren innerhalb des bereits bekannten Forschungsbaumes. Die notwendigen Forschungen und Geb&auml;ude werden ebenfalls dargestellt.";
-
-$modulary["m_reset"]["name"] = "m_reset";
-$modulary["m_reset"]["titel"] = "Reset-Modul";
-$modulary["m_reset"]["desc"] = "Das Reset-Modul setzt die eingetragenen Daten der Datenbank auf den Startzustand zur&uuml;ck.<br>Dieses Modul sollte nur zum <b>Reset-Termin</b> aufgerufen werden";
-
-$modulary["m_ress"]["name"] = "m_ress";
-$modulary["m_ress"]["titel"] = "Produktion";
-$modulary["m_ress"]["desc"] = "Dieses Modul dient zur Anzeige der Ressproduktion der Spieler in der Allianz. Dabei wird anhand der Kolo-/Ress&uuml;bersicht der Tagesbedarf bzw. Tagesoutput errechnet.";
-
-$modulary["m_techtree"]["name"] = "m_techtree";
-$modulary["m_techtree"]["titel"] = "graph. Techtree";
-$modulary["m_techtree"]["desc"] = "Ein graphsicher Technologiebaum, der jede Evolutionsstufe als &Uuml;bersicht mit Forschungsverkn&uuml;pfungen und Informationen anzeigt. Besonders Wert gelegt wurde auf die optische Integration in die AlliDB und schnelle Ladezeiten.";
-
-$modulary["m_aktivitaet"]["name"] = "m_aktivitaet";
-$modulary["m_aktivitaet"]["titel"] = "zeige Spieleraktivit�t";
-$modulary["m_aktivitaet"]["desc"] = "Dieses Modul erkennt die Spieleraktivit&auml;t anhand von historisierten Daten.";
-
-$modulary["m_shoutbox"]["name"] = "m_shoutbox";
-$modulary["m_shoutbox"]["titel"] = "Nachrichtenspiegel";
-$modulary["m_shoutbox"]["desc"] = "Die Shoutbox ist f&uuml;r kurze tempor&auml;re Nachrichten zwischen den Datenbank-Usern gedacht.";
-
-$modulary["m_transferliste"]["name"] = "m_transferliste";
-$modulary["m_transferliste"]["titel"] = "Transfer-Statistik";
-$modulary["m_transferliste"]["desc"] = "In der Buddler-Statistik werden die an die Fleeter transferierten Rohstoffe erfasst und statistisch aufbereitet.";
+$modulary["m_default"]["desc"] =  "Das Default-Modul dient als Vorlage für die anderen Module und hat keine Funktion.";
 
 $modulary["m_universe"]["name"] = "m_universe";
 $modulary["m_universe"]["titel"] = "zeige Universum";
-$modulary["m_universe"]["desc"] = "Dieses Modul f&uuml;gt eine &Uuml;bersicht f&uuml;r das bekannte Universum hinzu.";
+$modulary["m_universe"]["desc"] =  "Dieses Modul fügt eine Übersicht für das bekannte Universum hinzu.";
+
+$modulary["m_transferliste"]["name"] = "m_transferliste";
+$modulary["m_transferliste"]["titel"] = "Transfer-Statistik";
+$modulary["m_transferliste"]["desc"] =  "In der Buddler-Statistik werden die an die Fleeter transferierten Rohstoffe erfasst und statistisch aufbereitet.";
+
+$modulary["m_techtree"]["name"] = "m_techtree";
+$modulary["m_techtree"]["titel"] = "graph. Techtree";
+$modulary["m_techtree"]["desc"] =  "Ein graphischer Technoligiebaum, der jede Evolutionsstufe als Übersicht mit Forschungsverknüpfungen und Informationen anzeigt. Besonders Wert gelegt wurde auf die optische Integration in die AlliDB und schnelle Ladezeiten.";
+
+$modulary["m_sprengung"]["name"] = "m_sprengung";
+$modulary["m_sprengung"]["titel"] = "zeige Sprengungen";
+$modulary["m_sprengung"]["desc"] =  "Zeigt an wann Planeten vorraussichtlich gesprengt werden.";
+
+$modulary["m_ress"]["name"] = "m_ress";
+$modulary["m_ress"]["titel"] = "Produktion";
+$modulary["m_ress"]["desc"] =  "Dieses Modul dient zur Anzeige der Ressproduktion der Spieler in der Allianz. Dabei wird anhand der Kolo-/Ressübersicht der Tagesbedarf bzw. Tagesoutput errechnet.";
+
+$modulary["m_research"]["name"] = "m_research";
+$modulary["m_research"]["titel"] = "dyn. Techtree";
+$modulary["m_research"]["desc"] =  "Das Forschungsmodul erlaubt die Darstellung und das Navigieren innerhalb des bereits bekannten Forschungsbaumes. Die notwendigen Forschungen und Gebäude werden ebenfalls dargestellt.";
+
+$modulary["m_colors"]["name"] = "m_colors";
+$modulary["m_colors"]["titel"] = "Farbtabelle";
+$modulary["m_colors"]["desc"] = "Das Colors-Modul bietet eine Anzeige sämtlicher in Icewars für die farbige Markierung von Links wie den Planetennamen relevanten Hexadezimal-Farbcodes aus der man diese einfach rauskopieren kann.";
 
 $modulary["m_raidview"]["name"] = "m_raidview";
 $modulary["m_raidview"]["titel"] = "Raid-Statistik";
-$modulary["m_raidview"]["desc"] = "Durch dieses Modul werden eine Raid&uuml;bersicht der Allianzmitglieder sowie detaillierte Raidhistories jedes Mitgliedes eingef&uuml;gt.";
+$modulary["m_raidview"]["desc"] = "Durch dieses Modul werden eine Raid&uuml;bersicht der Allianzmitglieder sowie detaillierte Raidhistories jedes Mitgliedes eingefügt.";
 
-$modulary["m_galastats"]["name"] = "m_galastats";
-$modulary["m_galastats"]["titel"] = "Galastatistiken";
-$modulary["m_galastats"]["desc"] = "Das Galastatistiken-modul berechnet eine Highscore f�r Kolonien, Plannipunkte und Kampfbasen f�r jede Galaxie und f�r die gesamte Sichtweite";
+$modulary["m_polkarte"]["name"] = "m_polkarte";
+$modulary["m_polkarte"]["titel"] = "politische Karte";
+$modulary["m_polkarte"]["desc"] = "Anzeige einer Universumskarte mit allen Allianzbeziehungen.";
+
+$modulary["m_lieferung"]["name"] = "m_lieferung";
+$modulary["m_lieferung"]["titel"] = "Lieferung";
+$modulary["m_lieferung"]["desc"] =  "Zeigt Informationen zu anfliegenden Lieferungen an.";
+
+$modulary["m_kbparser1"]["name"] = "m_kbparser1";
+$modulary["m_kbparser1"]["titel"] = "KBParser2";
+$modulary["m_kbparser1"]["desc"] =  "KBParser mit einer vielfältigen Ausgabe im BBCode.";
+
+$modulary["m_kbparser"]["name"] = "m_kbparser";
+$modulary["m_kbparser"]["titel"] = "KBParser";
+$modulary["m_kbparser"]["desc"] =  "Ausgabe der Kampfberichte im BBCode.";
 
 $modulary["m_kasse"]["name"] = "m_kasse";
 $modulary["m_kasse"]["titel"] = "Allianzkasse";
-$modulary["m_kasse"]["desc"] = "Das Allianzkassenmodul dient zur Speicherung und &uuml;bersichtlichen Anzeige von Daten aus der Allianzkasse";
+$modulary["m_kasse"]["desc"] = "Das Allianzkassenmodul dient zur Speicherung und &uuml;bersichtlichen Anzeige von Daten aus der Allianzkasse.";
+
+$modulary["m_gebaeudeuebersicht"]["name"] = "m_gebaeudeuebersicht";
+$modulary["m_gebaeudeuebersicht"]["titel"] = "Gebäudeübersicht";
+$modulary["m_gebaeudeuebersicht"]["desc"] =  "Zeigt die Gebäudeübersicht an.";
+
+$modulary["m_galastats"]["name"] = "m_galastats";
+$modulary["m_galastats"]["titel"] = "Galastatistiken";
+$modulary["m_galastats"]["desc"] = "Das Galastatistiken-Modul berechnet eine Highscore für Kolonien, Planipunkte und Kampfbasen für jede Galaxie und für die gesamte Sichtweite.";
+
+$modulary["m_frachtkapa"]["name"] = "m_frachtkapa";
+$modulary["m_frachtkapa"]["titel"] = "Frachtkapazitäten";
+$modulary["m_frachtkapa"]["desc"] = "Das Frachtkapazitäten-Modul dient zur Berechnung der notwendigen Transporteranzahl f&uuml;r eine gegebene Menge Ressourcen.";
+
+$modulary["m_effektiv"]["name"] = "m_effektiv";
+$modulary["m_effektiv"]["titel"] = "Effektivitätsmodul";
+$modulary["m_effektiv"]["desc"] =  "Modul zum Anzeigen der Schiffsklasseneffektivitäten, beruhend auf der Schiffklasseneffektivität ingame.";
 
 $modulary["m_building"]["name"] = "m_building";
 $modulary["m_building"]["titel"] = "Gebaeudeanzeige";
-$modulary["m_building"]["desc"] = "Ermoeglicht das Anzeigen der Gebaeude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
+$modulary["m_building"]["desc"] = "Ermöglicht das Anzeigen der Gebäude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
+
+$modulary["m_bestellung_schiffe"]["name"] = "m_bestellung_schiffe";
+$modulary["m_bestellung_schiffe"]["titel"] = "Schiffe #schiffe";
+$modulary["m_bestellung_schiffe"]["desc"] =  "Bestellsystem für Schiffe zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
+
+$modulary["m_bestellung"]["name"] = "m_bestellung";
+$modulary["m_bestellung"]["titel"] = "Bestellung #ress";
+$modulary["m_bestellung"]["desc"] =  "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
+
+$modulary["m_allystats"]["name"] = "m_allystats";
+$modulary["m_allystats"]["titel"] = "Allianzstatistiken";
+$modulary["m_allystats"]["desc"] =  "Das Allianzstatistiken-Modul berechnet diverse Daten zu einer Allianz.";
+
+$modulary["m_lager"]["name"] = "m_lager";
+$modulary["m_lager"]["titel"] = "Lager";
+$modulary["m_lager"]["desc"] =  "Lagerübersicht zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
+
+$modulary["m_raid"]["name"] = "m_raid";
+$modulary["m_raid"]["titel"] = "Ziele suchen";
+$modulary["m_raid"]["desc"] =  "Dieses Modul hilft beim pösen Klauen von Lollis.";
+
+$modulary["m_sitterschleife"]["name"] = "m_sitterschleife";
+$modulary["m_sitterschleife"]["titel"] = "Sitterschleife";
+$modulary["m_sitterschleife"]["desc"] =  "Dieses Modul dient dem Sitten in Schleife.";
+
+$modulary["m_projects"]["name"] = "m_projects";
+$modulary["m_projects"]["titel"] = "Projekteverwaltung";
+$modulary["m_projects"]["desc"] =  "Verwaltung von Projekten im Bestellsystem.";
+
+$modulary["m_research2"]["name"] = "m_research2";
+$modulary["m_research2"]["titel"] = "Forschungsprognosen";
+$modulary["m_research2"]["desc"] =  "Zeigt alle Forschungen und deren aktuelle Forschungspunkte an und ermittelt daraus die Zeiten, die der User mit seinen FP/h zur Erforschung benötigt.";
+
+$modulary["m_forsch"]["name"] = "m_forsch";
+$modulary["m_forsch"]["titel"] = "Forschungsübersicht";
+$modulary["m_forsch"]["desc"] =  "Die Forschungsübersicht zeigt die aktuell laufenden Forschungen.";
+
+$modulary["m_ressxml_worker"]["name"] = "m_ressxml_worker";
+$modulary["m_ressxml_worker"]["titel"] = "Ressourcen-XML Updater";
+$modulary["m_ressxml_worker"]["desc"] =  "Ding zum Holen von Ressübersichtsdaten über XML-Übersichts-Links.";
+
+$modulary["m_sc"]["name"] = "m_sc";
+$modulary["m_sc"]["titel"] = "Sondenkalkulator";
+$modulary["m_sc"]["desc"] =  "Berechnet die benötigten Sonden anhand gegebener Sondendeff.";
+
+$modulary["m_newscan_unixml"]["name"] = "m_newscan_unixml";
+$modulary["m_newscan_unixml"]["titel"] = "Uni-XML-Datei einlesen";
+$modulary["m_newscan_unixml"]["desc"] =  "Modul zum einfachen Einlesen der gesamten Uni-XML-Datei, die man mittels Universumskontrolleinrichtung erhält.";
+
+$modulary["m_robotermining"]["name"] = "m_robotermining";
+$modulary["m_robotermining"]["titel"] = "Robotermining";
+$modulary["m_robotermining"]["desc"] =  "Zeigt Informationen zu Ressourcensammelbasen an.";
+
+$modulary["m_kampfbasen"]["name"] = "m_kampfbasen";
+$modulary["m_kampfbasen"]["titel"] = "Kampfbasen";
+$modulary["m_kampfbasen"]["desc"] =  "Zeigt Informationen zu Kampfbasen an.";
+
+$modulary["m_artefaktbasen"]["name"] = "m_artefaktbasen";
+$modulary["m_artefaktbasen"]["titel"] = "Artefaktbasen";
+$modulary["m_artefaktbasen"]["desc"] =  "Zeigt Informationen zu Artefaktbasen an.";
 
 global $modulary;
 

@@ -6,11 +6,16 @@ error_reporting(E_ALL);
 global $daten;
 
 if (isset($_POST['Eingabe'])) {
+	if (($_POST['Eingabe'])=="") {
+		echo "<div class='system_error'>Keinen KB-Link eingetragen!</div>";
+		}
+	else {
+	
 	// KBs raussuchen
 	preg_match_all('#www\.icewars\.de/portal/kb/de/kb\.php\?id=[\d]+&md_hash=[\w]{32}#', $_POST['Eingabe'], $kblinks);
 	
 	foreach ($kblinks[0] as $kblink) {
-		//echo $kblink.'<br />';
+		//echo $kblink.'<br>';
 		
 		$temp_daten = '';
 		
@@ -52,12 +57,12 @@ if (isset($_POST['Eingabe'])) {
 	
 	asort($daten['KBs']);
 	
-	echo 'Den unten stehenden Text per "copy\'n\'paste" in jedes beliebige Forum mit BB-Code-Support posten.<br /><br />';
+	echo 'Den unten stehenden Text per "copy\'n\'paste" in jedes beliebige Forum mit BB-Code-Support posten.<br><br>';
 	foreach($daten['KBs'] as $kb) {
 		echo htmlentities($kb['Bericht']);
-		echo '<br />_______________________________________________________<br /><br />';
+		echo '<br>_______________________________________________________<br><br>';
 	}
-	
+	}
 }
 
 ?>

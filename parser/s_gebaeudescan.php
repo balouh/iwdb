@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp�nglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -50,8 +50,8 @@ function parse_gebaeudescan($scanlines) {
   $scan_data = reset_data();
   $cat = "";
   foreach($scanlines as $scan) {
-    if(strpos($scan, "Sondierungsbericht (Geb&auml;ude) von") !== FALSE ) {
-    	$scan_data['coords'] = trim(str_replace("Sondierungsbericht (Geb&auml;ude) von", "", $scan));
+    if(strpos($scan, "Sondierungsbericht (Gebäude) von") !== FALSE ) {
+    	$scan_data['coords'] = trim(str_replace("Sondierungsbericht (Gebäude) von", "", $scan));
     	$scan_data['coords'] = preg_replace('/\s*\[.+\]\s*/', '', $scan_data['coords']);
     } else {
       checkline( $scan, $scan_data, $cat);
@@ -61,7 +61,7 @@ function parse_gebaeudescan($scanlines) {
 	switch ( updateplanet() ) {
 	case 0: echo "<div class='system_error'>Der Scan ist nicht komplett!</div>"; break;
 	case 1: echo "<div class='system_notification'>Planet " . $scan_data['coords'] . " aktualisiert.</div>"; break;
-	case 2: echo "<div class='system_notification'>Neuen Planeten " . $scan_data['coords'] . " hinzugef&uuml;gt.</div>"; break;
+	case 2: echo "<div class='system_notification'>Neuen Planeten " . $scan_data['coords'] . " hinzugefügt.</div>"; break;
 	case 3: echo "<div class='system_notification'>Neuer Planet " . $scan_data['coords'] . " . Planetendaten aktualisiert.</div>"; break;
 	}    
 }

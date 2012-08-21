@@ -38,7 +38,7 @@ if ( $user_rules == "1" )
 
     if(( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ))
     {
-      // Anstehende Aufträge zählen
+      // Anstehende AuftrÃ¤ge zÃ¤hlen
       $anzauftrag = "";
 
       $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
@@ -75,14 +75,14 @@ include ('configmenu.php');
       <li>
         <table align="left">
                   <tr>
-                      <td><strong>Hallo, <?=$user_id;?>.</strong><td>
+                      <td><strong>Hallo, <?php echo $user_id;?>.</strong><td>
                     </tr>
                 </table>
       </li>
       <li>
               <table align="right">
                   <tr>
-                    <td><strong>Online: <?=($counter_guest+$counter_member);?></strong><td>
+                    <td><strong>Online: <?php echo ($counter_guest+$counter_member);?></strong><td>
                     </tr>
                 </table>
       </li>
@@ -97,7 +97,7 @@ include ('configmenu.php');
         $miscmenu = 0;
     // Alle Menu-Eintraege durchgehen
     while( $row = $db->db_fetch_array($result)) {
-      // Ist sitten für diesen Menu-Eintrag erlaubt?
+      // Ist sitten fÃ¼r diesen Menu-Eintrag erlaubt?
       $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
                                    ($row['sittertyp'] == 0 ) ||
                        ($user_adminsitten == SITTEN_ONLY_LOGINS &&
@@ -127,7 +127,7 @@ include ('configmenu.php');
               echo "      </li>\n";
             }
         }
-        // Standard Menü
+        // Standard MenÃ¼
     echo "      <li>\n";
         echo "        <a href=\"#\" rel=\"dropmenu" . $miscmenu . "\">Misc</a>\n";
     echo "      <li>\n";
@@ -136,7 +136,7 @@ include ('configmenu.php');
         echo "    </ul>\n";
         echo "  </div>\n";
 
-    // Menu nochmal auslesen, diesmal die Submenüs
+    // Menu nochmal auslesen, diesmal die SubMenÃ¼s
     $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
                $db_tb_menu . " WHERE active=1 AND submenu > 0 ORDER BY menu ASC, submenu ASC";
     $result = $db->db_query($sql)
@@ -147,7 +147,7 @@ include ('configmenu.php');
 
     // Alle Menu-Eintraege durchgehen
     while( $row = $db->db_fetch_array($result)) {
-      // Ist sitten für diesen Menu-Eintrag erlaubt?
+      // Ist sitten fÃ¼r diesen Menu-Eintrag erlaubt?
       $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
                                    ($row['sittertyp'] == 0 ) ||
                        ($user_adminsitten == SITTEN_ONLY_LOGINS &&
@@ -181,7 +181,7 @@ include ('configmenu.php');
                echo "      <a href=\"";
               // Es handelt sich hier um einen "internen" Link.
               if($row['extlink'] == "n") {
-			  echo "index.php?sid=" . $sid . "&amp;action=". $row['action'] . "\">" . $title . "</a>";
+			  echo "index.php?sid=" . $sid . "&action=". $row['action'] . "\">" . $title . "</a>";
 			}else{
 			// Linkziel und Titel ausgeben
 			echo $row['action'] . "\" target=_new>" . $title . "</a>";
@@ -196,20 +196,20 @@ include ('configmenu.php');
 }
   echo "    <div id=\"dropmenu" . $miscmenu .  "\" class=\"dropmenudiv\" style=\"width:150px; text-align:left;\">\n
       <a href=\"index.php?sid=$sid\"><img src=\"bilder/icon_mini_home.gif\" width=\"12\" height=\"13\" alt=\"Startseite\" border=\"0\" align=\"absmiddle\"> Startseite</a>
-      <a href=\"index.php?action=profile&amp;sid=$sid\"><img src=\"bilder/icon_mini_profile.gif\" width=\"12\" height=\"13\" alt=\"profil\" border=\"0\" align=\"absmiddle\"> profil</a>
+      <a href=\"index.php?action=profile&sid=$sid\"><img src=\"bilder/icon_mini_profile.gif\" width=\"12\" height=\"13\" alt=\"profil\" border=\"0\" align=\"absmiddle\"> profil</a>
       ";
       if ( $user_status == "admin" )  {      ?>
-        <a href="index.php?action=admin&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="absmiddle"> <font color="#e50f9f">admin</font></a></strong>
+        <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="absmiddle"> <font color="#e50f9f">admin</font></a></strong>
       <?php  } ?>
-      <a href="index.php?action=help&amp;topic=<?=$action;?>&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" border="0" align="absmiddle"><font color="#e50f9f"> hilfe</font></a>
-      <a href="index.php?action=memberlogout2&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" border="0" align="absmiddle"> logout</a>
+      <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" border="0" align="absmiddle"><font color="#e50f9f"> hilfe</font></a>
+      <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" border="0" align="absmiddle"> logout</a>
     </div>
   <!-- main menu ende -->
   <script type="text/javascript"> cssdropdown.startchrome("chromemenu") </script>
 <!-- <?$config_menue?> //-->
 <!-- menu Ende -->
 <table width="100%" align="left" style="position:relative; top:25px;"><tr><td><small><strong>Online:</strong> <?php echo ($counter_guest+$counter_member) . " (" . $online_member . ")";?></small></td></tr></table>
-<br /><br />
+<br><br>
 
 <!-- hauptfenster Start -->
           <table width="95%" border="0" cellspacing="0" cellpadding="0">

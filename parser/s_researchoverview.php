@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspÃ¼nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafÃ¼r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 if (basename($_SERVER['PHP_SELF']) != "index.php")
@@ -63,7 +63,7 @@ function parse_researchoverview($lines) {
     // Forschung "Raumfahrt", diese darf dann nicht eingefuegt werden.
 		if( strpos( $scan, "Raumfahrt") !== FALSE ) {
 			if( empty( $raumfahrtTitle )) {
-				$raumfahrtTitle = $scan;
+				$raumfahrtTitle = htmlspecialchars($scan, ENT_QUOTES, 'UTF-8');
 			} else {
 				insert_research_for_user(trim($scan), $selectedusername);
 			}

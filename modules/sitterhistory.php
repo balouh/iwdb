@@ -23,17 +23,12 @@
 /*                                                                           */
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
-/*
-// $Id
-*/
 
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	echo "Hacking attempt...!!"; 
-	exit; 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
+	exit("Hacking attempt...!!");
 }
-
 if (!defined('IRA'))
-	die('Hacking attempt...');
+	exit('Hacking attempt...');
 	
 if ( $user_adminsitten == SITTEN_DISABLED )
 	die('Hacking attempt...');
@@ -49,15 +44,15 @@ doc_title("Sitterhistorie von " . $selecteduser);
 echo "<br>\n";
 
 start_form("sitterhistory");
-echo "<input type=\"hidden\" name=\"selecteduser\" value=\"" . $selecteduser . "\">\n";
-echo "maximal: <input type=\"text\" name=\"limit\" value=\"" . $limit . "\" style=\"width: 50;\">\n"; 
-echo "<input type=\"submit\" value=\"anzeigen\" name=\"B1\" class=\"submit\">\n";
+echo "<input type='hidden' name='selecteduser' value='" . $selecteduser . "'>\n";
+echo "maximal: <input type='text' name='limit' value='" . $limit . "' style='width: 50;'>\n";
+echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>Was andere bei <?=$selecteduser;?> gemacht haben</b>
+   <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
   </td>
  </tr>
  <tr>
@@ -85,17 +80,17 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['fromuser']) .
-	     "&amp;sid=" . $sid . "\">" . $row['fromuser'] . "</a>";
+  echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
+	     "&sid=" . $sid . "\">" . $row['fromuser'] . "</a>";
 else 
   echo $row['fromuser'];
 ?>
   </td>
   <td class="windowbg1">
-   <?=strftime($config_sitter_timeformat, $row['date']);?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?=$row['action'];?>
+   <?php echo $row['action'];?>
   </td>
  </tr>
 <?php
@@ -107,7 +102,7 @@ else
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>Was <?=$selecteduser;?> bei anderen gemacht hat</b>
+   <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
   </td>
  </tr>
  <tr>
@@ -133,17 +128,17 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['sitterlogin']) . 
-	     "&amp;sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
+  echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
+	     "&sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
 else 
   echo $row['sitterlogin'];
 ?>
   </td>
   <td class="windowbg1">
-   <?=strftime($config_sitter_timeformat, $row['date']);?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?=$row['action'];?>
+   <?php echo $row['action'];?>
   </td>
  </tr>
 <?php

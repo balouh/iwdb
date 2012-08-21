@@ -23,26 +23,30 @@
 /*                                                                           */
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
-/*
-// $Id
-*/
+
+if (!defined('IRA')) {
+    exit('Hacking attempt...');
+}
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
+    exit("Hacking attempt...!!");
+}
+
+if  ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_LOGINS ) )
+    die('Hacking attempt...');
 
 function NumToStaatsform($num) {
-	if ($num == 1) return 'Diktator';
-	if ($num == 2) return 'Monarch';
-	if ($num == 3) return 'Demokrat';
-	if ($num == 4) return 'Kommunist';
+	if ($num == 1) {
+        return 'Diktator';
+    } elseif ($num == 2) {
+        return 'Monarch';
+    } elseif ($num == 3) {
+        return 'Demokrat';
+    } elseif ($num == 4) {
+        return 'Kommunist';
+    } else {
+        return 'Barbar';
+    }
 }
-
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	echo "Hacking attempt...!!"; 
-	exit; 
-}
-if  ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_LOGINS ) )
-		die('Hacking attempt...');
-	
-if (!defined('IRA'))
-	die('Hacking attempt...');
 
 $newlog = getVar('newlog');
 
@@ -94,11 +98,11 @@ if ( ! empty($newlog) )
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterlogins&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterlogins&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
  <tr>
   <td class="titlebg" colspan="2" align="center">
-   <b>Sitteraktivitaet</b>
+   <b>Sitteraktivität</b>
   </td>
  </tr>
  <tr>
@@ -125,10 +129,10 @@ if ( ! empty($newlog) )
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
  <tr>
   <td class="titlebg" style="width:25%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:15%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivitaet</b> <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivität</b> <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:30%;">
    <b>Sitterlogin</b>
@@ -137,7 +141,7 @@ if ( ! empty($newlog) )
    <b>Besonderheiten</b>
   </td>
   <td class="titlebg" style="width:30%;">
-   <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>letzter Login</b> <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>letzter Login</b> <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
  </tr>
 <?php
@@ -150,8 +154,7 @@ $ordered = getVar('ordered');
 $ordered = ( empty($ordered) ) ? SORT_DESC: ( ( $ordered == "desc" ) ? SORT_DESC: SORT_ASC);
 
 $sql = "SELECT sitterlogin, sitterpwd, sitten, sitterpunkte, peitschen, staatsform, ikea, sittercomment, iwsa FROM " . $db_tb_user;
-if (!$user_fremdesitten)
-{
+if (!$user_fremdesitten) {
 	$sql .= " WHERE allianz='" . $user_allianz . "' ";
 }
 $sql .= " ORDER BY sitterlogin ASC";
@@ -216,22 +219,22 @@ foreach ($users_sitterlogin as $key => $data)
 	else $count++;
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>" valign="top">
+  <td class="windowbg<?php echo $num;?>" valign="top">
 <?php
-	if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . "\">" . $data . "</a>";
+	if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "\">" . $data . "</a>";
 	else echo $data;
 	if ( ! empty ($users_sittercomment[$key]) ) echo "<br><font size=\"1\"><i>[" . $users_sittercomment[$key] . "]</i></font>";
 ?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
-   <?=( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
-   <?=$users_sitterpunkte_anz[$key];?>
+  <td class="windowbg<?php echo $num;?>" valign="top">
+   <?php echo ( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
+   <?php echo $users_sitterpunkte_anz[$key];?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
+  <td class="windowbg<?php echo $num;?>" valign="top">
 <?php
 	if ( ! empty($users_logged_in[$key]) ) 
 	  echo "<b><font color='#ff0000'>" . $users_logged_in[$key] . " ist eingeloggt </font></b>".
-		     "<br/><a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . 
+		     "<br/><a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid .
 				 "\" target=\"_blank\" onclick=\"return confirmlink(this, " .
 				 "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'".
 				 ")\">[trotzdem einloggen]</a>" . 
@@ -243,15 +246,15 @@ foreach ($users_sitterlogin as $key => $data)
 				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
 				 "</td>";
 	elseif ( ( ($user_status == "admin") OR ($user_status == "SV") ) && ( empty($users_sitten[$key]) ) ) 
-	  echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) . 
-		     "&amp;sid=" . $sid . "\" target=\"_blank\" onclick=\"return confirmlink(this, ".
+	  echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
+		     "&sid=" . $sid . "\" target=\"_blank\" onclick=\"return confirmlink(this, ".
 				 "'Dieser User hat das Sitten deaktiviert. Trotzdem einloggen?'".
 				 ")\">[sitten deaktiviert - einloggen]</a> " . 
-				 "<a href=\"index.php?action=sitterauftrag&amp;sitterid=" . 
-				 urlencode($data) . "&amp;sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
+				 "<a href=\"index.php?action=sitterauftrag&sitterid=" .
+				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
 				 "alt=\"Sitterauftrag erstellen\" title=\"Sitterauftrag erstellen\"></a>" . 
-				 " <a href=\"index.php?action=sitterhistory&amp;selecteduser=" . 
-				 urlencode($data) . "&amp;sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
+				 " <a href=\"index.php?action=sitterhistory&selecteduser=" .
+				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
 				 "alt=\"Sitterhistorie anschauen\" title=\"Sitterhistorie anschauen\"></a>" . 
          "<td class='windowbg".$num."' valign='top'>".
 				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").
@@ -261,13 +264,13 @@ foreach ($users_sitterlogin as $key => $data)
 				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
 				 "</td>";
 	else 
-	  echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) . 
-		     "&amp;sid=" . $sid . "\" target=\"_blank\">[jetzt einloggen]</a>&nbsp;" .
-	       "<a href=\"index.php?action=sitterauftrag&amp;sitterid=" . urlencode($data) . 
-				 "&amp;sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
+	  echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
+		     "&sid=" . $sid . "\" target=\"_blank\">[jetzt einloggen]</a>&nbsp;" .
+	       "<a href=\"index.php?action=sitterauftrag&sitterid=" . urlencode($data) .
+				 "&sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
 				 "alt=\"Sitterauftrag erstellen\" title=\"Sitterauftrag erstellen\"></a>" .
-				 " <a href=\"index.php?action=sitterhistory&amp;selecteduser=" . 
-				 urlencode($data) . "&amp;sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
+				 " <a href=\"index.php?action=sitterhistory&selecteduser=" .
+				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
 				 "alt=\"Sitterhistorie anschauen\" title=\"Sitterhistorie anschauen\"></a>" . 
 				 "<td class='windowbg".$num."' valign='top'>".
 				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").
@@ -279,8 +282,8 @@ foreach ($users_sitterlogin as $key => $data)
 ?>
 
   </td>
-  <td class="windowbg<?=$num;?>" valign="top" style="white-space:nowrap;">
-   <?=( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
+  <td class="windowbg<?php echo $num;?>" valign="top" style="white-space:nowrap;">
+   <?php echo ( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
   </td>
  </tr>
 <?php

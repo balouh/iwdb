@@ -57,12 +57,12 @@ $modulname  = "m_kbparser";
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "KbParser";
+$modultitle = "KBParser";
 
 //****************************************************************************
 //
 // -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausfuehren darf. Moegliche Werte:
+//    ausführen darf. Moegliche Werte:
 //    - "jeder"      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -70,11 +70,9 @@ $modulstatus = "jeder";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
-$moduldesc = 
-  "Zeigt das Forum in einem Frame an".
-	"und hat sonst keine Funktion";
+$moduldesc = "Ausgabe der Kampfberichte im BBCode";
 
 //****************************************************************************
 //
@@ -82,9 +80,10 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-/*	global $db, $db_prefix, $db_tb_iwdbtabellen;
+/*
+    global $db, $db_prefix, $db_tb_iwdbtabellen;
 
-  $sqlscript = array(
+    $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "forum
     (
 		);",
@@ -92,14 +91,16 @@ function workInstallDatabase() {
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`kbparsertable`)" .
     " VALUES('kbparser')"
   );
+
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
-*/}
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
+}
 
 //****************************************************************************
 //
@@ -113,8 +114,8 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
 	  //
@@ -139,7 +140,8 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-/*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+/*
+  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
 
   $sqlscript = array(
     "DROP TABLE " . $db_tb_neuername . ";",
@@ -152,8 +154,9 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
-*/}
+  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+*/
+}
 
 //****************************************************************************
 //
@@ -196,7 +199,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 <html>
 
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="author" content="Johannes">
 
 	<title>KB-Parser</title>

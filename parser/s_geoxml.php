@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens daf?r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -95,10 +95,6 @@ function parse_geoxml($scanlines) {
 			$scan_data['ksmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->kosten;
 			$scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer;
 			foreach ($xml->plani_data->besonderheiten->besonderheit as $besonderheit) {
-				if (isset($scan_data['besonderheiten']))
-					$scan_data['besonderheiten'] .= ", " . str_replace( "√º", "¸", (string)$besonderheit->name);
-				else
-					$scan_data['besonderheiten'] = str_replace( "√º", "¸", (string)$besonderheit->name);
 				if (stripos($besonderheit->name, "Nebel")) {
 					$nebula = (string)$besonderheit->name;
 				}
@@ -108,7 +104,7 @@ function parse_geoxml($scanlines) {
 			switch ( updateplanet() ) {
     				case 0: echo "<div class='system_error'>Der Scan ist nicht komplett!</div>"; break;
     				case 1: echo "<div class='system_notification'>Planet " . $scan_data['coords'] . " aktualisiert.</div>"; break;
-    				case 2: echo "<div class='system_notification'>Neuen Planeten " . $scan_data['coords'] . " hinzugef&uuml;gt.</div>"; break;
+    				case 2: echo "<div class='system_notification'>Neuen Planeten " . $scan_data['coords'] . " hinzugef√ºgt.</div>"; break;
     				case 3: echo "<div class='system_notification'>Neuer Planet " . $scan_data['coords'] . " . Planetendaten aktualisiert.</div>"; break;
 		    }
 			if (isset($nebula)) {

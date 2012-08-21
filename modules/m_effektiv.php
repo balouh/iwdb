@@ -26,43 +26,43 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f¸r die Iw DB: Icewars geoscan and sitter database                        */
+/* f√ºr die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr¸nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der urspr√ºnglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf¸r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens daf√ºr eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ¸ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul √ºber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f¸r die Benennung der zugehˆrigen 
+// -> Name des Moduls, ist notwendig f√ºr die Benennung der zugeh√∂rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f¸r 
-//    eine Installation ¸ber das Men¸
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f√ºr
+//    eine Installation √ºber das Men√º
 //
 $modulname  = "m_effektiv";
 
 //****************************************************************************
 //
-// -> Men¸titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Men√ºtitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Effektivit&auml;tsmodul";
+$modultitle = "Effektivit√§tsmodul";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ¸ber die Navigation 
-//    ausf¸hren darf. Mˆgliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul √ºber die Navigation
+//    ausf√ºhren darf. M√∂gliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -73,7 +73,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Modul zum anzeigen der Schiffsklasseneffektivit&auml;ten, beruhend auf der Schiffklasseneffektivit&auml;t ingame";
+  "Modul zum anzeigen der Schiffsklasseneffektivit√§ten, beruhend auf der Schiffklasseneffektivit√§t ingame";
 
 //****************************************************************************
 //
@@ -81,7 +81,7 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -91,10 +91,10 @@ function workInstallDatabase() {
 // in the included file includes/menu_fn.php
 //
 function workInstallMenu() {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus, $_POST;
 		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], "Schiffklassen", $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], "Schiffklassen", $modulstatus, $actionparamters );
 
 }
 
@@ -114,19 +114,19 @@ function workInstallConfigString() {
 //
 function workUninstallDatabase() {
 
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef¸hrt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgef√ºhrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat¸rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" nat√ºrlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -141,7 +141,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgef¸hrt werden. 
+  // ausgef√ºhrt werden.
   return;
 }
 

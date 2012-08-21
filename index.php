@@ -1,7 +1,6 @@
 <?php
 /*****************************************************************************/
 /* index.php                                                                 */
-/* $Id $                                                                     */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -26,66 +25,43 @@
 /*****************************************************************************/
 error_reporting(E_ALL);
 
-$startzeit = explode(" ", microtime());
-$startzeit = $startzeit[0]+$startzeit[1];
-
 //ist noch eine install.php vorhanden?
 if (file_exists('install.php')) {
-    die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat diese aus dem Rootordner zu löschen!</div>');
+    die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat, diese aus dem Rootordner zu löschen!</div>');
 }
 
-// define's vor allen anderen Includes durchfuehren 
+date_default_timezone_set('Europe/Berlin');
+
+mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
+mb_http_output("UTF-8");
+mb_http_input("UTF-8");
+header('Content-Type: text/html; charset=UTF-8');
+
+// define's vor allen anderen Includes durchführen 
 define('DEBUG', TRUE);
 define('IRA', TRUE);
+define('APPLICATION_PATH', dirname(__FILE__));
 
-// Setzt diesen Wert auf TRUE, wenn ihr die SQL-Kommandos am unteren Ende 
-// ausgegeben haben wollt.
-define('SQLDEBUG', FALSE);
-
-// define('RESEARCH', FALSE);
-define('ALLYLINKS', TRUE);
 define('NEBULA', TRUE);
 define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
 define('SHOWWITHOUTSCAN', TRUE);
-define('SHOWSHIPCOUNT', TRUE);
-
-define('CONFIG_SERVER_URI', TRUE);
-
 define('GENERAL_ERROR', 'GENERAL_ERROR');
 
-// $REMOTE_ADDR kann je nach Server die IP des Servers enthalten, wenn ein
-// Skript mit "include" eingebunden wird. Je nachdem ist die Variable manchmal
-// auch garnicht gesetzt. Daher habe ich hier in der index.php die IP-Adresse des
-// Benutzers ausgelesen und in die Variable $REMOTE_IPADDR gepackt.
-// Sollte die IP nicht gesetzt oder leer sein, wird der localhost 127.0.0.1
-// als default-IP verwendet.  
-// -- Einfallslos
-if(isset($REMOTE_ADDR) && !empty($REMOTE_ADDR)) {
-  $REMOTE_IPADDR = $REMOTE_ADDR;
-} else {
-  $REMOTE_IPADDR = "127.0.0.1";
-}
-
+global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 include_once("config/configsql.php");
 include_once("includes/function.php");
 include_once("includes/db_mysql.php");
 
-// Verschiebung der Erzeugung der globalen DB-Verbindung, da diese jetzt auch
-// beim Laden der Konfiguration benoetigt wird. 
 $error = '';
 
 $db = new db();
 $link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
-	or error(GENERAL_ERROR, 
-           'Could not connect to database.', '', 
-           __FILE__, __LINE__);
+    or error(GENERAL_ERROR,
+    'Could not connect to database.', '',
+    __FILE__, __LINE__);
 
 include("config/config.php");
-
-//$sql = "SET charset latin1";
-//$result = $db->db_query($sql)
-//	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $action = getVar('action');
 if ( empty($action) )
@@ -101,7 +77,7 @@ global $sid;
  	$result_g = $db->db_query($sql)       
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       $row_g = $db->db_fetch_array($result_g);
-      if ($row_g['gesperrt'] == 1 ) die ('<div style="text-align:center;color:red">ihr Account ist gesperrt worden!</div>');
+      if ($row_g['gesperrt'] == 1 ) die ('<div style="text-align:center;color:red">Der Account ist gesperrt worden!</div>');
 
 if (isset($user_status)) {
 
@@ -192,31 +168,28 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 	exit;
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<title><?= $config_allytitle ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<?php
-if(defined('CONFIG_SERVER_URI') && CONFIG_SERVER_URI === TRUE ) {
-  $SERVERURI = "index.php?action=" . $action . "&amp;sid=" . $sid;
-} else {
-  $SERVERURI = getServerVar('REQUEST_URI', "index.php?action=".$action."&amp;sid=".$sid);
-}
-if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) )
-  if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) )
-    echo "<meta http-equiv=\"refresh\" content=\"" . $config_refresh_timeout . "; URL=" . $SERVERURI . "\">";
-  else
-    echo "<div class='system_error'>Wenn ich sag: \"Du darfst nicht sitten\",<b>DARFST DU NICHT SITTEN !!!</b></div>";
-?>
-<link href="style.css" rel="stylesheet" type="text/css">
-<script language="javascript" type="text/javascript">
-function confirmlink(link, text)
-{
-    var is_confirmed = confirm(text);
-    return is_confirmed;
-}
-</script>
+    <meta charset="utf-8">
+    <title><?php echo $config_allytitle ?></title>
+
+    <?php
+    $SERVERURI = "index.php?action=" . $action . "&sid=" . $sid;
+
+    if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) ) {
+        if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) ) {
+            echo "<meta http-equiv='refresh' content='" . $config_refresh_timeout . "; URL=" . $SERVERURI . "'>";
+        }
+    }
+    ?>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+    function confirmlink(link, text)
+    {
+        return is_confirmed = confirm(text);
+    }
+    </script>
 </head>
 <?php	if (!getVar("nobody")) { ?>
 <body class="body">
@@ -225,10 +198,10 @@ function confirmlink(link, text)
 <div align="center">
   <table class="seite">
     <tr>
-      <td align="center" valign="top" class="background">
+      <td style="text-align: center; vertical-align:top;" class="background">
         <p>
 <?php
-//hier hin vershcoben da der IE iwe imemr sonst mist baut ^^
+//hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
 include ('includes/sitterfadein.php');
 ?>
 </p>
@@ -236,12 +209,12 @@ include ('includes/sitterfadein.php');
           <tr> 
 			
 			
-			<td class="titlebg" style="background-color: #000000" align="center">
+			<td class="titlebg" style="background-color: #000000; text-align: center;">
 <?php
 if (isset($config_banner))
 {
 ?>
-            	<img src="<?= $config_banner ?>" width="<?= $config_banner_width ?>">
+            	<img src="<?php echo $config_banner; ?>" width="<?php echo $config_banner_width; ?>">
 <?php
 }
 ?>
@@ -253,7 +226,7 @@ if (isset($config_banner))
 if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 {
    if(getVar("action") == "profile") {
-     // Menue-Aenderung voraus?
+     // Menue-Änderung voraus?
      $newmenustyle = getVar("menu_default");
      if((!empty($newmenustyle)) && ($newmenustyle != $user_menu_default)) {
        $user_menu_default = $newmenustyle;
@@ -276,13 +249,13 @@ else
 ?>
           <table width="95%" border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <td class="windowbg1" style="padding-left: 0px;" align="center">
+              <td class="windowbg1" style="padding-left: 0; text-align: center;">
 <?php 
 }
 
 if ( ( $user_password == "a338268847bac752d23c30b410570c2c" ) || 
      ( $user_password == "2f5a63d542da883a490dd61ef46fe2a9" ) ) 
-  echo "<br><div class='system_notification'><b>*moep* Achtung! &Auml;ndere bitte dein Passwort im Profil. Danke.</b></div><br><br>";
+  echo "<br><div class='system_notification'><b>*moep* Achtung! Ändere bitte dein Passwort im Profil. Danke.</b></div><br><br>";
   
 if ( ( empty($user_sitterpwd) ) && ( $user_sitten == "1" ) ) 
   echo "<br><div class='system_notification'><b>*moep* Achtung! Du hast zwar anderen das Sitten erlaubt, aber kein Sitterpasswort eingetragen.</b></div><br><br>";
@@ -290,7 +263,7 @@ if ( ( empty($user_sitterpwd) ) && ( $user_sitten == "1" ) )
 if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 {
   # check action string for valid chars         
-  if (! ereg('^[a-zA-Z0-9_-]*$', $action)) {
+  if (! preg_match('/^[a-zA-Z0-9_-]*$/', $action)) {
     error(GENERAL_ERROR, 'Malformed action string (' . $action . ') .', '',
           __FILE__, __LINE__);
     exit(1);
@@ -343,11 +316,7 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-		$sql = "DELETE FROM " . $db_tb_bestellen . " WHERE user='" . $sitterlogin . "'";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-
+		
 		// remove alliance info on member	in the maps		
   	$sql = "UPDATE " . $db_tb_scans . " SET allianz='' WHERE user='" . $sitterlogin . "'";
 		$result = $db->db_query($sql)
@@ -357,9 +326,9 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 ?>
 
 <br><br>
-<div class='doc_title'>Account l&ouml;schen</div>
+<div class='doc_title'>Account löschen</div>
 <br>
-<div class='system_notification'>Account '<?=$sitterlogin;?>' gel&ouml;scht!</div>
+<div class='system_notification'>Account '<?php echo $sitterlogin;?>' gelöscht!</div>
 <?php
 	}
 }
@@ -375,7 +344,7 @@ elseif ( ( $user_id <> "guest" ) && ( $user_rules != "1" ) )
   </td>
  </tr>
 </table><br><br>
-<form method="POST" action="index.php?sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?sid=<?php echo $sid;?>" enctype="multipart/form-data">
 Regeln akzeptieren? <input type="checkbox" name="rules" value="1"> <input type="submit" value="speichern" name="B1" class="submit"></form>
 <?php
 }
@@ -384,9 +353,9 @@ else
 	if ( $action == 'password' ) include("modules/password.php");
 	else include("modules/login.php");
 }
-echo $error;
-?>
-<?php	if (!getVar("nobody")) { ?>
+    echo $error;
+
+	if (!getVar("nobody")) { ?>
 &nbsp;
                     </td>
                   </tr>
@@ -394,25 +363,11 @@ echo $error;
               </td>
             </tr>
           </table>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
+          <br>
       </td>
     </tr>
   </table>
 </div>
-<?php
-  $endzeit=explode(" ", microtime());
-  $endzeit=$endzeit[0]+$endzeit[1];
-  echo "<div class='doc_small_centered'>";
-	echo " Diese Seite wurde in " . round($endzeit - $startzeit,6) . " Sekunden geladen";
-	if($db->query_count > 0)
-	  echo " und es wurden daf&uuml;r " . $db->query_count  . " Datenbankabfragen ben&ouml;tigt";
-	echo ".</div>";
-	
-	if(defined('SQLDEBUG') && SQLDEBUG === TRUE) {
-	  echo $db->db_queries;
-	} 
-?>
 </body>
 </html>
 <?php	} ?>

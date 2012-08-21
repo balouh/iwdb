@@ -32,12 +32,12 @@ if (!defined('IRA'))
 <table border="0" cellpadding="8" cellspacing="1" class="bordercolor" style="width: 70%;">
  <tr>
   <td class="help">
-<p align="right"><a href="index.php?action=help&amp;topic=index&amp;sid=<?=$sid;?>">Index</a></p><hr><br>
+<p align="right"><a href="index.php?action=help&topic=index&sid=<?php echo $sid;?>">Index</a></p><hr><br>
 <?php
 $topic = getVar('topic');
 $topic = ( empty($topic) ) ? "index" : $topic;
 
-if (! ereg('^[a-zA-Z0-9_-]*$', $topic)) {
+if (! preg_match('/^[a-zA-Z0-9_-]*$/', $topic)) {
   error(GENERAL_ERROR, 'Malformed help topic string (' . $topic . ') .', '',
         __FILE__, __LINE__);
   exit(1);
@@ -47,7 +47,7 @@ if ( file_exists("help/" . $topic . ".htm") === TRUE ) include("help/" . $topic 
 else include("help/default.htm");
 ?>
 <br><hr>
-<p align="right"><a href="javascript:history.back();">zurueck</a></p>
+<p align="right"><a href="javascript:history.back();">zurück</a></p>
   </td>
  </tr>
 </table>

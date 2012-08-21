@@ -1,4 +1,4 @@
-<?
+<?php
 /*****************************************************************************/
 /* configsql.php                                                             */
 /*****************************************************************************/
@@ -27,17 +27,19 @@
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
-// SQL type
-$db_type = "mysql";
 // SQL server
 $db_host = "localhost";
+
 // SQL username
-$db_user = "iwdb";
+$db_user = "patscwbm";
+
 // SQL password
-$db_pass = "iwdb";
+$db_pass = "handball";
+
 // SQL database name
-$db_name = "iwdb";
+$db_name = "usrdb_patscwbm_iwdb";
+
 // SQL database prefix
-//Normal _prefix es sei den sie ahben beim installeiren der SQL Datei ein anderes Prefix benutzt
+//Normal _prefix es sei den sie haben beim Installieren der SQL Datei ein anderes Prefix benutzt
 $db_prefix = "prefix_";
 ?>

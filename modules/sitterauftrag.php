@@ -27,20 +27,19 @@
 //Definition des Modulnamens
 $modulname  = "sitterauftrag";
 
-// -> Abfrage ob dieses Modul A1/4ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	echo "Hacking attempt...!!"; 
-	exit; 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
+	exit("Hacking attempt...!!");
 }
 
 if ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_NEWTASKS ) )
 	die('Hacking attempt...');
 
 if (@include("./config/m_research.cfg.php")) {
-  if(!defined('RESEARCH')) { 
-    define('RESEARCH', TRUE);
-  }
+    if(!defined('RESEARCH')) {
+        define('RESEARCH', TRUE);
+    }
 }
   
 //if(defined('RESEARCH') && (RESEARCH === TRUE))
@@ -77,7 +76,7 @@ while ($row = $db->db_fetch_array($result))
 	$planetsmod[$row['coords']] = $row['dgmod'];
 }
 
-// hole Auftragsdaten von Parent -> refid bei Einfuegen, Daten fuer "anhaengen"
+// hole Auftragsdaten von Parent -> refid bei Einfuegen, Daten fuer "anhängen"
 $parentid = getVar('parentid');
 $delid = getVar('delid');
 
@@ -89,7 +88,7 @@ if ( ! empty($parentid) )
 	$row_parent = $db->db_fetch_array($result_parent);
 
 	$refid = $row_parent['refid'];
-	// Daten fuer "anhaengen" //
+	// Daten fuer "anhängen" //
 	if ( ( empty($delid) ) && ( empty($editauftrag) ) )
 	{
 		$sql = "SELECT dauer FROM " . $db_tb_gebaeude . " WHERE id='" . $row_parent['bauid'] . "'";
@@ -198,7 +197,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	$bauid = ( $typ == "Schiffe" ) ? $schiff: ( ( $typ == "Gebaeude" ) ? $geb: "" );
 
 	if ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout )  || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) )
-		$alert = "<br><font color=\"#FF0000\"><b>Ung&uuml;ltiger Zeitpunkt.</b></font><br>";
+		$alert = "<div class='system_error'>Ungültiger Zeitpunkt!</div>";
 	else
 	{
 		if ( empty($auftragid) )
@@ -212,7 +211,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE) && !empty($resid)) {
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			$thisid = mysql_insert_id();
-			$alert = "<br><font color=\"#FF0000\"><b>Sitterauftrag erstellt.</b></font><br>";
+			$alert = "<div class='system_notification'>Sitterauftrag erstellt.</div>";
 			dates($thisid, $id);
 
 			// refid bei Parent aktualisieren //
@@ -224,24 +223,24 @@ if( defined('RESEARCH') && (RESEARCH === TRUE) && !empty($resid)) {
 			}
 
 			// falls Serie noch nicht zuende, Menu ausgeben //
-			if ( ! empty($serie) )
-			{
+			if ( ! empty($serie) ) {
 				$umenu = 1;
 			}
-		}
-		else
-		{
+		} else {
 			// Eintrag updaten //
-if( defined('RESEARCH') && (RESEARCH === TRUE) && !empty($resid)) {
-			$sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "', user = '" . $id . "', planet = '" . $planet . "', auftrag  = '" . $auftrag . "', bauid = '" . $bauid . "', bauschleife = '" . $bauschleife . "', schieben = '" . $schieben . "', schiffanz = '" . $schiffanz . "', resid='" . $resid . "' WHERE id = '" . $auftragid . "'";
-} else {
-			$sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "', user = '" . $id . "', planet = '" . $planet . "', auftrag  = '" . $auftrag . "', bauid = '" . $bauid . "', bauschleife = '" . $bauschleife . "', schieben = '" . $schieben . "', schiffanz = '" . $schiffanz . "' WHERE id = '" . $auftragid . "'";
-}
+            if( defined('RESEARCH') && (RESEARCH === TRUE) && !empty($resid)) {
+			    $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "', user = '" . $id . "', planet = '" . $planet . "', auftrag  = '" . $auftrag . "', bauid = '" . $bauid . "', bauschleife = '" . $bauschleife . "', schieben = '" . $schieben . "', schiffanz = '" . $schiffanz . "', resid='" . $resid . "' WHERE id = '" . $auftragid . "'";
+            } else {
+			    $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "', user = '" . $id . "', planet = '" . $planet . "', auftrag  = '" . $auftrag . "', bauid = '" . $bauid . "', bauschleife = '" . $bauschleife . "', schieben = '" . $schieben . "', schiffanz = '" . $schiffanz . "' WHERE id = '" . $auftragid . "'";
+            }
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-			$alert = "<br><font color=\"#FF0000\"><b>Sitterauftrag aktualisiert.</b></font><br>";
-			if ( empty($parentid) ) dates($auftragid, $id);
-			else dates($parentid, $id);
+			$alert = "<div class='system_notification'>Sitterauftrag aktualisiert.</div>";
+			if ( empty($parentid) ) {
+                dates($auftragid, $id);
+            } else {
+                dates($parentid, $id);
+            }
 		}
 	}
 }
@@ -254,7 +253,7 @@ if ( ! empty($delserie) )
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-	$alert = "<br><font color=\"#FF0000\"><b>Serienelement ausgegliedert.</b></font><br>";
+	$alert = "<div class='system_notification'>Serienelement ausgegliedert.</div>";
 }
 
 if ( ! empty($delid) )
@@ -270,17 +269,17 @@ if ( ! empty($delid) )
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-	// loeschen //
+	// löschen //
 	$sql = "DELETE FROM " . $db_tb_sitterauftrag . " WHERE user = '" . $id . "' AND id = '" . $delid . "'";
 	$result_del = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 	dates($row_bev['id'], $id);
 
-	$alert = "<br><font color=\"#FF0000\"><b>Sitterauftrag geloescht.</b></font><br>";
+	$alert = "<div class='system_notification'>Sitterauftrag gelöscht.</div>";
 }
 
-// Uebersicht ueber eigene Auftraege //
+// Übersicht über eigene Aufträge //
 if ( empty($umenu) )
 {
 ?>
@@ -288,16 +287,16 @@ if ( empty($umenu) )
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
  <tr> 
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Gebaeude&amp;umenu=1&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>">[Geb&auml;ude]</a>
+   <a href="index.php?action=sitterauftrag&typ=Gebaeude&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Gebäude]</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Schiffe&amp;umenu=1&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>">[Schiffe]</a>
+   <a href="index.php?action=sitterauftrag&typ=Schiffe&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Schiffe]</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Forschung&amp;umenu=1&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>">[Forschung]</a>
+   <a href="index.php?action=sitterauftrag&typ=Forschung&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Forschung]</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Sonstiges&amp;umenu=1&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>">[Sonstiges]</a>
+   <a href="index.php?action=sitterauftrag&typ=Sonstiges&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Sonstiges]</a>
   </td>
  </tr>
 </table>
@@ -306,43 +305,43 @@ if ( empty($umenu) )
 <?php
 if($id == $user_sitterlogin ) {
 ?>
-<font style="font-size: 22px; color: #004466">meine Sitterauftr&auml;ge</font><br>
+<font style="font-size: 22px; color: #004466">meine Sitteraufträge</font><br>
 <?php
 } else {
 ?>
-<font style="font-size: 22px; color: #004466">Sitterauftr&auml;ge von <?=$id;?></font><br>
+<font style="font-size: 22px; color: #004466">Sitteraufträge von <?php echo $id;?></font><br>
 <?php
 }
 	echo ( empty($alert) ) ? "": $alert;
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterauftrag&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>schnell hinzuf&uuml;gen</b>
+   <b>schnell hinzufügen</b>
   </td>
  </tr>
  <tr>
   <td class="windowbg1" style="width:15%;">
    Planet: 
-   <select name="planet" style="width: 200;">
+   <select name="planet" style="width: 200px;">
 <?php
   foreach ($planets as $key => $data)
-		echo " <option value=\"" . $key . "\">[" . $key . "] " . $data . "</option>\n";
+		echo " <option value='" . $key . "'>[" . $key . "] " . $data . "</option>\n";
 ?>
    </select>
   </td>
   <td class="windowbg1" style="width:15%;">
    Zeit:
-   <input type="text" name="date" value="" style="width: 200;">
+   <input type="text" name="date" value="" style="width: 200px;">
   </td>
   <td class="windowbg1" style="width:15%;">
    Bauschleife:
-   <input type="checkbox" name="bauschleife" value="1"<?=($user_peitschen) ? " checked": "";?>>
+   <input type="checkbox" name="bauschleife" value="1"<?php echo ($user_peitschen) ? " checked": "";?>>
   </td>
   <td class="windowbg1" style="width:15%;">
-   <textarea name="auftrag" rows="2" style="width: 200;">Auftrag</textarea>
+   <textarea name="auftrag" rows="2" cols="25" style="width: 200px;">Auftrag</textarea>
   </td>
  </tr>
  <tr>
@@ -365,7 +364,7 @@ if($id == $user_sitterlogin ) {
 			'order' => 'planet',
 			'orderd' => 'asc'
 		),
-		"<img src=\"./bilder/asc.gif\" border=\"0\">");
+		"<img src='./bilder/asc.gif' border='0' alt=''>");
 	?>
    <b>Planet</b>
    <?php
@@ -374,7 +373,8 @@ if($id == $user_sitterlogin ) {
 			'order' => 'planet',
 			'orderd' => 'desc'
 		),
-		"<img src=\"./bilder/desc.gif\" border=\"0\">");
+		"<img src='./bilder/desc.gif' border='0' alt=''>");
+
 	?>
   </td>
   <td class="titlebg" style="width:15%;">
@@ -384,7 +384,7 @@ if($id == $user_sitterlogin ) {
 			'order' => 'date',
 			'orderd' => 'asc'
 		),
-		"<img src=\"./bilder/asc.gif\" border=\"0\">");
+		"<img src='./bilder/asc.gif' border='0' alt=''>");
 	?>
    <b>Zeit</b>
    <?php
@@ -393,7 +393,7 @@ if($id == $user_sitterlogin ) {
 			'order' => 'date',
 			'orderd' => 'desc'
 		),
-		"<img src=\"./bilder/desc.gif\" border=\"0\">");
+		"<img src='./bilder/desc.gif' border='0' alt=''>");
 	?>
   </td>
   <td class="titlebg" style="width:10%;">
@@ -456,22 +456,22 @@ if($id == $user_sitterlogin ) {
 		$row['auftrag'] = auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $planetmod, $row['user'], $bauschleifenmod);
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>" align="center">
+  <td class="windowbg<?php echo $num;?>" align="center">
 <?php
     if( !$differentid  || ( ($user_status == "admin") OR ($user_status == "SV") ) || ($user_sitterlogin == $row['ByUser'])) {
-		  echo ( empty($row_bev['id']) ) ? 
-					 "<img src=\"bilder/point.gif\" border=\"0\">" : 
-					 "<a href=\"index.php?action=sitterauftrag&amp;delserie=" . $row['id'] . "&amp;sid=" . $sid. "\"><img src=\"bilder/plus.gif\" border=\"0\"></a>";
-		} else {
-			echo "<img src=\"bilder/point.gif\" border=\"0\">"; 
-		}		
+        echo ( empty($row_bev['id']) ) ?
+            "<img src='bilder/point.gif' border='0' alt=''>" :
+            "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "&sid=" . $sid. "'><img src='bilder/plus.gif' border='0'></a>";
+    } else {
+        echo "<img src='bilder/point.gif' border='0' alt=''>";
+	}
 ?>
   </td>
   <?php
   	if (!isset($row['planet_farbe'])) { $row['planet_farbe']="white"; }
   ?>
-  <td class="windowbg<?=$num;?>" style="background-color:<?=$row['planet_farbe']?>;">
-<? 
+  <td class="windowbg<?php echo $num;?>" style="background-color:<?php echo $row['planet_farbe']?>;">
+<?php 
 if(!empty($row['planet']) && isset($planets[$row['planet']]))
   echo $planets[$row['planet']] . " [" . $row['planet']. "]\n";
 else 
@@ -482,33 +482,33 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 }
 ?>
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?>
-   <?=( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?>
-   <?=strftime($config_sitter_timeformat, $row['date']);?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo ( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?>
+   <?php echo ( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=$row['typ'];?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo $row['typ'];?>
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=$row['auftrag'];?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo $row['auftrag'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="center">
+  <td class="windowbg<?php echo $num;?>" align="center">
 <?php
     if( !$differentid || ( ($user_status == "admin") OR ($user_status == "SV") ) || ($user_sitterlogin == $row['ByUser'])) {
 ?>
-   <a href="index.php?action=sitterauftrag&amp;typ=<?=$row['typ'];?>&amp;auftragid=<?=$row['id'];?>&amp;umenu=1&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>"><img src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
+   <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
 <?php
     }
 		if ( $row['typ'] == "Gebaeude" )
 		{
 ?>
-    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?=$row['id'];?>&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhaengen"></a>
+    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhängen"></a>
 <?php
 		}
     if( !$differentid || ( ($user_status == "admin") OR ($user_status == "SV") )  || ($user_sitterlogin == $row['ByUser'])) {
 ?>
-    <a href="index.php?action=sitterauftrag&amp;parentid=<?=$row['id'];?>&amp;delid=<?=$row['id'];?>&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich loeschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="loeschen"></a>
+    <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="löschen"></a>
 <?php
     }
 ?>
@@ -604,11 +604,11 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	echo ( empty($alert) ) ? "": $alert;
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterauftrag&amp;sitterid=<?=urlencode($id);?>&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
  <tr>
   <td class="windowbg2" style="width: 30%;">
-   Planet:<?=($typ == "Forschung") ? "<br><i>(optional)</i>": "";?>
+   Planet:<?php echo ($typ == "Forschung") ? "<br><i>(optional)</i>": "";?>
   </td>
   <td class="windowbg1" style="width: 70%;">
 <?php
@@ -619,7 +619,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	else
 	{
 ?>
-   <select name="planet" style="width: 200;">
+   <select name="planet" style="width: 200px;">
 <?php
 	  foreach ($planets as $key => $data)
 			echo ($planet == $key) ? " <option value=\"" . $key . "\" selected>[" . $key . "] " . $data . "</option>\n": " <option value=\"" . $key . "\">[" . $key . "] " . $data . "</option>\n";
@@ -638,7 +638,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Zeit fruehstens 2:<br>
+   Zeit frühstens 2:<br>
    <i>Nur bei Bauschleifennutzung relevant.</i>
   </td>
   <td class="windowbg1">
@@ -648,7 +648,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 			else
 			{
 ?>
-   <input type="text" name="date_b2" value="<?=(isset($date_b2) ? $date_b2 : "");?>" style="width: 200;">
+   <input type="text" name="date_b2" value="<?php echo (isset($date_b2) ? $date_b2 : "");?>" style="width: 200px;">
 <?php
 			}
 ?>  </td>
@@ -658,7 +658,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Zeit fruehstens 1:<br>
+   Zeit frühstens 1:<br>
    <i>Nur bei Bauschleifennutzung relevant.</i>
   </td>
   <td class="windowbg1">
@@ -668,7 +668,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 		else
 		{
 ?>
-   <input type="text" name="date_b1" value="<?=(isset($date_b1) ? $date_b1 : "");?>" style="width: 200;">
+   <input type="text" name="date_b1" value="<?php echo (isset($date_b1) ? $date_b1 : "");?>" style="width: 200px;">
 <?php
 		}
 ?>  </td>
@@ -683,7 +683,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
   <td class="windowbg2">
    Zeit:<br>
-   <i>Zeit, zu der die aktuelle Forschung auslaeuft.</i>
+   <i>Zeit, zu der die aktuelle Forschung ausläuft.</i>
   </td>
 <?php
 	}
@@ -691,8 +691,8 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 ?>
   <td class="windowbg2">
-   Zeit spaetestens:<br>
-   <i>Zeit, zu der alle Bauschleifenauftraege auslaufen.</i>
+   Zeit spätestens:<br>
+   <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
   </td>
 <?php
 	}
@@ -704,7 +704,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	else
 	{
 ?>
-   <input type="text" name="date" value="<?=(isset($date) ? $date : "");?>" style="width: 200;">
+   <input type="text" name="date" value="<?php echo (isset($date) ? $date : "");?>" style="width: 200px;">
 <?php
 	}
 ?>
@@ -720,7 +720,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    <i>Aktuelle Bauliste aus Icewars kopieren.</i>
   </td>
   <td class="windowbg1">
-   <textarea name="date_parse" rows="4" style="width: 200;"></textarea>
+   <textarea name="date_parse" rows="4" cols="25" style="width: 200px;"></textarea>
   </td>
  </tr>
 <?php
@@ -741,13 +741,13 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   </td>
   <td class="windowbg1">
 <?php if( defined('RESEARCH') && (RESEARCH === TRUE)) { ?>
-   <select name="researchid" style="width: 400;">
+   <select name="researchid" style="width: 400px;">
 <!--  	 <optgroup label="Unbekannt" title="Unbekannt"></optgroup> -->
-		 <?= fill_selection($resid); ?>
+		 <?php echo  fill_selection($resid); ?>
 	 </select>
-    Sollte eine Forschung noch nicht aufgef&uuml;hrt sein, bitte die Forschungsinfo einfach von ingame bei neuer Bericht einf&uuml;gen.
+    Sollte eine Forschung noch nicht aufgeführt sein, bitte die Forschungsinfo ingame in den Parser einfügen.
 <?php } else {?>
-   <input type="text" name="auftrag" value="<?=$auftrag;?>" style="width: 200;">
+   <input type="text" name="auftrag" value="<?php echo $auftrag;?>" style="width: 200px;">
 <?php } ?>
   </td>
 <?php
@@ -756,10 +756,10 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 ?>
   <td class="windowbg2">
-   Notizen:<?=($typ == "Sonstiges") ? "": "<br><i>(optional)</i>";?>
+   Notizen:<?php echo ($typ == "Sonstiges") ? "": "<br><i>(optional)</i>";?>
   </td>
   <td class="windowbg1">
-   <textarea name="auftrag" rows="4" style="width: 200;"><?=$auftrag;?></textarea>
+   <textarea name="auftrag" rows="4" cols="25" style="width: 200px;"><?php echo $auftrag;?></textarea>
   </td>
 <?php
 	}
@@ -774,7 +774,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    Schiffe:
   </td>
   <td class="windowbg1">
-   <select name="schiff" style="width: 200;">
+   <select name="schiff" style="width: 200px;">
    <option value="">---</option>
 <?php
 	$typprev = '';
@@ -792,7 +792,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	}
 ?>
    </select>
-   Anzahl: <input type="text" name="schiffanz" value="<?=(isset($schiffanz) ? $schiffanz : "");?>" style="width: 100;">
+   Anzahl: <input type="text" name="schiffanz" value="<?php echo (isset($schiffanz) ? $schiffanz : "");?>" style="width: 100px;">
   </td>
  </tr>
 <?php
@@ -805,7 +805,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    Bauschleife nutzen?:
   </td>
   <td class="windowbg1">
-   <input type="checkbox" name="bauschleife" value="1"<?=($bauschleife) ? " checked": "";?>>
+   <input type="checkbox" name="bauschleife" value="1"<?php echo ($bauschleife) ? " checked": "";?>>
   </td>
  </tr>
 
@@ -819,7 +819,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	   Schiebeauftrag?:
 	  </td>
 	  <td class="windowbg1">
-	   <input type="checkbox" name="schieben" value="1"<?=($schieben) ? " checked": "";?>>
+	   <input type="checkbox" name="schieben" value="1"<?php echo ($schieben) ? " checked": "";?>>
 	  </td>		
 	 </tr>
  	<?php
@@ -837,7 +837,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
  <tr>
   <td class="windowbg1" colspan="2">
    <table border="0" cellpadding="4" cellspacing="4" style="width: 100%;">
-    <tr><td colspan="2" class="windowbg2">Zeiten ohne Bauschleifenmodifikator (x <?=$bauschleifenmod;?>) und Planetenmodifikator.</td></tr>
+    <tr><td colspan="2" class="windowbg2">Zeiten ohne Bauschleifenmodifikator (x <?php echo $bauschleifenmod;?>) und Planetenmodifikator.</td></tr>
 <?php
 	$catprev = "";
 	$rownum = 0;
@@ -847,7 +847,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     
-  if(empty($user_genbebmod))
+  if(empty($user_gengebmod))
     $user_gengebmod = 1;
       
 	while($row = $db->db_fetch_array($result))
@@ -860,7 +860,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 			{
 				if ( ($rownum != 0) && ( $colnum == 2 ) ) echo "<td>&nbsp;</td>\n</tr>\n";
 		
-				echo "<tr><td colspan=\"2\" class=\"windowbg2\">" . $row['category'] . "</td></tr>\n";
+				echo "<tr><td colspan='2' class='windowbg2'>" . $row['category'] . "</td></tr>\n";
 				$catprev = $row['category'];
 				$colnum = 1;
 				$rownum++;
@@ -871,25 +871,32 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   			  $altname = "";
   			  $resRowName = $row['name'];
   			} else {
-  			  $altname = "Ben&ouml;tigte Forschung:" . find_research_name($resid);
-  				$resRowName = 
-  				    "<a href=\"index.php?action=m_research&amp;researchid=" . $resid . "&amp;sid=" . $sid . "\" title=\"" . $altname . "\">" . $row['name'] . 
-  				    "</a>";
+                $altname = "Benötigte Forschung:" . find_research_name($resid);
+                $resRowName = "<a href='index.php?action=m_research&researchid=" . $resid . "&sid=" . $sid . "' title='" . $altname . "'>" . $row['name'] . "</a>";
   			}
       } else {
         $resRowName = $row['name'];
         $altname    = "";
       }
 			if ( $colnum == 1 ) echo "<tr>\n";
-			echo "<td class=\"windowbg1\" valign=\"middle\">";
-			if ( $user_gebbilder == "1" ) echo "<table><tr><td>";
-			echo "<input type=\"radio\" name=\"geb\" value=\"" . $row['id'] . "\"" . (( $geb == $row['id'] ) ? " checked": "" ) . "> ";
-			$bild_url = ( empty($row['bild']) ) ? "bilder/gebs/blank.jpg": "bilder/gebs/" . $row['bild'] . ".jpg";
-			if ( $user_gebbilder == "1" ) echo "</td><td><img src=\"" . $bild_url . "\" title=\"" . $altname . "\" border=\"0\" width=\"50\" height=\"50\" style=\"vertical-align:middle;\"></td><td>";
+			echo "<td class='windowbg1' valign='middle'>";
+			if ( $user_gebbilder == "1" ) {
+                echo "<table><tr><td>";
+            }
+			echo "<input type='radio' name='geb' value='" . $row['id'] . "'" . (( $geb == $row['id'] ) ? " checked" : "" ) . "> ";
+
+			if ( $user_gebbilder == "1" ) {
+                $bild_url = ( empty($row['bild']) ) ? "bilder/gebs/blank.jpg" : "bilder/gebs/" . $row['bild'] . ".jpg";
+                echo "</td><td><img src='" . $bild_url . "' title='" . $altname . "' border='0' width='50' height='50' style='vertical-align:middle;'></td><td>";
+            }
 			echo $resRowName . " [" . dauer($row['dauer'] * $user_gengebmod * $modmaurer) . "]";
-			if ( $user_gebbilder == "1" ) echo "</td></tr></table>";
+			if ( $user_gebbilder == "1" ) {
+                echo "</td></tr></table>";
+            }
 			echo "</td>\n";
-			if ( $colnum == 2 ) echo "</tr>\n";
+			if ( $colnum == 2 ) {
+                echo "</tr>\n";
+            }
 		
 			$colnum = ( $colnum == 2 ) ? 1: 2;
 		}
@@ -906,7 +913,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Auftrag anhaengen?:
+   Auftrag anhängen?:
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="serie" value="1">
@@ -918,11 +925,11 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td colspan="2" class="titlebg" align="center">
-   <input type="hidden" name="parentid" value="<?=$thisid;?>"><input type="hidden" name="typ" value="<?=$typ;?>"><input type="hidden" name="auftragid" value="<?=$auftragid;?>"><input type="hidden" name="editauftrag" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+   <input type="hidden" name="parentid" value="<?php echo $thisid;?>"><input type="hidden" name="typ" value="<?php echo $typ;?>"><input type="hidden" name="auftragid" value="<?php echo $auftragid;?>"><input type="hidden" name="editauftrag" value="true"><input type="submit" value="speichern" name="B1" class="submit">
   </td>
  </tr>
-</form>
 </table>
+</form>
 <?php
 }
 
@@ -931,16 +938,16 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 function fill_selection($selected_id) {
   global $db, $db_tb_research, $db_tb_researchfield, $id, $db_tb_research2user;
 
-	$fields = array();
-  $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
-  $result = $db->db_query($sql)
-  	or error(GENERAL_ERROR,
+    $fields = array();
+    $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR,
              'Could not query config information.', '',
              __FILE__, __LINE__, $sql);
 
-  while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
-		$resid = $research_data['id'];
-	  $fields[$resid] = $research_data['name'];
+    while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
+        $resid = $research_data['id'];
+        $fields[$resid] = $research_data['name'];
 	}
 	$db->db_free_result($result);
 
@@ -948,14 +955,14 @@ function fill_selection($selected_id) {
 	$idlist = "";
 
 	if(!empty($id)) {
-	  // MySQL < Version 4.3 is incompatible with a subselect query. Statement was:
+        // MySQL < Version 4.3 is incompatible with a subselect query. Statement was:
 		// 
 		// $where = " WHERE NOT ID IN" .
 		//          " (SELECT rID FROM research2user where userid='" . $id ."')";		
 		
 		$sql = "SELECT rID FROM " . $db_tb_research2user . " where userid='" . $id ."'";
-    $result = $db->db_query($sql)
-    	or error(GENERAL_ERROR,
+        $result = $db->db_query($sql)
+    	    or error(GENERAL_ERROR,
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
 		while(($row = $db->db_fetch_array($result)) !== FALSE) {
@@ -964,34 +971,34 @@ function fill_selection($selected_id) {
 				
 			$idlist .= $row['rID'];
 		} 
-    $db->db_free_result($result);
+        $db->db_free_result($result);
 
-		if(!empty($idlist)) 
-  	  $where = " WHERE NOT ( ID IN (" . $idlist . ") )";
-  }
+		if(!empty($idlist)) {
+            $where = " WHERE NOT ( ID IN (" . $idlist . ") )";
+        }
+    }
 	
-  $sql = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where .
-         " ORDER BY gebiet ASC, name ASC";
-  $result = $db->db_query($sql)
-  	or error(GENERAL_ERROR,
+    $sql =  "SELECT ID, name, gebiet FROM " . $db_tb_research . $where .
+            " ORDER BY gebiet ASC, name ASC";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR,
              'Could not query config information.', '',
              __FILE__, __LINE__, $sql);
 
-	$count     = 0;
 	$gebietalt = 0;
 	$retVal    = "";
-  while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
-		$resid    = $research_data['ID'];
-	  $resname  = $research_data['name'];
+    while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
+        $resid    = $research_data['ID'];
+        $resname  = $research_data['name'];
 		$resfield = $research_data['gebiet'];
 
 		if($gebietalt != $resfield) {
-		  $retVal .= "<optgroup label=\"" . $fields[$resfield] . "\"" .
-                 " title=\"" . $fields[$resfield] . "\"></optgroup>\n";
+		  $retVal .= "<optgroup label='" . $fields[$resfield] . "'" .
+                 " title='" . $fields[$resfield] . "'></optgroup>\n";
 			$gebietalt = $resfield;
 		}
 
-		$retVal .= "<option value=\"" . $resid . "\"";
+		$retVal .= "<option value='" . $resid . "'";
 		if($resid == $selected_id) {
 		  $retVal .= " selected";
 		}
@@ -1006,7 +1013,7 @@ function fill_selection($selected_id) {
 // ****************************************************************************
 //
 //
-function find_research_id($researchname, $hidenew = TRUE) {
+function find_research_id($researchname) {
 	global $db, $db_tb_research;
 
 	// Find first research identifier 
@@ -1019,10 +1026,10 @@ function find_research_id($researchname, $hidenew = TRUE) {
 	
 	// Not found, return base 
 	if(empty($row)) {
-    return 1;
+        return 1;
 	}
 
-  return $row['ID'];
+    return $row['ID'];
 }
 
 // ****************************************************************************
@@ -1043,12 +1050,12 @@ function find_research_name($researchid) {
 	  return "";
 	}
 
-  return $row['name'];
+    return $row['name'];
 }
 
 /**
  * Find the researchId of the building with the given building identifier.
- * Return 0 if the building was not found (which usually happens for the
+ * return 0 if the building was not found (which usually happens for the
  * buildings at the start of the game).
  */
  
@@ -1056,7 +1063,7 @@ function find_research_name($researchid) {
 //
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content) {
-	return '<a href="' . makeurl($newparams) . '">' . $content . '</a>';
+    return '<a href="' . makeurl($newparams) . '">' . $content . '</a>';
 }
 // ****************************************************************************
 //
@@ -1065,22 +1072,22 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	if (is_array($newparams))	
 		$mergeparams = array_merge($params, $newparams);
 	else
 		$mergeparams = $params;
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 
 function find_research_for_building($bid, $level=0) {
-  global $db, $db_tb_research2building;
+    global $db, $db_tb_research2building;
 		
 	$sql = "SELECT rId FROM " . $db_tb_research2building . " WHERE lvl=" . $level . " AND bId=" . $bid;
-  $result = $db->db_query($sql)
-  	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 	$row = $db->db_fetch_array($result);
 	$db->db_free_result($result);

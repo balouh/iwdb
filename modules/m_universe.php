@@ -25,40 +25,40 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp¸nglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspr√ºnglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf¸r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens daf√ºr eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ¸ber die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+// -> Abfrage ob dieses Modul √ºber die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verindern.
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f¸r die Benennung der zugehˆrigen 
+// -> Name des Moduls, ist notwendig f√ºr die Benennung der zugeh√∂rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f¸r 
-//    eine Installation ¸ber das Men¸
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f√ºr
+//    eine Installation √ºber das Men√º
 //
 $modulname  = "m_universe";
 
 //****************************************************************************
 //
-// -> Men¸titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Men√ºtitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "zeige Universum";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ¸ber die Navigation 
-//    ausf¸hren darf. Mˆgliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul √ºber die Navigation
+//    ausf√ºhren darf. M√∂gliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -69,7 +69,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Dieses Modul f&uuml;gt eine &Uuml;bersicht f&uuml;r das bekannte Universum " .
+  "Dieses Modul f√ºgt eine √úbersicht f√ºr das bekannte Universum " .
 	"hinzu.";
 
 //****************************************************************************
@@ -78,7 +78,7 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -119,19 +119,19 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef¸hrt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgef√ºhrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat¸rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" nat√ºrlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -145,7 +145,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
     
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgef¸hrt werden. 
+  // ausgef√ºhrt werden.
   return;
 }
 
@@ -157,7 +157,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-echo "<div class='doc_title'>Universums&uuml;bersicht</doc>\n";
+echo "<div class='doc_title'>Universums√ºbersicht</doc>\n";
 echo "<br>\n";
 echo "<br>\n";
 
@@ -259,7 +259,7 @@ for( $i=0; $i<=$config_map_galaxy_count; $i++ ) {
   				 ($config_bordertop + 1 + (($i-1) * $config_lineheight)) . "," .
   				 ($config_borderleft + ($maxsys * $config_linewidth) ) . "," .
   				 ($config_bordertop - 1 + ($i * $config_lineheight)) . "\"". 
-  				 " href=\"index.php?action=karte&amp;galaxy=" . $i . "&amp;sid=" . $sid . "\">\n";
+  				 " href=\"index.php?action=karte&galaxy=" . $i . "&sid=" . $sid . "\">\n";
     }
 
     // Draw the horizontal line 
@@ -395,7 +395,7 @@ elseif (ImageTypes() & IMG_PNG) {
     echo "<img src=\"universe.png\" border=\"0\" alt=\"Das Hasiversum\" usemap=\"#universemap\">";
 }
 else {
-    echo "Keine Grafik-Unterst¸tzung vorhanden";
+    echo "Keine Grafik-Unterst√ºtzung vorhanden";
 }
 
 ImageDestroy($graph);
@@ -413,7 +413,7 @@ echo "  <td style=\"width: 100;\">neu</td>\n";
 echo "  <td style=\"width: 30; background-color: #FFFF00\"></td>\n";
 echo "  <td style=\"width: 100;\">" . round( $config_map_timeout / 24 / 60 / 60 / 2). " Tage alt</td>\n";
 echo "  <td style=\"width: 30; background-color: #FF0000\"></td>\n";
-echo "  <td style=\"width: 100;\">&auml;lter als " . round( $config_map_timeout / 24 / 60 / 60). " Tage</td>\n";
+echo "  <td style=\"width: 100;\">√§lter als " . round( $config_map_timeout / 24 / 60 / 60). " Tage</td>\n";
 echo "  <td style=\"width: 30; background-color: #4B4B00\"></td>\n";
 echo "  <td style=\"width: 100;\">ungescannt</td>\n";
 echo " </tr>\n";

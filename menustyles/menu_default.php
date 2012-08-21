@@ -26,11 +26,6 @@
 
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!";
-	exit;
-}
-
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
@@ -106,6 +101,18 @@ if($anzahl > 0) {
 } else
 	$anz_angriffe = "";
 
+
+$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Sondierung (Schiffe/Deff/Ress)' OR art='Sondierung (Gebäude/Ress)' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (time() - 5 * 60);
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+$anzahl = $row['anzahl'];
+$db->db_free_result($result);
+if($anzahl > 0) {
+	$anz_sondierungen = " (" . $anzahl . ")";
+} else
+	$anz_sondierungen = "";
+
 include ('configmenu.php');
 
 
@@ -114,14 +121,13 @@ $sql = "SELECT time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMI
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	$row = $db->db_fetch_array($result);
-
 if ($row['time']<(time()-24*60*60)) {
 	?>
-	<br>&nbsp;
+	<br>
 	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-	Die Ressourcenkolo&uuml;bersicht wurde seit 24h nicht mehr aktualisiert!
+	Die Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!
 	</td>
 	</tr>
 	</table>
@@ -135,11 +141,88 @@ $result = $db->db_query($sql)
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (time() - 24 * 60 * 60)) {
 	?>
-	<br>&nbsp;
+	<br>
 	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-	Die Highscore wurde seit <?= intval((time() - $row['time']) / (60*60)) ?>h nicht mehr aktualisiert!
+	Die Highscore wurde seit über 24h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+//Warnung für nicht eingelesene Schiffsübersicht seit 48 Stunden
+$sql = "SELECT lastshipscan FROM " . $db_tb_user . " WHERE id='" . $user_id . "' LIMIT 0,1";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$row = $db->db_fetch_array($result);
+if ($row['lastshipscan']<(time()-48*60*60)) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+//Warnung für nicht eingelesene Gebäudeübersicht seit 48 Stunden
+$sql = "SELECT time FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $user_id . "' LIMIT 0,1";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$row = $db->db_fetch_array($result);
+if ($row['time']<(time()-48*60*60)) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+// Warnung nicht eingelesene Allikasse seit 24 Stunden
+$sql = "SELECT MAX(time_of_insert) AS time FROM " . $db_tb_kasse_content . " LIMIT 0,1";
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+//echo $row['time'];
+$time1 = new DateTime($row['time']);
+$time1 = date_format($time1,'U');
+//echo $time1;
+$time2 = time();
+if (($time2-24*60*60)> $time1) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Allianzkasse wurde seit über 24h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+// Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
+$sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog . " LIMIT 0,1";
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+if ($row['time'] < (time() - 96 * 60 * 60)) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!
 	</td>
 	</tr>
 	</table>
@@ -149,23 +232,23 @@ if ($row['time'] < (time() - 24 * 60 * 60)) {
 ?>
           <table width="95%" border="0" cellspacing="0" cellpadding="1">
             <tr>
-              <td class="doc_greeting" width="20%">Hallo, <?=$user_id;?>.</td>
+              <td class="doc_greeting" width="20%">Hallo, <?php echo $user_id;?>.</td>
               <td class="doc_greeting" width="20%">Online: <?php echo ($counter_guest+$counter_member) . " (" . $online_member . ")";?></td>
               <td class="doc_mainmenu" width="60%">
 <?php
 if ( $user_id <> "guest" )
 {
 ?>
-              <a href="index.php?sid=<?=$sid;?>"><img
+              <a href="index.php?sid=<?php echo $sid;?>"><img
 							           src="bilder/icon_mini_home.gif" width="12" height="13"
 											   alt="Startseite" border="0" align="middle"> Startseite</a> |
-										  <a href="index.php?action=memberlogout2&amp;sid=<?=$sid;?>"><img
+										  <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_login.gif" width="12" height="13"
 												 alt="login" border="0" align="middle"> logout</a> |
-										  <a href="index.php?action=profile&amp;sid=<?=$sid;?>"><img
+										  <a href="index.php?action=profile&sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_profile.gif" width="12" height="13"
 												 alt="profil" border="0" align="middle"> profil</a> |
-											<a href="index.php?action=help&amp;topic=<?=$action;?>&amp;sid=<?=$sid;?>"><img
+											<a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_search.gif" width="12" height="13"
 												 alt="profile" border="0" align="middle"> hilfe</a>  	
 <?php
@@ -173,7 +256,7 @@ if ( $user_id <> "guest" )
 if ( $user_status == "admin" )
 {
 ?>
-               | <a href="index.php?action=admin&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="middle"> admin</a>
+               | <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="middle"> admin</a>
 <?php
 }
 ?>
@@ -219,7 +302,7 @@ while( $row = $db->db_fetch_array($result)) {
 			  if($insidetable != 0) {
 				  echo "  </td>\n";
 				}
-  		  echo " </tr>\n</table><br />\n";
+  		  echo " </tr>\n</table><br>\n";
   		}
 
 			// Neue Tabelle aufmachen.
@@ -234,6 +317,7 @@ while( $row = $db->db_fetch_array($result)) {
 	  $title = str_replace("#schiffe", $anzauftrag_schiffe, $title);
 	  $title = str_replace("#ress", $anzauftrag_ress, $title);
 	  $title = str_replace("#angriffe", $anz_angriffe, $title);
+	  $title = str_replace("#sondierungen", $anz_sondierungen, $title);
 //  	$title = str_replace("#", $anzauftrag, $title);
 
 		// Habe ich hier den neuen Hauptmenu-Titel?
@@ -252,7 +336,7 @@ while( $row = $db->db_fetch_array($result)) {
 			echo "<a href=\"";
 			// Es handelt sich hier um einen "internen" Link.
 			if($row['extlink'] == "n") {
-			  echo "index.php?sid=" . $sid . "&amp;action=". $row['action'] . "\">" . $title . "</a>";
+			  echo "index.php?sid=" . $sid . "&action=". $row['action'] . "\">" . $title . "</a>";
 			}else{
 			// Linkziel und Titel ausgeben
 			echo $row['action'] . "\" target=_new>" . $title . "</a>";
@@ -267,7 +351,7 @@ if($tableopen != 0) {
   if($insidetable != 0) {
     echo "  </td>\n";
   }
-  echo " </tr>\n</table><br />\n";
+  echo " </tr>\n</table><br>\n";
 }
 
 ?>

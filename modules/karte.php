@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ueber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (!defined('IRA'))
 die('Hacking attempt...');
@@ -40,6 +40,7 @@ or error(GENERAL_ERROR,
                  'Could not query config information.', '',
 __FILE__, __LINE__, $sqlALI);
 $i = 0;
+$arrrayofAlis = array();
 while( $rowALI = $db->db_fetch_array($resultALI)) {
 	$i++;
 	$arrrayofAlis[$i] = $rowALI['allianz'];
@@ -47,7 +48,7 @@ while( $rowALI = $db->db_fetch_array($resultALI)) {
 
 if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 	$showmembers = getVar('shownames');
-    // Member-Tooltip = TRUE als Default, solange nichts anderes uebermittelt wurde
+    // Member-Tooltip = TRUE als Default, solange nichts anderes übermittelt wurde
     if (isset($_POST) && empty($_POST)) {
         $showmembers = TRUE;
     } else {
@@ -101,17 +102,17 @@ echo "<div class='doc_title'>Karte</div>\n";
 echo "<br>\n";
 
 
-//Link zum Nebel eintragen. Nur fuer Admins! <-- edit: doof, daher auskommentiert!
+//Link zum Nebel eintragen. Nur für Admins! <-- edit: doof, daher auskommentiert!
 //if ( $user_status == "admin" ) {
     echo "<div class='system_notification'>
-        <b>&gt; <a href=\"index.php?action=nebel&amp;sid=" . $sid . "\" style='color:red'>
+        <b>&gt; <a href=\"index.php?action=nebel&sid=" . $sid . "\" style='color:red'>
             Nebel eintragen
         </a> &lt;</b>
     </div>\n";
 //}
 
 
-echo "<form method=\"POST\" action=\"index.php?action=karte&amp;sid=" . $sid .
+echo "<form method=\"POST\" action=\"index.php?action=karte&sid=" . $sid .
      "\" enctype=\"multipart/form-data\" name=\"form1\">\n";
 echo " <p align=\"center\">\n";
 
@@ -124,16 +125,16 @@ if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 
 if ($galaxy > 1 )
 {
-	echo "<a href=\"index.php?action=karte&amp;galaxy=" . ($galaxy - 1) .
-        "&amp;sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
+	echo "<a href=\"index.php?action=karte&galaxy=" . ($galaxy - 1) .
+        "&sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
 }
 echo "Galaxie: <input type=\"text\" name=\"galaxy\" value=\"" . $galaxy .
      "\" style=\"width: 30\">&nbsp;<input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\">\n";
 
 if ($galaxy < $config_map_galaxy_count )
 {
-	echo "<a href=\"index.php?action=karte&amp;galaxy=" . ($galaxy + 1) .
-       "&amp;sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
+	echo "<a href=\"index.php?action=karte&galaxy=" . ($galaxy + 1) .
+       "&sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
 }
 
 echo "</p></form>\n";
@@ -228,9 +229,9 @@ for ( $i = 1; $i <= $maxsys; $i++ ) {
 	if ( empty($sys[$i]) ) {
 		echo $i;
 	} else {
-		$showgalaxylink = "<a href=\"index.php?action=showgalaxy&amp;sys_end=" . $i .
-         "&amp;sys_start=" . $i . "&amp;gal_end=" . $galaxy .
-         "&amp;gal_start=" . $galaxy . "&amp;sid=" . $sid . "\" ";
+		$showgalaxylink = "<a href=\"index.php?action=showgalaxy&sys_end=" . $i .
+         "&sys_start=" . $i . "&gal_end=" . $galaxy .
+         "&gal_start=" . $galaxy . "&sid=" . $sid . "\" ";
 
 		if( ALLY_MEMBERS_ON_MAP === TRUE ) {
 			echo $formatStart;
@@ -266,13 +267,13 @@ echo "  <td style=\"width: 14%;\">Stargate</td>\n";
 echo "  <td style=\"width: 4%; background-color: " . $config_color['SchwarzesLoch'] ."\"></td>\n";
 echo "  <td style=\"width: 14%;\">Schwarzes Loch</td>\n";
 echo "  <td style=\"width: 4%; background-color: " . $config_color['last24'] ."\"></td>\n";
-echo "  <td style=\"width: 14%;\">j&uuml;nger 24 Stunden</td>\n";
+echo "  <td style=\"width: 14%;\">jünger 24 Stunden</td>\n";
 echo "  <td style=\"width: 4%; background-color: #00FF00\"></td>\n";
-echo "  <td style=\"width: 14%;\">&auml;lter 24 Stunden</td>\n";
+echo "  <td style=\"width: 14%;\">älter 24 Stunden</td>\n";
 echo "  <td style=\"width: 4%; background-color: #FFFF00\"></td>\n";
 echo "  <td style=\"width: 14%;\">" . (round( $config_map_timeout / $DAYS / 2)) . " Tage alt</td>\n";
 echo "  <td style=\"width: 4%; background-color: #FF0000\"></td>\n";
-echo "  <td style=\"width: 11%;\">&auml;lter als " . (round( $config_map_timeout / $DAYS)) . " Tage</td>\n";
+echo "  <td style=\"width: 11%;\">älter als " . (round( $config_map_timeout / $DAYS)) . " Tage</td>\n";
 echo " </tr>\n";
 
 if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {

@@ -37,9 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -73,7 +73,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Das Galastatistiken-modul berechnet eine Highscore für Kolonien, Plannipunkte und Kampfbasen für jede Galaxie und für die gesamte Sichtweite";
+  "Das Galastatistiken-Modul berechnet eine Highscore für Kolonien, Planipunkte und Kampfbasen für jede Galaxie und für die gesamte Sichtweite";
 
 //****************************************************************************
 //
@@ -82,7 +82,7 @@ $moduldesc =
 //
 function workInstallDatabase() {
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -97,8 +97,8 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
 	  //
@@ -122,7 +122,7 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
- echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+ echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -166,7 +166,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     global $config_map_galaxy_count;
 
     
-//settings ueberpruefen und entsprechend setzen
+//settings überprüfen und entsprechend setzen
 
     $galamin = getVar('galamin');
     $galamax = getVar('galamax');
@@ -176,15 +176,15 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     $showfrom = getVar('showfrom');
     $showto = getVar('showto');
 
-    $galamin = (is_numeric($galamin)) ? $galamin : 1;          //Start-Position der allys in der Gala, ab wann in den galalisten angezeigt werden.
-    $galamax = (is_numeric($galamax)) ? $galamax : 10;         //End-Position der allys in der Gala, die in den galalisten angezeigt werden.
-    $gesamtmin = (is_numeric($gesamtmin)) ? $gesamtmin : 1;    //Start-Position der allys im Hasiversum, ab wann in der gesamtliste angezeigt werden.
-    $gesamtmax = (is_numeric($gesamtmax)) ? $gesamtmax : 35;   //End-Position der allys im Hasiversum, die in der gesamtliste angezeigt werden.
-    $order = (is_numeric($order) && $order>=0 && $order<=6) ? $order : 0;   //Sortierung: 0 steinklumpen, 1 astro, 2 gasgiga, 3 eisi, 4 pkte, 5 pkte/planni, 6 kbs
-    $showfrom = (is_numeric($showfrom) && ($showfrom>=1) && ($showfrom<=$config_map_galaxy_count)) ? $showfrom : ($config_map_default_galaxy-2); //erste gala, die angezeigt wird
-    $showto = (is_numeric($showto) && ($showto>=1) && ($showto<=$config_map_galaxy_count)) ? $showto : ($config_map_default_galaxy+2);           //letzte gala, die angezeigt wird
+    $galamin = (is_numeric($galamin)) ? $galamin : 1;          //Start-Position der Allys in der Gala, ab wann in den Galalisten angezeigt werden.
+    $galamax = (is_numeric($galamax)) ? $galamax : 10;         //End-Position der Allys in der Gala, die in den Galalisten angezeigt werden.
+    $gesamtmin = (is_numeric($gesamtmin)) ? $gesamtmin : 1;    //Start-Position der Allys im Hasiversum, ab wann in der Gesamtliste angezeigt werden.
+    $gesamtmax = (is_numeric($gesamtmax)) ? $gesamtmax : 35;   //End-Position der allys im Hasiversum, die in der Gesamtliste angezeigt werden.
+    $order = (is_numeric($order) && $order>=0 && $order<=6) ? $order : 0;   //Sortierung: 0 Steinklumpen, 1 Astro, 2 Gasgiga, 3 Eisi, 4 Pkte, 5 Pkte/Planni, 6 Kbs
+    $showfrom = (is_numeric($showfrom) && ($showfrom>=1) && ($showfrom<=$config_map_galaxy_count)) ? $showfrom : ($config_map_default_galaxy-2); //erste Gala, die angezeigt wird
+    $showto = (is_numeric($showto) && ($showto>=1) && ($showto<=$config_map_galaxy_count)) ? $showto : ($config_map_default_galaxy+2);           //letzte Gala, die angezeigt wird
       
-    //erstmal alle besiedelten plannis aus der db holen:
+    //erstmal alle besiedelten Planis aus der DB holen:
     $sql = "SELECT coords_gal, coords_sys, coords_planet, allianz, punkte, user, typ, objekt FROM ".$db_tb_scans . " WHERE objekt not like '---'";
     $result = $db->db_query($sql)
              or error(GENERAL_ERROR,
@@ -270,7 +270,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
         }
      }
 
-     //nun mal gesamtplannizahlen zusammenrechnen und sortierarrays aufschreiben:
+     //nun mal gesamtplanizahlen zusammenrechnen und sortierarrays aufschreiben:
     
        foreach ($allylist as $ally => $stats) {
           foreach ($allys as $gala => $galaallys) {
@@ -299,7 +299,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      echo "<input type=\"hidden\" name=\"sid\" value=\"$sid\">\n";
      echo "<input type=\"hidden\" name=\"action\" value=\"$modulname\">\n";
      echo "<p>";
-     echo "Statistiken anzeigen f&uuml;r Gala <input type=\"text\" name=\"showfrom\" value=\"$showfrom\" size=\"4\">&nbsp;\n";
+     echo "Statistiken anzeigen für Gala <input type=\"text\" name=\"showfrom\" value=\"$showfrom\" size=\"4\">&nbsp;\n";
      echo "bis <input type=\"text\" name=\"showto\" value=\"$showto\" size=\"4\">&nbsp;\n";
      echo "</p>\n<p>";
      echo "Galaxieliste anzeigen von Ally <input type=\"text\" name=\"galamin\" value=\"$galamin\" size=\"4\">&nbsp;\n";
@@ -351,7 +351,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      echo "</form>";
      echo "</div>";
 
-     //sortieren der gesamtausgabe nach plannipunkten
+     //sortieren der gesamtausgabe nach planipunkten
      array_multisort($sortar, SORT_NUMERIC, SORT_DESC, $sortarpkt, SORT_NUMERIC, SORT_DESC, $allylist);
      
      start_table();
@@ -367,10 +367,6 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      echo "Kolonien auf Gasgiganten";
      next_cell("windowbg2", "style=\"width:12%\" align=\"center\"");
      echo "Kolonien auf Eisplaneten";
-#    next_cell("windowbg2", "style=\"width:12%\" align=\"center\"");
-#	 echo "Planetenpunkte";
-#	 next_cell("windowbg2", "style=\"width:12%\" align=\"center\"");
-#	 echo "Punkte pro Planet";
      next_cell("windowbg2", "style=\"width:12%\" align=\"center\"");
      echo "Kampfbasen";
 

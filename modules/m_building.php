@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_default.php                                                             */
+/* m_building.php                                                            */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -26,41 +26,41 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* fuer die Iw DB: Icewars geoscan and sitter database                       */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul &uuml;ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (!defined('IRA'))
 die('Hacking attempt...');
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f&uuml;r die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f&uuml;r
-//    eine Installation &uuml;ber das Men&uuml;
+// -> Das m_ als Beginn des Dateinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_building";
 
 //****************************************************************************
 //
-// -> Men&uuml;titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Geb&auml;udeanzeige";
+$modultitle = "Gebäudeanzeige";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul &uuml;ber die Navigation
-//    ausfuehren darf. Moegliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -68,18 +68,20 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
-  "Erm&ouml;glicht das Anzeigen der Geb&auml;ude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
+  "Ermöglicht das Anzeigen der Gebäude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
+/*
+    global $db, $db_prefix, $db_tb_iwdbtabellen;
 
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
@@ -100,12 +102,12 @@ function workInstallDatabase() {
 		"ADD `typ` VARCHAR( 5 ) NOT NULL ",
 		
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-    "('building', 'Geb&auml;udeinfo: ', 'Geb&auml;ude')"
+    "('building', 'Gebäudeinfo: ', 'Gebäude')"
 
 		/*"UPDATE `gebaeude` SET `name` = 'Kraftwerk (Solar) (orbital)' WHERE `id` =23 LIMIT 1 ",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('neuername')" */
+    " VALUES('neuername')" 
   );
     
     foreach($sqlscript as $sql) {
@@ -114,7 +116,8 @@ function workInstallDatabase() {
                'Could not query config information.', '',
   	  __FILE__, __LINE__, $sql);
     }
-    echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************
@@ -130,9 +133,9 @@ function workInstallMenu() {
 	$submenu = getVar('submenu');
 
 	$actionparamters = "";
-	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	//
-	// Weitere Wiederholungen f&uuml;r weitere Menue-Eintraege, z.B.
+	// Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	//
 	// 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	//
@@ -154,9 +157,10 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` " .
 		"CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
@@ -167,9 +171,9 @@ function workUninstallDatabase() {
 		$sqlscript = array(
 		"DROP TABLE " . $db_tb_neuername . ";",
 		"DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-		); */
+		); 
 		
-  );
+  );*/
     
   foreach($sqlscript as $sql) {
    	$result = $db->db_query($sql)
@@ -177,19 +181,19 @@ function workUninstallDatabase() {
              'Could not query config information.', '',
  	  __FILE__, __LINE__, $sql);
   }
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 		//****************************************************************************
 		//
 		// Installationsroutine
 		//
-		// Dieser Abschnitt wird nur ausgefuehrt wenn das Modul mit dem Parameter
+		// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 		// "install" aufgerufen wurde. Beispiel des Aufrufs:
 		//
 		//      http://Mein.server/iwdb/index.php?action=default&was=install
 		//
-		// Anstatt "Mein.Server" nat&uuml;rlich deinen Server angeben und default
+		// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 		// durch den Dateinamen des Moduls ersetzen.
 		//
 		if( !empty($_REQUEST['was'])) {
@@ -204,7 +208,7 @@ function workUninstallDatabase() {
 	  die( "Cannot load menu functions" );
 
 	  // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-	  // ausgefuehrt werden.
+	  // ausgeführt werden.
 	  return;
 		}
 
@@ -250,19 +254,19 @@ function workUninstallDatabase() {
 	
 	
 	<tr>
-		<td colspan="2"><?=$rowB['category'];?></td>
+		<td colspan="2"><?php echo $rowB['category'];?></td>
 	</tr>
 	<?php
 }
 ?>
 	<tr>
 		<td><?php if (!empty($rowB['bild'])) { ?> <a
-			href="index.php?action=m_building&show_building=<?=$rowB['id']?>&sid=<?=$sid;?>"><img
-			src="bilder/gebs/<?=$rowB['bild'];?>.jpg"></a> <?php } else { ?> <a
-			href="index.php?action=m_building&show_building=<?=$rowB['id']?>&sid=<?=$sid;?>"><img
+			href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
+			src="bilder/gebs/<?php echo $rowB['bild'];?>.jpg"></a> <?php } else { ?> <a
+			href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
 			src="bilder/gebs/blank.jpg"></a> <?php } ?></td>
 		<td><a
-			href="index.php?action=m_building&show_building=<?=$rowB['id']?>&sid=<?=$sid;?>"><?=$rowB['name'];?></a>
+			href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><?php echo $rowB['name'];?></a>
 		</td>
 	</tr>
 	<?php
@@ -332,9 +336,9 @@ function workUninstallDatabase() {
 		<tbody>
 			<tr>
 
-				<td class="windowbg2" valign="middle" align="center"><?=$img;?></td>
+				<td class="windowbg2" valign="middle" align="center"><?php echo $img;?></td>
 				<td class="windowbg2" valign="middle" align="center">
-				<div class="doc_title"><span class="bigtext"><?=$build['name'];?></span></div>
+				<div class="doc_title"><span class="bigtext"><?php echo $build['name'];?></span></div>
 				</td>
 				</td>
 			</tr>
@@ -343,7 +347,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Beschreibung:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$build['besch'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['besch'];?></td>
 			</tr>
 			<?php
 			if ($typ != 'pteur' AND $typ != 'gteur') {
@@ -352,7 +356,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Kosten:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$rowB['Kosten'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['Kosten'];?></td>
 				</td>
 			</tr>
 
@@ -360,7 +364,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Dauer:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$build['dauer'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['dauer'];?></td>
 				</td>
 			</tr>
 
@@ -368,15 +372,15 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">bringt:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$rowB['bringt'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['bringt'];?></td>
 				</td>
 			</tr>
 			<?php
 } else {
 	?>
 			<tr>
-				<td class="windowbg1" colspan="2" valign="top"><?=$teuer;?> in
-				Stufen teurer werdendes Geb&auml;ude.</td>
+				<td class="windowbg1" colspan="2" valign="top"><?php echo $teuer;?> in
+				Stufen teurer werdendes Gebäude.</td>
 			</tr>
 			<?php
 }
@@ -385,7 +389,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">kostet:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$rowB['kostet'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['kostet'];?></td>
 				</td>
 			</tr>
 
@@ -393,24 +397,24 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Highscorepunkte:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$rowB['Punkte'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['Punkte'];?></td>
 				</td>
 			</tr>
 			<?php if (!empty($build['kolotyp'])) { ?>
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">ben&ouml;tigter Kolotyp:</div>
+				<div class="doc_blue">benötigter Kolotyp:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$build['kolotyp'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['kolotyp'];?></td>
 				</td>
 			</tr>
 			<?php } ?>
 			<?php if (!empty($build['planityp'])) { ?>
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">ben&ouml;tigter Kolotyp:</div>
+				<div class="doc_blue">benötigter Kolotyp:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?=$build['planityp'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['planityp'];?></td>
 				</td>
 			</tr>
 			<?php } ?>
@@ -419,11 +423,11 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Ben&ouml;tigte<br>
+				<div class="doc_blue">Benötigte<br>
 				Forschungen:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$nresearch = split('<br>',$rowB['n_research']);
+				$nresearch = preg_split('<br>',$rowB['n_research']);
 
 				foreach ($nresearch as $research) {
 					$research = str_replace('(','',$research);
@@ -461,7 +465,7 @@ function workUninstallDatabase() {
 
 						echo '<img src="bilder/point.gif" alt="a point o.O">';
 						echo '&nbsp;';
-						echo '<a href="index.php?action=m_research&amp;researchid='.$resid.'&amp;sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
+						echo '<a href="index.php?action=m_research&researchid='.$resid.'&sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
 						echo '<br>';
 
 					} else {
@@ -486,11 +490,11 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Erm&ouml;glicht<br>
+				<div class="doc_blue">Ermöglicht<br>
 				Forschungen:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$nresearch = split('<br>',$rowB['e_research']);
+				$nresearch = preg_split('<br>',$rowB['e_research']);
 
 				foreach ($nresearch as $research) {
 					$research = str_replace('(','',$research);
@@ -528,7 +532,7 @@ function workUninstallDatabase() {
 						if (!empty($research)) {
 							echo '<img src="bilder/point.gif" alt="a point o.O">';
 							echo '&nbsp;';
-							echo '<a href="index.php?action=m_research&amp;researchid='.$resid.'&amp;sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
+							echo '<a href="index.php?action=m_research&researchid='.$resid.'&sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
 							echo '<br>';
 						}
 
@@ -556,11 +560,11 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Ben&ouml;tigte<br>
-				Geb&auml;ude:</div>
+				<div class="doc_blue">Benötigte<br>
+				Gebäude:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$ngebaeude = split('<br>',$rowB['n_building']);
+				$ngebaeude = preg_split('<br>',$rowB['n_building']);
 
 				foreach ($ngebaeude as $gebaeude) {
 					$gebaeude = str_replace('[','(',$gebaeude);
@@ -581,7 +585,7 @@ function workUninstallDatabase() {
 						echo '<img src="bilder/point.gif" alt="a point o.O">';
 						echo '&nbsp;';
 
-						echo '<a href="index.php?action=m_building&amp;show_building='.$resid.'&amp;sid='.$sid.'">'.$gebaeude.'</a>';
+						echo '<a href="index.php?action=m_building&show_building='.$resid.'&sid='.$sid.'">'.$gebaeude.'</a>';
 
 						echo '<br>';
 
@@ -597,11 +601,11 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Erm&ouml;glicht<br>
-				Geb&auml;ude:</div>
+				<div class="doc_blue">Ermöglicht<br>
+				Gebäude:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$ngebaeude = split('<br>',$rowB['e_building']);
+				$ngebaeude = preg_split('<br>',$rowB['e_building']);
 
 				foreach ($ngebaeude as $gebaeude) {
 					$gebaeude = str_replace('[','(',$gebaeude);
@@ -622,7 +626,7 @@ if (!empty($gebaeude)) {
 echo '<img src="bilder/point.gif" alt="a point o.O">';
 echo '&nbsp;';
 
-echo '<a href="index.php?action=m_building&amp;show_building='.$resid.'&amp;sid='.$sid.'">'.$gebaeude.'</a>';
+echo '<a href="index.php?action=m_building&show_building='.$resid.'&sid='.$sid.'">'.$gebaeude.'</a>';
 
 echo '<br>';  
 
@@ -640,5 +644,3 @@ echo '<br>';
 	<?php
 
 }
-
-?>

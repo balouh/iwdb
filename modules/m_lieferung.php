@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Lieferuebersicht                                                          */
-/* fuer die Iw DB: Icewars geoscan and sitter database                       */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -78,7 +78,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = "Zeigt Informationen zu anfliegenden Lieferungen an";
 
@@ -99,7 +99,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -111,8 +111,8 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
@@ -144,7 +144,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -200,7 +200,8 @@ if (empty($params['order']))
 if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc')
 	$params['orderd'] = 'asc';
 if (empty($params['filter_team']))
-	$params['filter_team'] = $user_buddlerfrom;
+	//$params['filter_team'] = $user_buddlerfrom;
+	$params['filter_team'] = '(Alle)';
 
 debug_var("params", $params);
 
@@ -223,7 +224,7 @@ while ($row = $db->db_fetch_array($result)) {
 $config['users'] = $users;
 $config['teams'] = $teams;
 
-// Abkuerzungen fuer Schiffe abfragen
+// Abkürzungen fuer Schiffe abfragen
 $sql = "SELECT * FROM $db_tb_schiffstyp";
 debug_var("sql", $sql);
 $result = $db->db_query($sql)
@@ -298,7 +299,7 @@ $views = array(
 			'time' => 'Zeit',
 			'user_from' => 'Absender',
 			'coords_from' => 'Start',
-			'user_to' => 'Empf&auml;nger',
+			'user_to' => 'Empfänger',
 			'coords_to' => 'Ziel',
 			'eisen' => 'Eisen',
 			'stahl' => 'Stahl',
@@ -332,7 +333,7 @@ $views = array(
 	),
 );
 
-// Aktuelle Ansicht auswaehlen
+// Aktuelle Ansicht auswählen
 $view = $views[$params['view']];
 $expand = $view['expand'];
 
@@ -419,7 +420,7 @@ foreach ($data as $row) {
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
 			);
 	}
 	// Markierbuttons ausgeben
@@ -502,7 +503,7 @@ function format_value($row, $key, $value, $expand = false) {
 	{
 		foreach ($config['schiffstyp_abk'] as $schiff => $abk)
 			$value = str_replace($schiff, $abk, $value);
-		return $row['art'] == '&Uuml;bergabe' ? $value : '';
+		return $row['art'] == 'Übergabe' ? $value : '';
 	}
 	else
 		return $value;
@@ -510,7 +511,7 @@ function format_value($row, $key, $value, $expand = false) {
 
 //****************************************************************************
 //
-// Vergleichsfunktion fuer das sortieren
+// Vergleichsfunktion für das Sortieren
 function sort_data_cmp($a, $b) {
 	global $params;
 
@@ -598,10 +599,10 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	$mergeparams = array_merge($params, $newparams);
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 ?>

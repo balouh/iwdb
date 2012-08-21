@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Bestellungen                                                              */
-/* fuer die IWDB: Icewars geoscan and sitter database                        */
+/* für die IWDB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Author: [GILDE]Thella (mailto:icewars@thella.de)                          */
 /* Version: 0.1                                                              */
@@ -34,12 +34,12 @@
 /*                                                                           */
 /* Originally written by [GILDE]xerex.                                       */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -47,7 +47,7 @@ define('DEBUG_LEVEL', 0);
 
 include_once("includes/debug.php");
 
-// -> Abfrage ob dieses Modul ueber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -56,10 +56,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig fuer die Benennung der zugehAAAArigen 
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fuer 
-//    eine Installation ueber das Menue
+// -> Das m_ als Beginn des Dateinamens des Moduls ist Bedingung für 
+//    eine Installation über das Menue
 //
 $modulname  = "m_bestellung_schiffe";
 
@@ -67,7 +67,7 @@ $modulname  = "m_bestellung_schiffe";
 //
 // -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Schiffe";
+$modultitle = "Schiffe #schiffe";
 
 //****************************************************************************
 //
@@ -82,7 +82,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Bestellsystem zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
+$moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
 
 //****************************************************************************
 //
@@ -90,8 +90,9 @@ $moduldesc = "Bestellsystem zur Koordination von Logistikauftr&auml;gen im Buddl
 // installing this module. 
 //
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
+	global $db, $db_prefix, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "bestellung` (" .
 		"`id` int(11) NOT NULL auto_increment," .
@@ -125,8 +126,9 @@ function workInstallDatabase() {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
+
+	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
 */
-	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -139,9 +141,9 @@ function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 		
 		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen fuer weitere Menue-EintrAAAA$ge, z.B.
+	  // Weitere Wiederholungen fuer weitere Menue-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" ); 
 	  //
@@ -161,21 +163,22 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+
 function workUninstallDatabase() {
-	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
+/*
+ 	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
 
 	$sqlscript = array(
 	  "DROP TABLE " . $db_tb_bestellung,
 	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
 	);
 
-/*
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
 */
 }
 
@@ -188,7 +191,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natuerlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -203,7 +206,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgefuehrt werden. 
+  // ausgeführt werden. 
   return;
 }
 
@@ -273,7 +276,7 @@ debug_var("sql", $sql);
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorit&auml;t " . $row['prio'] . ")" : "");
+	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
 	$config['projects_prio'][$row['name']] = $row['prio'];
 }
 
@@ -294,7 +297,7 @@ $config['schiffstypen'] = $schiffstypen;
 // Timestamp
 $heute = getdate();
 
-// Daten loeschen
+// Daten löschen
 if (isset($params['delete']) && $params['delete'] != '') {
 	debug_var('sql', $sql = "DELETE FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['delete']);
 	$result = $db->db_query($sql)
@@ -303,7 +306,7 @@ if (isset($params['delete']) && $params['delete'] != '') {
 	debug_var('sql', $sql);
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	$results[] = "<div class='system_notification'>Datensatz geloescht.</div><br>";
+	$results[] = "<div class='system_notification'>Datensatz gel&ouml;scht.</div><br>";
 	$params['delete'] = '';
 	$params['edit'] = '';
 }
@@ -375,7 +378,7 @@ if (!empty($button_add)) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	if ($row = $db->db_fetch_array($result)) {
-		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefuegt werden.</div><br>";	
+		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";	
 		$doppelbelegung="true";		
 	} else {
 		$fields['time_created'] = time();
@@ -393,11 +396,11 @@ if (!empty($button_add)) {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		if ($row = $db->db_fetch_array($result))
 			$params['edit'] = $row['id'];
-		$results[] = "<div class='system_notification'>Datensatz hinzugefuegt.</div><br>";
+		$results[] = "<div class='system_notification'>Datensatz hinzugefügt.</div><br>";
 	}
 }
 
-// Edit-Daten hinzufuegen/modifizeren
+// Edit-Daten hinzufügen/modifizeren
 if ((!empty($button_add) || !empty($button_edit)) && $doppelbelegung!="true") {
 	debug_var('sql', $sql = "DELETE FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit']);
 	$result = $db->db_query($sql)
@@ -481,7 +484,7 @@ while ($row = $db->db_fetch_array($result)) {
 			WHERE $db_tb_lieferung.`coords_to_gal`=" . $row['coords_gal'] . "
 			AND $db_tb_lieferung.`coords_to_sys`=" . $row['coords_sys'] . "
 			AND $db_tb_lieferung.`coords_to_planet`=" . $row['coords_planet'] . "
-			AND $db_tb_lieferung.`art`='&Uuml;bergabe'
+			AND ($db_tb_lieferung.`art`='Übergabe' OR $db_tb_lieferung.`art`='Übergabe (tr Schiffe)')
 			AND $db_tb_lieferung.`time`>" . $row['time_created'] . "
 			AND $db_tb_lieferung.`user_from`<>$db_tb_lieferung.`user_to`
 			ORDER BY $db_tb_lieferung.`time`");
@@ -507,7 +510,7 @@ while ($row = $db->db_fetch_array($result)) {
 	}
 }
 
-// Offene Mengen zuruecksetzen
+// Offene Mengen zurücksetzen
 debug_var("sql", $sql = "UPDATE $db_tb_bestellung_schiffe_pos SET offen=menge");
 $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -521,7 +524,7 @@ foreach ($data as $id_bestellung => $bestellung) {
 				foreach ($lieferung['frei'] as $key => $menge) {
 					// Sind noch offene Positionen vorhanden?
 					if (!empty($data[$id_bestellung]['offen'][$key])) {
-						// Offene Bestellmenge groesser als freie Liefermenge
+						// Offene Bestellmenge grösser als freie Liefermenge
 						if ($data[$id_bestellung]['offen'][$key] > $menge) {
 							// Offene Bestellmenge um freie Liefermenge verringern
 							$data[$id_bestellung]['offen'][$key] -= $menge;
@@ -561,7 +564,7 @@ foreach ($data as $id_bestellung => $bestellung) {
 			}
 		}
 	}
-	// Markiere vollstaendig erledigte Bestellungen
+	// Markiere vollständig erledigte Bestellungen
 	$kontrollsumme = 0;
 	if (!empty($data[$id_bestellung]['offen'])) {
 		foreach ($data[$id_bestellung]['offen'] as $key => $menge)
@@ -615,7 +618,7 @@ $views = array(
 			),
 			'coords' => array(
 				'title' => 'Koordinaten',
-				'desc' => 'Falls kein Planet ausgew&auml;hlt wird.',
+				'desc' => 'Falls kein Planet ausgewählt wird.',
 				'type' => array(
 					'coords_gal' => array(
 						'type' => 'text',
@@ -650,7 +653,7 @@ $views = array(
 			),
 			'text' => array(
 				'title' => 'Text',
-				'desc' => 'Bemerkung f&uuml;r diese Bestellung.',
+				'desc' => 'Bemerkung für diese Bestellung.',
 				'type' => 'area',
 				'rows' => 5,
 				'cols' => 80,
@@ -697,7 +700,7 @@ foreach ($config['schiffstypen'] as $schiffstyp) {
 		'style' => 'width: 50;');
 }
 
-// Aktuelle Ansicht auswaehlen
+// Aktuelle Ansicht auswählen
 $view = $views[$params['view']];
 $expand = $view['expand'];
 
@@ -773,7 +776,7 @@ foreach ($data as $row) {
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
 			);
 	}
 	// Markierbuttons ausgeben
@@ -815,14 +818,6 @@ foreach ($data as $row) {
 	}
 }
 end_table();
-start_table(100, 0, 4, 1, "");
-next_row("", "align=\"right\"");
-echo makelink(array('mark_all' => true), "Alle ausw&auml;hlen");
-echo " / ";
-echo makelink(array('mark_all' => false), "Auswahl entfernen");
-next_row("", "align=\"right\"");
-echo "<input type=\"submit\" value=\"Flotte versenden\" name=\"flotte_versenden\" class=\"submit\">";
-end_table();
 end_form();
 
 // Maske ausgeben
@@ -832,11 +827,11 @@ start_table();
 next_row("titlebg", 'nowrap valign=top colspan=2');
 echo "<b>" . $view['title'];
 if (isset($params['edit']) && is_numeric($params['edit'])) {
-	echo " bearbeiten/hinzufuegen";
+	echo " bearbeiten/hinzufügen";
 	echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
 	// echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else
-	echo " hinzufuegen";
+	echo " hinzuf&uuml;gen";
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
 	if ($field['type'] == 'label') {
@@ -932,7 +927,7 @@ function makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, $name, $title) {
 
 //****************************************************************************
 //
-// Vergleichsfunktion fuer das sortieren
+// Vergleichsfunktion für das sortieren
 function sort_data_cmp($a, $b) {
 	global $params;
 
@@ -1037,10 +1032,10 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	$mergeparams = array_merge($params, $newparams);
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 ?>

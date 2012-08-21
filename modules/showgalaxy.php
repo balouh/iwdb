@@ -71,11 +71,15 @@ $chemievorkommen   = getVar('chemievorkommen');
 $eisdichte         = getVar('eisdichte');
 $lebensbedingungen = getVar('lebensbedingungen');
 
-$kgmod = getVar('kgmod_bis');
-$dgmod = getVar('dgmod_bis');
-$ksmod = getVar('ksmod_bis');
-$dsmod = getVar('dsmod_bis');
-$fmod = getVar('fmod_bis');
+$kgmod = getVar('kgmod');
+$dgmod = getVar('dgmod');
+$ksmod = getVar('ksmod');
+$dsmod = getVar('dsmod');
+$fmod = getVar('fmod');
+$kgmod = str_replace(",",".",$kgmod);
+$dgmod=str_replace(",",".",$dgmod);
+$ksmod=str_replace(",",".",$ksmod);
+$dsmod=str_replace(",",".",$dsmod);
 
 $grav_von = getVar('grav_von');
 $grav_bis = getVar('grav_bis');
@@ -107,6 +111,30 @@ if ( defined('SHOWWITHOUTSCAN') && SHOWWITHOUTSCAN === TRUE ) {
 	$unscanned_only = getVar('unscanned');
 	$unscanned_only = ( empty($unscanned_only) ) ? "" : $unscanned_only;
 }
+
+$sql = "UPDATE
+		$db_tb_scans
+	SET
+		eisengehalt = '0',
+		chemievorkommen = '0',
+		eisdichte = '0',
+		lebensbedingungen = '0',
+		gravitation = '0',
+		besonderheiten = '',
+		fmod = '0',
+		kgmod = '0',
+		dgmod = '0',
+		ksmod = '0',
+		dsmod = '0',
+		bevoelkerungsanzahl = '0',
+		tteisen = '0',
+		ttchemie = '0',
+		tteis = '0',
+		geoscantime = '0'
+	WHERE
+		objekt = 'Kolonie'";
+
+mysql_query($sql) OR die(mysql_error());
 
 //ungescannte Planeten anzeigen
 if ( ! empty($withoutscan) AND  empty($button))
@@ -151,7 +179,7 @@ if ( ! empty($withoutscan) AND  empty($button))
 if ( $newpreset == 1 )
 {
 	?>
-<div class='doc_title'>Preset hinzufuegen</div>
+<div class='doc_title'>Preset hinzufügen</div>
 <br>
 	<?php
 	if ( ( $user_status == "admin" ) && ( ! empty($global) ) ) $fromuser = "";
@@ -328,11 +356,11 @@ else
 		$where .= " AND gravitation <= " . $grav_bis . "";
 	}
 
-	if ( ! empty($kgmod) ) $where .= " AND kgmod <= " . $kgmod;
-	if ( ! empty($dgmod) ) $where .= " AND dgmod <= " . $dgmod;
-	if ( ! empty($ksmod) ) $where .= " AND ksmod <= " . $ksmod;
-	if ( ! empty($dsmod) ) $where .= " AND dsmod <= " . $dsmod;
-	if ( ! empty($fpmod) ) $where .= " AND fpmod <= " . $fpmod;
+	if ( ! empty($kgmod) ) $where .= " AND kgmod <= " . $kgmod . "";
+	if ( ! empty($dgmod) ) $where .= " AND dgmod <= " . $dgmod . "";
+	if ( ! empty($ksmod) ) $where .= " AND ksmod <= " . $ksmod . "";
+	if ( ! empty($dsmod) ) $where .= " AND dsmod <= " . $dsmod . "";
+	if ( ! empty($fpmod) ) $where .= " AND fpmod <= " . $fpmod . "";
 
 	// maximale Anzahl //
 	if ( ! empty($max) ) {
@@ -387,25 +415,25 @@ else
 	{
 		?>
 <form method="POST"
-	action="index.php?action=showgalaxy&amp;sid=<?=$sid;?>"
+	action="index.php?action=showgalaxy&sid=<?php echo $sid;?>"
 	enctype="multipart/form-data">
 <p align="center"><?php
 if ($sys_start > 1 )
 {
 	?> <a
-	href="index.php?action=showgalaxy&amp;sys_end=<?=($sys_end - 1);?>&amp;sys_start=<?=($sys_end - 1);?>&amp;gal_end=<?=$gal_end;?>&amp;gal_start=<?=$gal_start;?>&amp;sid=<?=$sid;?>"><b><<</b></a>
+	href="index.php?action=showgalaxy&sys_end=<?php echo ($sys_end - 1);?>&sys_start=<?php echo ($sys_end - 1);?>&gal_end=<?php echo $gal_end;?>&gal_start=<?php echo $gal_start;?>&sid=<?php echo $sid;?>"><b><<</b></a>
 	<?php
 }
-?> Galaxie: <input type="text" name="gal" value="<?=$gal_start;?>"
+?> Galaxie: <input type="text" name="gal" value="<?php echo $gal_start;?>"
 	style="width: 30"> System: <input type="text" name="sys"
-	value="<?=$sys_start;?>" style="width: 30"> <?php
+	value="<?php echo $sys_start;?>" style="width: 30"> <?php
 	if ( defined('SHOWWITHOUTSCAN') && SHOWWITHOUTSCAN === TRUE) {
 		if(!empty($withoutscan)) {
 			echo "<br><input type=\"checkbox\" name=\"unscanned\"" . (!empty($unscanned_only) ? " \"checked\"" : "") . ">Nur ungescannte Planeten anzeigen<br>\n";
 		}
 	}
 	?> <input type="submit" value="los" name="B1" class="submit"> <a
-	href="index.php?action=showgalaxy&amp;sys_end=<?=($sys_end + 1);?>&amp;sys_start=<?=($sys_end + 1);?>&amp;gal_end=<?=$gal_end;?>&amp;gal_start=<?=$gal_start;?>&amp;sid=<?=$sid;?>"><b>>></b></a>
+	href="index.php?action=showgalaxy&sys_end=<?php echo ($sys_end + 1);?>&sys_start=<?php echo ($sys_end + 1);?>&gal_end=<?php echo $gal_end;?>&gal_start=<?php echo $gal_start;?>&sid=<?php echo $sid;?>"><b>>></b></a>
 </p>
 </form>
 	<?php
@@ -425,7 +453,7 @@ if ( ! empty($withoutscan) )
 	}
 	?>
 <form method="POST"
-	action="index.php?action=showgalaxy&amp;withoutscan=1&amp;sid=<?=$sid;?>"
+	action="index.php?action=showgalaxy&withoutscan=1&sid=<?php echo $sid;?>"
 	enctype="multipart/form-data">
 <p align="center">
 
@@ -433,13 +461,13 @@ if ( ! empty($withoutscan) )
 <table border="0" cellpadding="3" cellspacing="0">
 	<tr>
 		<td>Galaxie von: <input type="text" name="gal_start"
-			value="<?=$gal_start;?>" style="width: 30"> bis: <input type="text"
-			name="gal_end" value="<?=$gal_end;?>" style="width: 30"></td>
+			value="<?php echo $gal_start;?>" style="width: 30"> bis: <input type="text"
+			name="gal_end" value="<?php echo $gal_end;?>" style="width: 30"></td>
 	</tr>
 	<tr>
 		<td>System von: <input type="text" name="sys_start"
-			value="<?=$sys_start;?>" style="width: 30"> bis: <input type="text"
-			name="sys_end" value="<?=$sys_end;?>" style="width: 30"></td>
+			value="<?php echo $sys_start;?>" style="width: 30"> bis: <input type="text"
+			name="sys_end" value="<?php echo $sys_end;?>" style="width: 30"></td>
 	</tr>
 	<?php
 	if ( defined('SHOWWITHOUTSCAN') && SHOWWITHOUTSCAN === TRUE) {
@@ -515,7 +543,7 @@ else
 				switch ($row1['nebula']) {
 					case "BLN": echo "<b>Blauer Nebel</b><br/><br/>"; break;
 					case "GEN": echo "<b>Gelber Nebel</b><br/><br/>"; break;
-					case "GRN": echo "<b>Gr&uuml;ner Nebel</b><br/><br/>"; break;
+					case "GRN": echo "<b>Grüner Nebel</b><br/><br/>"; break;
 					case "RON": echo "<b>Roter Nebel</b><br/><br/>"; break;
 					case "VIN": echo "<b>Violetter Nebel</b><br/><br/>"; break;
 				}
@@ -531,38 +559,38 @@ else
 	if ( $user_planibilder == "1" )
 	{
 		?>
-		<td class="titlebg" style="width: <?=(5 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (5 / $teiler);?>%;" valign="middle" align="center">
 		&nbsp;</td>
 		<?php
 }
 if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisch") || ( $ansicht == "beide") )
 {
 	?>
-		<td class="titlebg" style="width: <?=(12 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (12 / $teiler);?>%;" valign="middle" align="center">
 		<b>Koords</b></td>
-		<td class="titlebg" style="width: <?=(14 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (14 / $teiler);?>%;" valign="middle" align="center">
 		<b>Planetentyp</b></td>
-		<td class="titlebg" style="width: <?=(14 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (14 / $teiler);?>%;" valign="middle" align="center">
 		<b>Objekttyp</b></td>
-		<td class="titlebg" style="width: <?=(16 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (16 / $teiler);?>%;" valign="middle" align="center">
 		<a
-			href="index.php?action=showgalaxy&amp;user=<?=urlencode($row['user']);?>&amp;order=user&amp;orderd=desc&amp;sid=<?=$sid;?>"><img
+			href="index.php?action=showgalaxy&user=<?php echo urlencode($row['user']);?>&order=user&orderd=desc&sid=<?php echo $sid;?>"><img
 			src="bilder/desc.gif" border="0"></a> <b>Spieler-<br>
 		name</b> <a
-			href="index.php?action=showgalaxy&amp;user=<?=urlencode($row['user']);?>&amp;order=user&amp;orderd=asc&amp;sid=<?=$sid;?>"><img
+			href="index.php?action=showgalaxy&user=<?php echo urlencode($row['user']);?>&order=user&orderd=asc&sid=<?php echo $sid;?>"><img
 			src="bilder/asc.gif" border="0"></a></td>
-		<td class="titlebg" style="width: <?=(12 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (12 / $teiler);?>%;" valign="middle" align="center">
 		<b>Allitag</b></td>
-		<td class="titlebg" style="width: <?=(16 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (16 / $teiler);?>%;" valign="middle" align="center">
 		<b>Planeten-<br>
 		name</b></td>
 		<!--
-		<td class="titlebg" style="width: <?=(9 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
 		<b>Punkte</b></td>
 		-->
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>letztes Update</b></td>
-		<td class="titlebg" style="width: <?=(11 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (11 / $teiler);?>%;" valign="middle" align="center">
 		<b>Scan / Raid</b></td>
 
 		<?php
@@ -574,35 +602,35 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 	if ( $ansicht != "beide" )
 	{
 		?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Koordinaten</b></td>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Planetentyp</b></td>
 		<?php
 }
 ?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Eisen-<br>
 		gehalt</b></td>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Chemie-<br>
 		vorkommen</b></td>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Eisdichte</b></td>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Lebens-<br>
 		bedingungen</b></td>
 		<?php
 		//if (  (!empty($kgmod)) OR (!empty($dgmod)) OR (!empty($ksmod)) OR (!empty($dsmod)) ) {
 		if ( (!empty($kgmod_von)) OR (!empty($dgmod_von)) OR (!empty($ksmod_von)) OR (!empty($dsmod_von)) OR (!empty($kgmod_bis)) OR (!empty($dgmod_bis)) OR (!empty($ksmod_bis)) OR (!empty($dsmod_bis)) OR (!empty($fmod_von)) OR (!empty($fmod_bis)) OR (!empty($kgmod)) OR (!empty($dgmod)) OR (!empty($ksmod)) OR (!empty($dsmod)) OR (!empty($fmod)) ) {
 			?>
-		<td class="titlebg" style="width: <?=(9 / $teiler);?>%;" valign="middle" align="center">
-		<b title="Geb&auml;udekostenmodifikation">kgmod</b></td>
-		<td class="titlebg" style="width: <?=(9 / $teiler);?>%;" valign="middle" align="center">
-		<b title="Geb&auml;udekostendauer">dgmod</b></td>
-		<td class="titlebg" style="width: <?=(9 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
+		<b title="Gebäudekostenmodifikation">kgmod</b></td>
+		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
+		<b title="Gebäudekostendauer">dgmod</b></td>
+		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
 		<b title="Schiffkostenmodifikation">ksmod</b></td>
-		<td class="titlebg" style="width: <?=(9 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
 		<b title="Schiffmodifikation">dsmod</b></td>
 		<?php
 }
@@ -610,7 +638,7 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 <?php
 if ( (!empty($grav_von)) OR (!empty($grav_bis)) ) {
 	?>
-		<td class="titlebg" style="width: <?=(9 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
 		<b title="Gravitation">grav</b></td>
 		<?php
 }
@@ -622,53 +650,53 @@ if ( (!empty($grav_von)) OR (!empty($grav_bis)) ) {
 if ( $reserv == "1" )
 {
 	if ( !isset($clean_reserv) || $clean_reserv != 1 ) {
-		echo '<b><font size="2">[<a href="index.php?action=showgalaxy&reserv=1&clean_reserv=1&ansicht=geologisch"><font color="red">Leichen l&ouml;schen</font></a>]</font></b>';
+		echo '<b><font size="2">[<a href="index.php?action=showgalaxy&reserv=1&clean_reserv=1&ansicht=geologisch"><font color="red">Leichen löschen</font></a>]</font></b>';
 	} else {
 		$sql99 = "UPDATE `" . $db_tb_scans . "` SET `reserviert`=NULL WHERE `user`!=''";
 		$result99 = $db->db_query($sql99)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql99);
-		echo '<b><font color="red" size="2">Leichen wurden gel&ouml;scht...</font></b><br />';
-		echo 'Seite [<a href="index.php?action=showgalaxy&reserv=1&ansicht=geologisch">neu laden</a>], um &Auml;nderungen zu sehen!';
+		echo '<b><font color="red" size="2">Leichen wurden gelöscht...</font></b><br>';
+		echo 'Seite [<a href="index.php?action=showgalaxy&reserv=1&ansicht=geologisch">neu laden</a>], um Änderungen zu sehen!';
 	}
-	echo '<br /><br />';
+	echo '<br><br>';
 
 	?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>reserviert</b></td>
 		<?php
 }
 if ( strlen($rating_normal) > 0 )
 {
 	?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Rating</b></td>
 		<?php
 }
 if ( strlen($rating_best_tt) > 0 )
 {
 	?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Rating<br>bestes<br>Techteam</b></td>
 		<?php
 }
 if ( strlen($rating_eisen_tt) > 0 )
 {
 	?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Rating<br>Techteam<br>Eisen</b></td>
 		<?php
 }
 if ( strlen($rating_chemie_tt) > 0 )
 {
 	?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Rating<br>Techteam<br>Chemie</b></td>
 		<?php
 }
 if ( strlen($rating_eis_tt) > 0 )
 {
 	?>
-		<td class="titlebg" style="width: <?=(10 / $teiler);?>%;" valign="middle" align="center">
+		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
 		<b>Rating<br>Techteam<br>Eis</b></td>
 		<?php
 }
@@ -733,46 +761,46 @@ if ( strlen($rating_eis_tt) > 0 )
 		}
 		if ( $row['objekt'] == "Schwarzes Loch" )
 		$path = 'bilder/planeten/40x40/schwarzesloch.jpg'; ?>
-		<td class="titlebg" style="width: <?=(5 / $teiler);?>%;" valign="middle" align="center">
-		<img src="<?=$path;?>" border="0"></td>
+		<td class="titlebg" style="width: <?php echo (5 / $teiler);?>%;" valign="middle" align="center">
+		<img src="<?php echo $path;?>" border="0"></td>
 		<?php
 }
 if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisch") || ( $ansicht == "beide") )
 {
 	?>
-		<td class="windowbg2" style="width: <?=(12 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (12 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['coords'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(14 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (14 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['typ'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['typ'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(14 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (14 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['objekt'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['objekt'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(16 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (16 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showgalaxy&amp;user=<?=urlencode($row['user']);?>&amp;exact=1&amp;sid=<?=$sid;?>"><?=$row['user'];?></a>
+			href="index.php?action=showgalaxy&user=<?php echo urlencode($row['user']);?>&exact=1&sid=<?php echo $sid;?>"><?php echo $row['user'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(12 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (12 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showgalaxy&amp;allianz=<?=$row['allianz'];?>&amp;sid=<?=$sid;?>"><?=$row['allianz'];?><?=( ( empty($row_status['status']) ) || ( $row_status['status'] == 'own' ) ) ? "": " (" . $row_status['status'] . ")";?></a>
+			href="index.php?action=showgalaxy&allianz=<?php echo $row['allianz'];?>&sid=<?php echo $sid;?>"><?php echo $row['allianz'];?><?php echo ( ( empty($row_status['status']) ) || ( $row_status['status'] == 'own' ) ) ? "": " (" . $row_status['status'] . ")";?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(16 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (16 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['planetenname'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['planetenname'];?></a>
 		</td>
 		<!--
-		<td class="windowbg2" style="width: <?=(9 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (9 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['punkte'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['punkte'];?></a>
 		</td>
 		-->
-		<td class="windowbg2" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>">
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>">
 			<?php
 			if ( defined('SHOWWITHOUTSCAN') && SHOWWITHOUTSCAN === TRUE) {
 				if(empty($row['time']) ) {
@@ -787,17 +815,17 @@ if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisc
 				}
 			} else  echo (empty($row['time'])) ? "/" : round((time() - $row['time']) / (24 * 60 * 60)) . " Tage"; ?>
 		</a></td>
-		<td class="windowbg2" style="width: <?=(11 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (11 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>">
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>">
 			<?php
-			if ( ! empty($row['geb'])) echo "Geb&auml;ude<br>";
+			if ( ! empty($row['geb'])) echo "Gebäude<br>";
 			if (( ! empty($row['plan'])) OR ( ! empty($row['stat'])) OR ( ! empty($row['def']))) echo "Schiffe<br>";
 			if ( ($row['lager_chemie'] > 0) || ($row['lager_eis'] > 0) || ($row['lager_energie'] > 0) )  {
 				echo "Koloinfo<br>";
 			}
 			if ( ($row['eisengehalt'] > 0) || ($row['chemievorkommen'] > 0) || ($row['eisdichte'] > 0) )  {
-				echo "Geo<br />";
+				echo "Geo<br>";
 				echo "(" . rating( 0 , $row['coords']) . ")";
 			}
 			?> </a>&nbsp; <?php
@@ -807,27 +835,27 @@ if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisc
 			$resultraid = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			$rowraid = $db->db_fetch_array($resultraid);
-			if ($rowraid['id']) echo "<a href=\"index.php?action=showraid&amp;coords=" . $row['coords'] . "&amp;sid=" . $sid . "\">Raid</a>";
+			if ($rowraid['id']) echo "<a href=\"index.php?action=showraid&coords=" . $row['coords'] . "&sid=" . $sid . "\">Raid</a>";
 			*/
 			?></td>
 			<?php
 }
 if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologisch") || ( $ansicht == "beide") ) {
 	if ( $ansicht != "beide" ) 	{ ?>
-		<td class="windowbg2" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" align="center">
+		<td class="windowbg2" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['coords'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['typ'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['typ'];?></a>
 		</td>
 		<?php
 }
 ?>
-		<td class="windowbg2" align="right" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?php 
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php
 			if ($row['eisengehalt'] > 100) {
 				echo "<b>" . $row['eisengehalt'] . "</b>";
 			} else {
@@ -844,9 +872,9 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 				}
 			}
 			?> </a></td>
-		<td class="windowbg2" align="right" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?php 
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php
 			if ($row['chemievorkommen'] > 100) {
 				echo "<b>" . $row['chemievorkommen'] . "</b>";
 			} else {
@@ -863,9 +891,9 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 				}
 			}
 			?> </a></td>
-		<td class="windowbg2" align="right" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?php 
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php
 			if ($row['eisdichte'] > 30 ) {
 				echo "<b>" . $row['eisdichte'] . "</b>";
 			} else {
@@ -882,35 +910,35 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 				}
 			}
 			?> </a></td>
-		<td class="windowbg2" align="right" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=($row['lebensbedingungen'] > 100) ? "<b>" . $row['lebensbedingungen'] . "</b>": $row['lebensbedingungen'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo ($row['lebensbedingungen'] > 100) ? "<b>" . $row['lebensbedingungen'] . "</b>": $row['lebensbedingungen'];?></a>
 
 		</td>
 		<?php if ( !empty($kgmod) OR !empty($dgmod) OR !empty($ksmod) OR !empty($dsmod) ) { ?>
-		<td class="windowbg2" style="width: <?=(9 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (9 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['kgmod'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['kgmod'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(9 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (9 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['dgmod'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['dgmod'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(9 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (9 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['ksmod'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['ksmod'];?></a>
 		</td>
-		<td class="windowbg2" style="width: <?=(9 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (9 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['dsmod'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['dsmod'];?></a>
 		</td>
 		<?php
 }
 ?>
 <?php if ( !empty($grav_von) OR !empty($grav_bis) ) { ?>
-		<td class="windowbg2" style="width: <?=(9 / $teiler);?>%; background-color: <?=$color;?>;" valign="middle" align="center">
+		<td class="windowbg2" style="width: <?php echo (9 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['gravitation'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['gravitation'];?></a>
 		</td>
 		<?php
 }
@@ -918,39 +946,39 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 
 
 <?php 		}  	if ( $reserv == "1" ) 	{ ?>
-		<td class="windowbg2" align="center" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="center" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=$row['reserviert'];?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo $row['reserviert'];?></a>
 		</td>
 		<?php 	} ?>
 <?php 		  	if ( strlen($rating_normal) > 0 ) 	{ ?>
-		<td class="windowbg2" align="center" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="center" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=sprintf("%.2f", $row['rating_normal']);?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo sprintf("%.2f", $row['rating_normal']);?></a>
 		</td>
 		<?php 	} ?>
 <?php 		  	if ( strlen($rating_best_tt) > 0 ) 	{ ?>
-		<td class="windowbg2" align="center" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="center" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=sprintf("%.2f", $row['rating_best_tt']);?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo sprintf("%.2f", $row['rating_best_tt']);?></a>
 		</td>
 		<?php 	} ?>
 <?php 		  	if ( strlen($rating_eisen_tt) > 0 ) 	{ ?>
-		<td class="windowbg2" align="center" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="center" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=sprintf("%.2f", $row['rating_eisen_tt']);?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo sprintf("%.2f", $row['rating_eisen_tt']);?></a>
 		</td>
 		<?php 	} ?>
 <?php 		  	if ( strlen($rating_chemie_tt) > 0 ) 	{ ?>
-		<td class="windowbg2" align="center" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="center" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=sprintf("%.2f", $row['rating_chemie_tt']);?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo sprintf("%.2f", $row['rating_chemie_tt']);?></a>
 		</td>
 		<?php 	} ?>
 <?php 		  	if ( strlen($rating_eis_tt) > 0 ) 	{ ?>
-		<td class="windowbg2" align="center" style="width: <?=(10 / $teiler);?>%; background-color: <?=$color;?>;" >
+		<td class="windowbg2" align="center" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=<?=$ansicht;?>&amp;sid=<?=$sid;?>"><?=sprintf("%.2f", $row['rating_eis_tt']);?></a>
+			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>"><?php echo sprintf("%.2f", $row['rating_eis_tt']);?></a>
 		</td>
 		<?php 	} ?>
 
@@ -958,4 +986,3 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 	<?php 	} } ?>
 </table>
 	<?php } ?>
-

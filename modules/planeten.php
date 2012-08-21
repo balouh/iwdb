@@ -32,16 +32,16 @@ if (!defined('IRA'))
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" style="width:15%;">
-   <a href="index.php?action=planeten&amp;order=coords&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Koordinaten</b> <a href="index.php?action=planeten&amp;order=coords&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Koordinaten</b> <a href="index.php?action=planeten&order=coords&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:20%;">
-   <a href="index.php?action=planeten&amp;order=t2.sitterlogin&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=planeten&amp;order=t2.sitterlogin&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:40%;">
-   <a href="index.php?action=planeten&amp;order=t1.planetenname&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Planetenname</b> <a href="index.php?action=planeten&amp;order=t1.planetenname&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Planetenname</b> <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:25%;">
-   <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Spielart</b> <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Spielart</b> <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
  </tr>
 <?php
@@ -75,29 +75,31 @@ while($row = $db->db_fetch_array($result))
 	}
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>">
-   <a href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=auto&amp;sid=<?=$sid;?>"><?=$row['coords'];?></a>
+  <td class="windowbg<?php echo $num;?>">
+   <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
   </td>
-  <td class="windowbg<?=$num;?>">
+  <td class="windowbg<?php echo $num;?>">
 <?php
-if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['sitterlogin']) . "&amp;sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
+if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "&sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
 else echo $row['sitterlogin'];
 ?>
   </td>
-  <td class="windowbg<?=$num;?>"><a href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=auto&amp;sid=<?=$sid;?>"><div class='doc_<?php 
+  <td class="windowbg<?php echo $num;?>"><a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>"><div class='doc_<?php
 	 if($row['objekt'] == "Kolonie") echo "black"; 
 	 else if($row['objekt'] == "Kampfbasis") echo "red";
 	 else if($row['objekt'] == "Sammelbasis") echo "green";
+	 else if($row['objekt'] == "Artefaktbasis") echo "blue";
 	 else echo "\"black\""; 	  
-	 ?>'><?=$row['planetenname'];?> (<?php 
+	 ?>'><?php echo $row['planetenname'];?> (<?php 
 	 if($row['objekt'] == "Kolonie") echo "K"; 
 	 else if($row['objekt'] == "Kampfbasis") echo "B";
 	 else if($row['objekt'] == "Sammelbasis") echo "S";
-	 else echo "-"; 	  
+	 else if($row['objekt'] == "Artefaktbasis") echo "A";
+	 else echo "-"; 	  	  
 	 ?>)</div></a>
   </td>
-  <td class="windowbg<?=$num;?>">
-    <?=$row['budflesol'];?><?=($row['buddlerfrom']) ? " von: " . $row['buddlerfrom']: "";?>
+  <td class="windowbg<?php echo $num;?>">
+    <?php echo $row['budflesol'];?><?php echo ($row['buddlerfrom']) ? " von: " . $row['buddlerfrom']: "";?>
   </td>
  </tr>
 <?php
@@ -105,4 +107,4 @@ else echo $row['sitterlogin'];
 ?>
 </table>
 <br/>
-<b>K = Kolonie, B = Kampfbasis, S = Sammelbasis</b> 
+<b>K = Kolonie, B = Kampfbasis, S = Sammelbasis, A = Artefaktbasis</b> 

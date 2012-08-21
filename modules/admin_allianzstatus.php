@@ -24,12 +24,10 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul Ã¼ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	die("Hacking attempt...!!"); 
-	exit; 
-}
+if (!defined('IRA'))
+    die('Hacking attempt...');
 
 if ( $user_status != "admin" && $user_status != "hc" )
 	die('Hacking attempt...');
@@ -59,7 +57,7 @@ if( ! empty($editallianz)) {
 				or error(GENERAL_ERROR, 
                  'Could not query config information.', '', 
                  __FILE__, __LINE__, $sql);
-		}	else {
+		} else {
 			$sql = "UPDATE " . $db_tb_allianzstatus . 
              " SET allianz='" . $row_allianz . 
              "', status='" . $row_status . 
@@ -72,6 +70,7 @@ if( ! empty($editallianz)) {
 		$lastid = $row['id'];
 	}
   
+  $lastid = $row['id'];
   $temp1 = ($lastid + 1) . '_allianz';
   $temp2 = ($lastid + 1) . '_status';
 
@@ -92,9 +91,9 @@ if( ! empty($editallianz)) {
 
 start_form("admin&uaction=allianzstatus");
 start_table();
-start_row("windowbg2", "style=\"width:20%;\"");
+start_row("windowbg2", "style='width:20%;'");
 echo "Allianz";
-next_cell("windowbg2", "style=\"width:80%;\"");
+next_cell("windowbg2", "style='width:80%;'");
 echo "Status";
 end_row();
 
@@ -117,24 +116,23 @@ while($row = $db->db_fetch_array($result)) {
 
 	$lastid = $row['id'];
 
-  start_row("windowbg1", "style=\"background-color: " . $color. "\"");
-  echo "<input type=\"text\" name=\"" . $row['id'] . "_allianz\" value=\"" .
-       $row['allianz']. "\" style=\"width: 100\">\n";
-  next_cell("windowbg1", "style=\"background-color: " . $color. "\"");       
-  echo "<input type=\"text\" name=\"" .$row['id'] . "_status\" value=\"" . 
-       $row['status'] . "\" style=\"width: 100\">\n";
+  start_row("windowbg1", "style='background-color: " . $color. "'");
+  echo "<input type='text' name='" . $row['id'] . "_allianz' value='" . $row['allianz']. "' style='width: 100px'>\n";
+  next_cell("windowbg1", "style='background-color: " . $color. "'");
+  echo "<input type='text' name='" .$row['id'] . "_status' value='" . $row['status'] . "' style='width: 100px'>\n";
   end_row();
 }
 
-start_row("windowbg1", "style=\"background-color: " . $color. "\"");
-echo "<input type=\"text\" name=\"" . ($lastid + 1) . 
-     "_allianz\" value=\"\" style=\"width: 100\">\n";
-next_cell("windowbg1", "style=\"background-color: " . $color. "\"");       
-echo "<input type=\"text\" name=\"" . ($lastid + 1) . 
-     "_status\" value=\"\" style=\"width: 100\">\n";
-next_row("titlebg", "align=\"center\"", 2);
-echo "<input type=\"hidden\" name=\"editallianz\" value=\"true\">" . 
-     "<input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">\n";
+$lastid = $row['id'];
+$color="#C4F493";
+
+start_row("windowbg1", "style='background-color: " . $color. "'");
+echo "<input type='text' name='" . ($lastid + 1) . "_allianz' value='' style='width: 100px'>\n";
+next_cell("windowbg1", "style='background-color: " . $color. "'");
+echo "<input type='text' name='" . ($lastid + 1) . "_status' value='' style='width: 100px'>\n";
+next_row("titlebg", "align='center'", 2);
+echo "<input type='hidden' name='editallianz' value='true'>" .
+     "<input type='submit' value='speichern' name='B1' class='submit'>\n";
 end_row();
 end_table();
 end_form();
@@ -144,8 +142,8 @@ start_table();
 start_row_only();
 
 foreach($config_allianzstatus as $key => $value) {
-  cell("", "style=\"width: 30; background-color: " . $value . ";\"");
-  next_cell("windowbg1", "style=\"width: 70;\"");
+  cell("", "style='width: 30; background-color: " . $value . ";'");
+  next_cell("windowbg1", "style='width: 70;'");
   echo $key;
   end_cell();
 }

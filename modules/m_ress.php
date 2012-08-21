@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fÃ¼r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprÃ¼nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafÃ¼r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul Ã¼ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,23 +46,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig fÃ¼r die Benennung der zugehÃ¶rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fÃ¼r
+//    eine Installation Ã¼ber das MenÃ¼
 //
 $modulname  = "m_ress";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> MenÃ¼titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Produktion";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausführen darf. Mögliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul Ã¼ber die Navigation
+//    ausfÃ¼hren darf. MÃ¶gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -74,7 +74,7 @@ $modulstatus = "";
 //
 $moduldesc =
   "Dieses Modul dient zur Anzeige der Ressproduktion der Spieler in der Allianz.".
-  " Dabei wird anhand der Kolo-/Ress&uuml;bersicht der Tagesbedarf bzw. ". 
+  " Dabei wird anhand der Kolo-/RessÃ¼bersicht der Tagesbedarf bzw. ".
   " Tagesoutput errechnet.";
 
 
@@ -83,9 +83,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
   global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
-
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "ressuebersicht( " . 
     "`user` varchar(50) NOT NULL default '', ".
@@ -108,9 +109,9 @@ function workInstallDatabase() {
     " VALUES('ressuebersicht')",
 
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-    "('production', 'Ressourcenkolo&uuml;bersicht', 'Produktions&uuml;bersicht')"
+    "('production', 'RessourcenkoloÃ¼bersicht', 'ProduktionsÃ¼bersicht')"
   );
-
+*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
@@ -118,7 +119,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
  
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -130,10 +131,10 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen fÃ¼r weitere MenÃ¼-EintrÃ¤ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -153,9 +154,10 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
 	global $db, $db_tb_ressuebersicht, $db_tb_parser;
-
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_ressuebersicht,
 
@@ -163,7 +165,7 @@ function workUninstallDatabase() {
     " WHERE `name`='ressuebersicht'",
 
     "DELETE FROM " . $db_tb_parser . " WHERE modulename='production'"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -172,19 +174,19 @@ function workUninstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
  
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgefÃ¼hrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=ress&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natÃ¼rlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -199,7 +201,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
+  // ausgefÃ¼hrt werden.
   return;
 }
 
@@ -213,18 +215,18 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
 function make_link($order, $ordered) {
  global $sid;
- echo "<a href=\"index.php?action=m_ress&amp;order=" . $order . "&amp;ordered=" . $ordered . 
-      "&amp;sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
+ echo "<a href=\"index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered .
+      "&sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
 }
 
 //bestehende zeit holen
 
 $sql = "SELECT
-			switch
-		FROM
-			prefix_user
-		WHERE
-            id = '$user_id'";
+		switch
+	FROM
+		$db_tb_user
+	WHERE
+           id = '$user_id'";
 
 $result = mysql_query($sql) OR die(mysql_error());
 
@@ -232,33 +234,33 @@ $row = mysql_fetch_assoc($result);
 
 $switch = $row['switch'];
 
-//zeit ändern?
+//zeit Ã¤ndern?
 
 echo '
 <form action="index.php?action=m_ress&sid='.$sid.'" method="post">
-	<p>Anzeigen der Produktion f&uuml;r <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form" class="submit">
+	<p>Anzeigen der Produktion fÃ¼r <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form" class="submit">
 	</p>
 </form>
 ';
 
 if(isset($_POST['switch'])) {
 $sql = "UPDATE
-			prefix_user
-		SET
-			switch = '$_POST[switch]'
-		WHERE
-			id = '$user_id'";
+		$db_tb_user
+	SET
+		switch = '$_POST[switch]'
+	WHERE
+		id = '$user_id'";
 mysql_query($sql) OR die(mysql_error());
 }
 
 //aktualisiere die Zeit
 
 $sql = "SELECT
-			switch
-		FROM
-			prefix_user
-		WHERE
-            id = '$user_id'";
+		switch
+	FROM
+		$db_tb_user
+	WHERE
+           id = '$user_id'";
 
 $result = mysql_query($sql) OR die(mysql_error());
 
@@ -270,7 +272,7 @@ if (empty($switch) || $switch == 24) {
 	$switch = 24;
 	doc_title("Tagesproduktion/-Verbrauch");
 } else doc_title("Verbrauch in ".$switch." Stunde(n)");
-doc_title("sowie Bevölkerungsdaten");
+doc_title("sowie BevÃ¶lkerungsdaten");
 
 echo "<br>";
 
@@ -281,10 +283,12 @@ make_link("user", "asc");
 echo "<b>User</b>";
 make_link("user", "desc");
 echo "<br>";
-make_link("datum", "asc");
-echo "<b>Zeit</b>";
-make_link("datum", "desc");
            
+next_cell("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
+make_link("datum", "asc");
+echo "<b>Einlesezeit</b>";
+make_link("datum", "desc");
+
 next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
 make_link("eisen", "asc");
 echo "<b>Eisen</b>";
@@ -373,10 +377,12 @@ $result = $db->db_query($sql)
 while($row = $db->db_fetch_array($result)) {
 	$color = scanAge($row['datum']);
 
-  next_row("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+  next_row("windowbg1", " nowrap=\"nowrap\"");
   echo $row['user'] . "<br>";
-  echo strftime("(%d.%m.%y %H:%M:%S)", $row['datum']);
-
+    
+  next_cell("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+  echo strftime("%d.%m.%y %H:%M:%S", $row['datum']);
+  
   next_cell("windowbg1", "align=\"right\"");
   echo number_format($row['eisen']*$switch, 0, ',', '.');
 
@@ -427,7 +433,7 @@ $result = $db->db_query($sql)
            'Could not query config information.', '', 
            __FILE__, __LINE__, $sql);
 while($row = $db->db_fetch_array($result)) {
-  next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\"");
+  next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\" nowrap=\"nowrap\"");
   echo "Gesamt:";
   
   next_cell("windowbg1", "align=\"right\"");
@@ -471,7 +477,7 @@ end_row();
 end_table();
 
 // 
-// Erweiterung für Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
+// Erweiterung fÃ¼r Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
 // 
 
 global $db, $db_tb_ressuebersicht, $db_tb_user, $config_sitter_timeformat;
@@ -513,7 +519,7 @@ foreach ($fleeterlist as $key => $value) {
     
     start_table();
 
-    start_row("titlebg", "align=\"center\" colspan=\"12\"");
+    start_row("titlebg", "align=\"center\" colspan=\"13\"");
     if ($fleetername == $value['sitterlogin']) {
         echo "<b>Fleeter: ".$fleetername."</b>";
     } else {
@@ -526,9 +532,10 @@ foreach ($fleeterlist as $key => $value) {
     echo "<b>User</b>";
     make_link("user", "desc");
     echo "<br>";
-
+	
+	next_cell("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
     make_link("datum", "asc");
-    echo "<b>Zeit</b>";
+    echo "<b>Einlesezeit</b>";
     make_link("datum", "desc");
 
     next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
@@ -602,9 +609,11 @@ foreach ($fleeterlist as $key => $value) {
     while($row = $db->db_fetch_array($result3)) {
         $color = scanAge($row['datum']);
 
-      next_row("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+      next_row("windowbg1", " nowrap=\"nowrap\"");
       echo $row['user'] . "<br>";
-      echo strftime("(%d.%m.%y<br>%H:%M:%S)", $row['datum']);
+      
+	  next_cell("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+	  echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
   
       next_cell("windowbg1", "align=\"right\"");
       echo number_format($row['eisen']*$switch, 0, '.', ',');
@@ -661,9 +670,11 @@ foreach ($fleeterlist as $key => $value) {
                __FILE__, __LINE__, $sql);
     
     while($row = $db->db_fetch_array($result)) {
-      next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" nowrap=\"nowrap\"");
+      next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\ nowrap=\"nowrap\"");
       echo "Gesamt";
       
+	  
+	  
       next_cell("windowbg1", "align=\"right\"");
       echo number_format($row['eisen']*$switch, 0, '.', ',');
     

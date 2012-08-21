@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp�nglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -43,7 +43,7 @@ if (!defined('IRA'))
   
 //*****************************************************************************
 //
-// Gemeinsame Support-Funktionen f�r die Parser geoscan, schiffs
+// Gemeinsame Support-Funktionen für die Parser geoscan, schiffs
 function reset_data()
 {
 	global $config_date;
@@ -137,7 +137,7 @@ function updateplanet()
 	else 
 		echo "<br>" . $scan_data['coords'] . ":";
 
-	// Thella: F�r Modul 'm_aktivitaet.php'
+	// Thella: Für Modul 'm_aktivitaet.php'
 	global $db_tb_scans_historie;
 	if (!empty($db_tb_scans_historie) && $scan_type == 'universum' && !empty($scan_data['user']) && is_numeric($scan_data['punkte']))
 	{
@@ -164,12 +164,12 @@ if ( ( trim($row['objekt']) != 'Kampfbasis' ) AND ( ( trim($row['typ']) <> trim(
                __FILE__, __LINE__, $sql);
 
 		if(( $row['typ'] <> $scan_data['typ'] )) {
-			echo "<div class='system_notification'> vorhandenen Geoscan wegen Typ&auml;nderung gel&ouml;scht </div>\n";
+			echo "<div class='system_notification'> vorhandenen Geoscan wegen Typänderung gelöscht </div>\n";
 		} else if(( $row['user'] != $scan_data['user'] && $row['user'] != "" )) {
-			echo "<div class='system_notification'> vorhandenen Geoscan wegen Eigent&uuml;mer&auml;nderung gel&ouml;scht </div>\n";
+			echo "<div class='system_notification'> vorhandenen Geoscan wegen Eigentümeränderung gelöscht </div>\n";
 		}
 
-		// Thella: F�r Modul 'm_aktivitaet.php'
+		// Thella: Für Modul 'm_aktivitaet.php'
 		if (!empty($db_tb_scans_historie))
 		{
 			$sql = "DELETE FROM " . $db_tb_scans_historie . 
@@ -195,7 +195,7 @@ if ( ( trim($row['objekt']) != 'Kampfbasis' ) AND ( ( trim($row['typ']) <> trim(
 	}	elseif ( isset($row['coords']) ) {
 		echo " aktualisiert\n";
 		
-		// alter.bridge: Reservierungen bei Besiedelung l�schen
+		// alter.bridge: Reservierungen bei Besiedelung löschen
 		if(($row['user'] == '') AND ($row['user'] != $scan_data['user'])) $update = "reserviert=''";
 
 		foreach ($scan_data as $key => $data)	{
@@ -211,7 +211,7 @@ if ( ( trim($row['objekt']) != 'Kampfbasis' ) AND ( ( trim($row['typ']) <> trim(
                __FILE__, __LINE__, $sql);
 		return 1;
 	}	else {
-		echo " neu eingef�gt\n";
+		echo " neu eingefügt\n";
 		foreach ($scan_data as $key => $data)	{
 			$sql_key = ( empty($sql_key) ) ? $key
                                      : $sql_key . ", " . $key;
@@ -261,11 +261,11 @@ function checkline($scan, &$scan_data, &$cat) {
 	}	elseif ( strpos($scan, "Forschungmod. ") !== FALSE ) {
 		$scan_data['fmod'] = trim(str_replace("\%", "", str_replace("Forschungmod.", "", $scan)));
 		$cat = '';
-	}	elseif ( strpos($scan, "Geb&auml;udebau Kosten Mod. ") !== FALSE ) {
-		$scan_data['kgmod'] = trim(str_replace("Geb&auml;udebau Kosten Mod.", "", $scan))/100;
+	}	elseif ( strpos($scan, "Gebäudebau Kosten Mod. ") !== FALSE ) {
+		$scan_data['kgmod'] = trim(str_replace("Gebäudebau Kosten Mod.", "", $scan))/100;
 		$cat = '';
-	}	elseif ( strpos($scan, "Geb&auml;udebau Dauer Mod. ") !== FALSE ) {
-		$scan_data['dgmod'] = trim(str_replace("Geb&auml;udebau Dauer Mod.", "", $scan))/100;
+	}	elseif ( strpos($scan, "Gebäudebau Dauer Mod. ") !== FALSE ) {
+		$scan_data['dgmod'] = trim(str_replace("Gebäudebau Dauer Mod.", "", $scan))/100;
 		$cat = '';
 	}	elseif ( strpos($scan, "Schiffbau Kosten Mod. ") !== FALSE ) {
 		$scan_data['ksmod'] = trim(str_replace("Schiffbau Kosten Mod.", "", $scan))/100;
@@ -284,7 +284,7 @@ function checkline($scan, &$scan_data, &$cat) {
 		$cat = '';
 //moep-edit-start
 	}	elseif ( strpos($scan, "Dieser Planet wird vorraussichtlich am ") !== FALSE ) {
-			// doc_message('zerst&ouml;rung');                               T1(d)          T2(h)  T3(m)   T4(s)
+			// doc_message('zerstörung');                               T1(d)          T2(h)  T3(m)   T4(s)
 			// if( preg_match('/Dieser Planet wird vorraussichtlich in\s(\d{1,2})\sTage\s(\d{2}):(\d{2}):(\d{2})/', $scan, $treffer) ) {
 				// $scan = trim($scan);            ((             [Stunden]                       )*60)
 				// $scan_data['reset_timestamp'] = (((($treffer[1]*24)+$treffer[2])*60+$treffer[3])*60+$treffer[2]);
