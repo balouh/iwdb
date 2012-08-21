@@ -812,7 +812,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 <?php
 	}
 	if ( $typ != "Forschung" ) {
-	if (($db_user=="iwdb") && ( $typ == "Sonstiges" )) {
+	if (($db_user=="patscwbm") && ( $typ == "Sonstiges" )) {
 	 ?>
 	 <tr>
 	  <td class="windowbg2">

@@ -25,7 +25,7 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspunglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschafftsprojekt von */
 /* IW-Spielern.                                                              */
 /* Bei Problemen kannst du dich an das eigens dafur eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
@@ -38,7 +38,7 @@ if (!defined('IRA'))
 	die('Hacking attempt...');
 
 // *************************************************************************** 
-//  Wichtige Angaben die ueberprueft werden und fuer die eigene Allianz 
+//  Wichtige Angaben die überprüft werden und für die eigene Allianz 
 //  eingestellt werden sollten!
 //
 
@@ -54,12 +54,12 @@ $config_mailfrom = "iwdb@iw-allianz.de";
 $config_server   = "localhost";
 $config_url      = "http://iwdb.de";
 // Titel der AllianzDatenbank
-$config_allytitle = "IWDB Datenbank";
+$config_allytitle = "Kilrathy Datenbank";
 
-// Tag der Allianz - wird fuer die Anzeige der Mitglieder auf der Karte benoetigt
-$config_allytag = "Kilrathy DB";
+// Tag der Allianz - wird für die Anzeige der Mitglieder auf der Karte benoetigt
+$config_allytag = "Kilrathy";
 
-// Aktuelle Spielversion (wird auch fuer den Techtree benoetigt).
+// Aktuelle Spielversion (wird auch für den Techtree benötigt).
 $config_gameversion = "XII";
 
 // Default Galaxy
@@ -71,25 +71,25 @@ $config_map_galaxy_count = 20;
 // Spaltenanzahl der Karte
 $config_map_cols = 20;
 
-// ab welchem Alter des Universumsscans, soll keine Farbabstufung mehr stattfinden (in Sekunden)
+// ab welchem Alter des Universumsscans in Sekunden soll keine Farbabstufung mehr stattfinden
 $config_map_timeout = 14 * (24 * 60 * 60);
 
-// Anzahl der Tage, ab der ein Geoscan als veraltet gilt und erneuert werden muesste 
+// Anzahl der Tage, ab der ein Geoscan als veraltet gilt und erneuert werden müsste 
 $config_geoscan_yellow = 14;
 $config_geoscan_red    = 30;
 
 // wie lange vor Eintreten (in Sekunden) soll ein Sitterauftrag 
-// als "aktiv" (einloggen/erledigt anwahlbar) geschaltet werden?
+// als "aktiv" (einloggen/erledigt anwählbar) geschaltet werden?
 $sitter_wie_lange_vorher_zeigen = 30;
 
-// Breite und Hoehe des Member-Statistikgraphen
+// Breite und Höhe des Member-Statistikgraphen
 $config_xsize = 950;
 $config_ysize = 500;
 
-// Seite, die Standardmässig (z.B. nach Login) geladen wird
+// Seite, die standardmässig (z.B. nach Login) geladen wird
 $config_default_action = "showhighscore";
 
-$config_banner = "bilder/logo.gif";
+$config_banner = "bilder/logo.png";
 $config_banner_width = "500px";
 
 ?>

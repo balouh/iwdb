@@ -40,6 +40,6 @@ $db_pass = "handball";
 $db_name = "usrdb_patscwbm_iwdb";
 
 // SQL database prefix
-//Normal _prefix es sei den sie haben beim Installieren der SQL Datei ein anderes Prefix benutzt
+//Normal prefix_ es sei denn es wurde beim Installieren der SQL Datei ein anderes Prefix benutzt
 $db_prefix = "prefix_";
 ?>

@@ -487,7 +487,7 @@ $sql2 = "SELECT
         FROM
             ".$db_tb_user." as us
         WHERE
-            us.budflesol = 'Fleeter'";
+            us.budflesol = 'Fleeter' OR us.budflesol = 'Cash Cow' AND us.id !='toschy'";
 
 $result2 = $db->db_query($sql2)
   or error(GENERAL_ERROR, 
@@ -521,9 +521,9 @@ foreach ($fleeterlist as $key => $value) {
 
     start_row("titlebg", "align=\"center\" colspan=\"13\"");
     if ($fleetername == $value['sitterlogin']) {
-        echo "<b>Fleeter: ".$fleetername."</b>";
+        echo "<b>Fleeter/Cash Cow: ".$fleetername."</b>";
     } else {
-        echo "<b>Fleeter: ".$fleetername."<br>(ingamenick &laquo;".$value['sitterlogin']."&raquo;)</b>";
+        echo "<b>Fleeter/Cash Cow: ".$fleetername."<br>(ingamenick &laquo;".$value['sitterlogin']."&raquo;)</b>";
     }
     echo "<br>";
 

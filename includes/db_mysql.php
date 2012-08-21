@@ -31,7 +31,7 @@ class db {
 	var $db_version;
 	var $db_queries;
 
-	function db_connect($host = 'localhost', $user = 'iwdb', $password = 'iwdb', $database = 'iwdb', $persistency = TRUE)
+	function db_connect($host = 'localhost', $user = '', $password = '', $database = 'patscwbm', $persistency = TRUE)
 	{
 		if ( $persistency )
 		{
@@ -65,7 +65,7 @@ class db {
         }
 	}
 
-	function db_select($database = 'iwdb')
+	function db_select($database = 'patscwbm')
 	{
 		return @mysql_select_db($database);
 	}

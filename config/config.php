@@ -58,12 +58,12 @@ $config_allianzstatus['VB']    = "#4A71D5";
 $config_allianzstatus['Krieg'] = "#E84528";
 $config_allianzstatus['noraid'] = "#DD9911";
 
-// Farben von Stargates, Schwarze Loecher, reservierten Planeten
+// Farben von Stargates, Schwarze Löcher, reservierten Planeten
 $config_color = array();
-$config_color['Stargate']      = "#A0BFCD";
-$config_color['SchwarzesLoch'] = "#3F6778";
-$config_color['reserviert']    = "#CCDCE3";
-$config_color['last24'] = "#00AACC";
+$config_color['Stargate']      	= "#A0BFCD";
+$config_color['SchwarzesLoch'] 	= "#3F6778";
+$config_color['reserviert']   	= "#CCDCE3";
+$config_color['last24'] 		= "#00AACC";
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
@@ -102,7 +102,7 @@ $config_sid_length = 20;
 $config_password_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_&%\$!/()=?';
 
 // Cookiename
-$config_cookie_name = "iwdb";
+$config_cookie_name = "kiliiwdb";
 
 // Zeit, wie lange das Cookie gueltig ist in Sekunden
 $config_cookie_timeout = 365 * $DAYS;

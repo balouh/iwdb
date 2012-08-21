@@ -5,11 +5,11 @@
 /* deswegen dort nichts ändern! */
 
 /* Diese Teil wurde automatsich erstellt */
-/* Zeitcode: Monday 13th 2011f June 2011 11:39:09 AM */
+/* Zeitcode: Friday 27th 2012f April 2012 11:04:06 PM */
 /* Script: admin_style.php */
 /* Generator: Fiedler */
-/* Browsererkennung: Mozilla/5.0 (Windows; U; Windows NT 6.1; de; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17 */
-/* IP: 88.77.196.165 */
+/* Browsererkennung: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0 */
+/* IP: 84.63.96.69 */
 
 
 /* !N a */
@@ -33,6 +33,45 @@ a:hover        {
   text-decoration: none;
   color: #6E7B87;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -205,13 +244,52 @@ a:hover        {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* !N titelbg */
 /* !T Titelzellen */
 /* !I */
 
   .titlebg {
    color:#FFFFFF; 
-   background-color:#4F94CD; 
+   background-color:#3D3D3D; 
  }
 
 
@@ -230,7 +308,7 @@ a:hover        {
 /* !I */
 
   .windowbg2 {
-   background-color:#4682B4; 
+   background-color:#999999; 
    color:#000000; 
  }
 
@@ -240,7 +318,7 @@ a:hover        {
 /* !I */
 
   .windowbg3 {
-   background-color:#C2DFEF; 
+   background-color:#D4D4D4; 
    color:#000000; 
  }
 
@@ -376,7 +454,7 @@ a:hover        {
    border:0; 
    padding:5px; 
    border-spacing:1px; 
-   border-color:black; 
+   border-color:#000000; 
    border-style:solid; 
    border-width:1px; 
  }
@@ -389,7 +467,7 @@ a:hover        {
   td.doc_main {
    width:100%; 
    padding-left:15px; 
-   background-color:#FFFFFF; 
+   background-color:#ffffff; 
    color:#000000; 
  }
 
@@ -641,6 +719,45 @@ td[abbr=both] {
 }
 
 /* ab hier kommt was anderes */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

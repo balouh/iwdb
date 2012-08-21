@@ -239,12 +239,11 @@ foreach ($users_sitterlogin as $key => $data)
 				 "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'".
 				 ")\">[trotzdem einloggen]</a>" . 
 				 "<td class='windowbg".$num."' valign='top'>".
-				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").
-				 (( !empty($users_sitterstaatsform[$key]) ) ? " <i>Staatsform: ".NumToStaatsform($users_sitterstaatsform[$key])."</i><br/>": "").
-				 (( $users_sitterikea[$key] == "M" ) ? " <i>Meister d. Ikea</i><br/>": "").
-				 (( $users_sitterikea[$key] == "L" ) ? " <i>Lehrling d. Ikea</i><br/>": "").
-				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
-				 "</td>";
+				 (( !empty($users_sitterstaatsform[$key]) ) ? " ".NumToStaatsform($users_sitterstaatsform[$key])."<br/>": "").
+				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i><font color=red>Meister der Peitschen</font><br/></i>": "").
+				 (( $users_sitterikea[$key] == "M" ) ? " <i><font color=blue>Meister des Ikea</font></i><br/>": "").
+				 (( $users_sitterikea[$key] == "L" ) ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>": "").
+				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "")."</td>";
 	elseif ( ( ($user_status == "admin") OR ($user_status == "SV") ) && ( empty($users_sitten[$key]) ) ) 
 	  echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
 		     "&sid=" . $sid . "\" target=\"_blank\" onclick=\"return confirmlink(this, ".
@@ -257,12 +256,11 @@ foreach ($users_sitterlogin as $key => $data)
 				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
 				 "alt=\"Sitterhistorie anschauen\" title=\"Sitterhistorie anschauen\"></a>" . 
          "<td class='windowbg".$num."' valign='top'>".
-				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").
-				 (( !empty($users_sitterstaatsform[$key]) ) ? " <i>Staatsform: ".NumToStaatsform($users_sitterstaatsform[$key])."</i><br/>": "").
-				 (( $users_sitterikea[$key] == "M" ) ? " <i>Meister d. Ikea</i><br/>": "").
-				 (( $users_sitterikea[$key] == "L" ) ? " <i>Lehrling d. Ikea</i><br/>": "").
-				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
-				 "</td>";
+				 (( !empty($users_sitterstaatsform[$key]) ) ? " ".NumToStaatsform($users_sitterstaatsform[$key])."<br/>": "").
+				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i><font color=red>Meister der Peitschen</font><br/></i>": "").
+				 (( $users_sitterikea[$key] == "M" ) ? " <i><font color=blue>Meister des Ikea</font></i><br/>": "").
+				 (( $users_sitterikea[$key] == "L" ) ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>": "").
+				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "")."</td>";
 	else 
 	  echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
 		     "&sid=" . $sid . "\" target=\"_blank\">[jetzt einloggen]</a>&nbsp;" .
@@ -273,12 +271,11 @@ foreach ($users_sitterlogin as $key => $data)
 				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
 				 "alt=\"Sitterhistorie anschauen\" title=\"Sitterhistorie anschauen\"></a>" . 
 				 "<td class='windowbg".$num."' valign='top'>".
-				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").
-				 (( !empty($users_sitterstaatsform[$key]) ) ? " <i>Staatsform: ".NumToStaatsform($users_sitterstaatsform[$key])."</i><br/>": "").
-				 (( $users_sitterikea[$key] == "M" ) ? " <i>Meister d. Ikea</i><br/>": "").
-				 (( $users_sitterikea[$key] == "L" ) ? " <i>Lehrling d. Ikea</i><br/>": "").
-				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
-				 "</td>";
+				 (( !empty($users_sitterstaatsform[$key]) ) ? " ".NumToStaatsform($users_sitterstaatsform[$key])."<br/>": "").
+				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i><font color=red>Meister der Peitschen</font><br/></i>": "").
+				 (( $users_sitterikea[$key] == "M" ) ? " <i><font color=blue>Meister des Ikea</font></i><br/>": "").
+				 (( $users_sitterikea[$key] == "L" ) ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>": "").
+				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "")."</td>";
 ?>
 
   </td>

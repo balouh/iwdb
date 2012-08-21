@@ -146,9 +146,9 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 		ImageGif($graph, "graph.gif");
 		echo "<img src=\"graph.gif\" border=\"0\" alt=\"Graph\">";
 	}
-	else echo "<div class='system_error'>Du musst mindestens einen User auswaehlen.</div>";
+	else echo "<div class='system_error'>Du musst mindestens einen User auswählen.</div>";
 
-	if (count($users) > 22) echo "<div class='system_notification'>Du solltest weniger User auswaehlen.</div>";
+	if (count($users) > 22) echo "<div class='system_notification'>Du solltest weniger User auswählen.</div>";
 
 
 	ImageDestroy($graph);

@@ -245,7 +245,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         // Lieferungen an sich selbst ignorieren
         // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
         if(!empty($transfair_date) && $buddler == $fleeter) {
-            doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
+            //doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
             ++$transfair_skipped;
             continue;
         }

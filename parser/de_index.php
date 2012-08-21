@@ -66,9 +66,16 @@ function parse_de_index ( $return )
 			if ($aContainer->strIdentifier == "de_index_fleet")
 			{
 				$fleetType = $aContainer->objResultData->strType;	//! own OR opposite
-                if (!$aContainer->objResultData->bObjectsVisible)
-                     echo "<font color='orange'>Info: </font> keine Transportinformation (" . $fleetType . ") sichtbar. Bitte Fluginformationen vor dem Parsen ausklappen";
-
+                
+				$flottentyp="";
+				if ($fleetType=="own")
+					$flottentyp="eigene Flotten, * = Anzahl Schiffe, + = Anzahl Ress";
+				else
+					$flottentyp="fremde Flotten, + = Anzahl Ress";
+				
+				if (!$aContainer->objResultData->bObjectsVisible)
+                     echo "<font color='orange'>Info: </font> keine Transportinformation (" . $flottentyp . ") sichtbar. Bitte Fluginformationen vor dem Parsen ausklappen <br />";
+               
 				foreach ($aContainer->objResultData->aFleets as $msg)
 				{	
 					$tf_type = $msg->eTransfairType;
@@ -167,7 +174,7 @@ function parse_de_index ( $return )
                         $scan_datas[] = $scan_data;
 					}
                     else {
-                        echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
+                        //echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
                         continue;
                     }	
 				}

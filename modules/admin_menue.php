@@ -28,12 +28,12 @@
 /*Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen     */
 /*für die Iw DB: Icewars geoscan and sitter database                         */
 /*---------------------------------------------------------------------------*/
-/*Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von   */
+/*Diese Erweiterung der ursprünglichen DB ist ein Gemeinschafftsprojekt von  */
 /*IW-Spielern.                                                               */
 /*Bei Problemen kannst du dich an das eigens dafür eingerichtete             */
 /*Entwiklerforum wenden:                                                     */
 /*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
+/*        https://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 

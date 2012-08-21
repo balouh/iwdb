@@ -1248,8 +1248,8 @@ next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
-echo '&nbsp;';
+//next_cell("windowbg1", 'nowrap valign=top');
+//echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
 	next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
 	echo format_value($summe, $ress_einzeln, $summe[$ress_einzeln]);
@@ -1268,8 +1268,8 @@ next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
-echo '&nbsp;';
+//next_cell("windowbg1", 'nowrap valign=top');
+//echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
 	next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
 	echo format_value($summe_ueberschuss, $ress_einzeln, $summe_ueberschuss[$ress_einzeln]);
@@ -1288,8 +1288,8 @@ next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
-echo '&nbsp;';
+//next_cell("windowbg1", 'nowrap valign=top');
+//echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
 	next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
 	echo format_value($summe_bedarf, $ress_einzeln, $summe_bedarf[$ress_einzeln]);
@@ -1308,8 +1308,8 @@ next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
-echo '&nbsp;';
+//next_cell("windowbg1", 'nowrap valign=top');
+//echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
 	next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
 	echo format_value($summe_diff, $ress_einzeln, $summe_diff[$ress_einzeln]);

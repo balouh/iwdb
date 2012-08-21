@@ -511,7 +511,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     echo "Inhalt der Allianzkasse";
     echo "<a href=\"$url&order=amount&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
 
-    $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert ASC";
+    $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert DESC";
     $result = $db->db_query($sql)
              or error(GENERAL_ERROR,
                  'Could not query config information.', '',
