@@ -31,13 +31,13 @@ if (!defined('IRA'))
 $db_host = "localhost";
 
 // SQL username
-$db_user = "patscwbm";
+$db_user = "";
 
 // SQL password
-$db_pass = "handball";
+$db_pass = "";
 
 // SQL database name
-$db_name = "usrdb_patscwbm_iwdb";
+$db_name = "";
 
 // SQL database prefix
 //Normal prefix_ es sei denn es wurde beim Installieren der SQL Datei ein anderes Prefix benutzt
